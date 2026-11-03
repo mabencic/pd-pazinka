@@ -11,7 +11,10 @@
   "founded": "Osnovano 18. 12. 1981.",
   "aboutText": "Planinarsko društvo Pazinka osnovano je 18. 12. 1981. u Pazinu. Djeluje kroz tri odsjeka: vodički, visokogorski i markacistički. Upravlja planinarskim skloništem Kremenjak i održava 17 planinarskih putova ukupne duljine 80,10 km.",
   "contact": {
-    "address": ["Matka Brajše Rašana 3, p.p. 139", "52000 Pazin"],
+    "address": [
+      "Matka Brajše Rašana 3, p.p. 139",
+      "52000 Pazin"
+    ],
     "email": "pd.pazinka@hps.hr",
     "facebook": "https://www.facebook.com/planinarskodrustvopazinka.pazin/"
   },
@@ -27,34 +30,159 @@
   },
   "footerNote": "",
   "tiles": [
-    { "title": "Kalendar pohoda", "text": "Najavljeni pohodi i izleti društva.", "href": "/kalendar-pohoda/" },
-    { "title": "Raspisi i izvještaji", "text": "Pozivi na pohode i izvještaji s terena.", "href": "/objave/" },
-    { "title": "Vodički odsjek", "text": "Vodiči i organizacija društvenih pohoda.", "href": "/vodicki-odsjek/" },
-    { "title": "Visokogorski odsjek", "text": "Visokogorske ture i edukacije.", "href": "/visokogorski-odsjek/" },
-    { "title": "Markacistički odsjek", "text": "Markacisti i održavanje staza.", "href": "/markacisti/" },
-    { "title": "Planinarski putovi", "text": "17 putova u Ćićariji i Istri, 80,10 km.", "href": "/planinarski-putovi/" },
-    { "title": "Sklonište Kremenjak", "text": "Sklonište uz Istarski planinarski put.", "href": "/skloniste-kremenjak/" },
-    { "title": "Postani član", "text": "Članarina, povlastice i upis.", "href": "/clanstvo/" }
+    {
+      "title": "Kalendar pohoda",
+      "text": "Najavljeni pohodi i izleti društva.",
+      "href": "/kalendar-pohoda/"
+    },
+    {
+      "title": "Raspisi i izvještaji",
+      "text": "Pozivi na pohode i izvještaji s terena.",
+      "href": "/objave/"
+    },
+    {
+      "title": "Vodički odsjek",
+      "text": "Vodiči i organizacija društvenih pohoda.",
+      "href": "/vodicki-odsjek/"
+    },
+    {
+      "title": "Visokogorski odsjek",
+      "text": "Visokogorske ture i edukacije.",
+      "href": "/visokogorski-odsjek/"
+    },
+    {
+      "title": "Markacistički odsjek",
+      "text": "Markacisti i održavanje staza.",
+      "href": "/markacisti/"
+    },
+    {
+      "title": "Planinarski putovi",
+      "text": "17 putova u Ćićariji i Istri, 80,10 km.",
+      "href": "/planinarski-putovi/"
+    },
+    {
+      "title": "Sklonište Kremenjak",
+      "text": "Sklonište uz Istarski planinarski put.",
+      "href": "/skloniste-kremenjak/"
+    },
+    {
+      "title": "Postani član",
+      "text": "Članarina, povlastice i upis.",
+      "href": "/clanstvo/"
+    }
   ],
   "nav": [
-    { "label": "O nama", "href": "/o-nama/", "children": [
-      { "label": "Osnovni podaci o društvu", "href": "/o-nama/" },
-      { "label": "Kontakt", "href": "/o-nama/#kontakt" }
-    ]},
-    { "label": "Vodički odsjek", "href": "/vodicki-odsjek/", "match": ["/kalendar-pohoda/"], "children": [
-      { "label": "Ustrojstvo odsjeka", "href": "/vodicki-odsjek/" },
-      { "label": "Kalendar pohoda", "href": "/kalendar-pohoda/" },
-      { "label": "Raspisi i izvještaji", "href": "/objave/" }
-    ]},
-    { "label": "Visokogorski odsjek", "href": "/visokogorski-odsjek/", "children": [
-      { "label": "Ustrojstvo odsjeka", "href": "/visokogorski-odsjek/" },
-      { "label": "Izvještaji s pohoda", "href": "/objave/" }
-    ]},
-    { "label": "Markacistički odsjek", "href": "/markacisti/", "match": ["/planinarski-putovi/"], "children": [
-      { "label": "Ustrojstvo odsjeka", "href": "/markacisti/" },
-      { "label": "Planinarski putovi društva", "href": "/planinarski-putovi/" }
-    ]},
-    { "label": "Sklonište Kremenjak", "href": "/skloniste-kremenjak/" },
-    { "label": "Postani član", "href": "/clanstvo/", "join": true }
+    {
+      "label": "O nama",
+      "href": "/o-nama/",
+      "children": [
+        {
+          "label": "Osnovni podaci o društvu",
+          "href": "/o-nama/"
+        },
+        {
+          "label": "Kontakt",
+          "href": "/o-nama/#kontakt"
+        }
+      ]
+    },
+    {
+      "label": "Vodički odsjek",
+      "href": "/vodicki-odsjek/",
+      "match": [
+        "/kalendar-pohoda/"
+      ],
+      "children": [
+        {
+          "label": "Ustrojstvo odsjeka",
+          "href": "/vodicki-odsjek/"
+        },
+        {
+          "label": "Kalendar pohoda",
+          "href": "/kalendar-pohoda/"
+        },
+        {
+          "label": "Raspisi i izvještaji",
+          "href": "/objave/"
+        }
+      ]
+    },
+    {
+      "label": "Visokogorski odsjek",
+      "href": "/visokogorski-odsjek/",
+      "children": [
+        {
+          "label": "Ustrojstvo odsjeka",
+          "href": "/visokogorski-odsjek/"
+        },
+        {
+          "label": "Izvještaji s pohoda",
+          "href": "/objave/"
+        }
+      ]
+    },
+    {
+      "label": "Markacistički odsjek",
+      "href": "/markacisti/",
+      "match": [
+        "/planinarski-putovi/"
+      ],
+      "children": [
+        {
+          "label": "Ustrojstvo odsjeka",
+          "href": "/markacisti/"
+        },
+        {
+          "label": "Planinarski putovi društva",
+          "href": "/planinarski-putovi/"
+        }
+      ]
+    },
+    {
+      "label": "Sklonište Kremenjak",
+      "href": "/skloniste-kremenjak/"
+    },
+    {
+      "label": "Postani član",
+      "href": "/clanstvo/",
+      "join": true
+    }
+  ],
+  "aboutHikingTitle": "O planinarenju",
+  "aboutHiking": [
+    "Planinarenje obuhvaća sve aktivnosti vezane uz kretanje pješice po planinskim predjelima. Nije samo osvajanje vrhova, a nije ni sport u užem smislu jer u njemu nema natjecanja: za planinare je to način života.",
+    "Smisao je u upoznavanju ljepota prirode i gorskih vidika, u novim prijateljstvima i u aktivnom odmoru na čistom zraku. Napor se isplati jer daje novu snagu i zadovoljstvo.",
+    "Hrvatske planine pripadaju većim dijelom Dinaridima, a manjim dijelom istočnim ograncima Alpa. Nijedan hrvatski vrh ne prelazi 2000 metara."
+  ],
+  "historyTitle": "Povijest planinarstva u Pazinu i Istri",
+  "history": [
+    {
+      "y": "1874.",
+      "t": "Osnovan Hrvatski planinarski savez, najstarija planinarska udruga u Hrvatskoj."
+    },
+    {
+      "y": "1876.",
+      "t": "U Pazinu nastaje Societa Alpina dell'Istria. Prvi predsjednik je Pazinac Giovanni Fonda, a osnivanje je potaknuo Antonio Scampicchio. Društvo okuplja stotinjak članova iz Pazina, Pule, Kopra, Pićna, Nedešćine, Motovuna i Labina te organizira izlete na Učku, Snežnik i kvarnerske otoke."
+    },
+    {
+      "y": "1906.",
+      "t": "U Pazinu se osniva Istarsko planinarsko društvo, podružnica Slovenskog planinarskog društva, na poticaj dr. Dinka Trinajstića. Prvi predsjednik je Luka Brolih, po kojem je nazvana planinarska sekcija pazinske Gimnazije i strukovne škole Jurja Dobrile."
+    },
+    {
+      "y": "1981.",
+      "t": "Dana 18. prosinca osnovano je Planinarsko društvo Pazinka. Prvi predsjednik bio je Milivoj Dobrilović, a poticaj je dao Zvonimir Blažević iz Službe za odmor i rekreaciju Radne organizacije Pazinka. Dugogodišnji predsjednik kasnije je bio Franjo Paulišić."
+    },
+    {
+      "y": "2001.",
+      "t": "Osnovan Istarski planinarski savez (IPS) koji okuplja pet društava, oko 1.100 planinara i brine o 370 km markiranih staza u Istri."
+    },
+    {
+      "y": "2006.",
+      "t": "Uspostavljen Istarski planinarski put (IPP), 170 km dug put od Umaga preko Ćićarije i Učke do Crne Punte iznad Koromačna."
+    },
+    {
+      "y": "2016.",
+      "t": "Obilježeno 140 godina organiziranog planinarstva u Istri, 110 godina Istarskog planinarskog društva, 35 godina PD Pazinka i 15 godina IPS-a."
+    }
   ]
 }

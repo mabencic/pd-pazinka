@@ -4,12 +4,48 @@
     "label": "Pročelnica · Patricija Jedrejčić",
     "title": "Vodički odsjek",
     "text": "Priprema i vodi društvene pohode i izlete. Svaki pohod ima raspis s opisom, opremom, vodičima i uputama za prijavu.",
-    "items": ["7 vodiča A standarda", "3 vodiča pripravnika A standarda", "Kalendar pohoda, raspisi i izvještaji"],
-    "link": { "label": "Kalendar pohoda", "href": "/kalendar-pohoda/" },
+    "items": [
+      "7 vodiča A standarda",
+      "3 vodiča pripravnika A standarda",
+      "Kalendar pohoda, raspisi i izvještaji"
+    ],
+    "link": {
+      "label": "Kalendar pohoda",
+      "href": "/kalendar-pohoda/"
+    },
     "groups": [
-      { "title": "Upravni odbor odsjeka", "people": ["Patricija Jedrejčić, pročelnica", "Sonja Levak", "Igor Gržinić"] },
-      { "title": "Vodiči A standarda", "people": ["Patricija Jedrejčić", "Albert Jedrejčić", "Igor Gržinić", "Loredana Šperanda", "Sonja Levak", "Larisa Močibob", "Dalibor Jakovčić"] },
-      { "title": "Vodiči pripravnici A standarda", "people": ["Lea Bertoša", "Estrelita Belušić", "Goran Kliman"] }
+      {
+        "title": "Upravni odbor odsjeka",
+        "people": [
+          "Patricija Jedrejčić, pročelnica",
+          "Sonja Levak",
+          "Igor Gržinić"
+        ]
+      },
+      {
+        "title": "Vodiči A standarda",
+        "people": [
+          "Patricija Jedrejčić",
+          "Albert Jedrejčić",
+          "Igor Gržinić",
+          "Loredana Šperanda",
+          "Sonja Levak",
+          "Larisa Močibob",
+          "Dalibor Jakovčić"
+        ]
+      },
+      {
+        "title": "Vodiči pripravnici A standarda",
+        "people": [
+          "Lea Bertoša",
+          "Estrelita Belušić",
+          "Goran Kliman"
+        ]
+      }
+    ],
+    "more": [
+      "Vodiči društva vode pohode po Istri, Kvarneru, Sloveniji i Dolomitima, od jednodnevnih kružnih tura do izleta s noćenjem. Redovito se organiziraju i zajednički pohodi s drugim društvima, primjerice s PD Opatija i PD Kamenjak iz Rijeke.",
+      "Uz raspise, nakon pohoda objavljujemo izvještaje: o Perunu iznad Mošćeničke Drage, Osoršćici na Lošinju, Krnu u Julijskim Alpama i drugima."
     ]
   },
   {
@@ -17,10 +53,28 @@
     "label": "Pročelnik · Saša Dobrić",
     "title": "Visokogorski odsjek",
     "text": "Visokogorski pohodi i edukacije, među kojima je i škola planinarskog skijanja.",
-    "items": ["Izvještaji s visokogorskih pohoda", "Škola planinarskog skijanja", "Pravilnik odsjeka i pristupnica"],
-    "link": { "label": "Raspisi i izvještaji", "href": "/objave/" },
+    "items": [
+      "Izvještaji s visokogorskih pohoda",
+      "Škola planinarskog skijanja",
+      "Pravilnik odsjeka i pristupnica"
+    ],
+    "link": {
+      "label": "Raspisi i izvještaji",
+      "href": "/objave/"
+    },
     "groups": [
-      { "title": "Upravni odbor odsjeka", "people": ["Saša Dobrić, pročelnik", "Mladen Nikšić", "Damir Blažević"] }
+      {
+        "title": "Upravni odbor odsjeka",
+        "people": [
+          "Saša Dobrić, pročelnik",
+          "Mladen Nikšić",
+          "Damir Blažević"
+        ]
+      }
+    ],
+    "more": [
+      "Odsjek okuplja članove koji se žele baviti zahtjevnijim turama: zimskim usponima, alpinističkim vještinama i skijaškim turama. Organizira edukacije iz kretanja zimi, snježnih sidrišta i lavinske sigurnosti.",
+      "Škola planinarskog skijanja održava se u okviru programa Hrvatskog planinarskog saveza, a vodi je ovlašteni instruktor Mladen Nikšić. U zimu 2026. odsjek je održao vježbu kretanja u zimskim uvjetima u Kranjskoj Gori."
     ]
   },
   {
@@ -28,11 +82,42 @@
     "label": "Pročelnica · Lea Bertoša",
     "title": "Markacistički odsjek",
     "text": "Održava 17 planinarskih putova ukupne duljine 80,10 km u Ćićariji i Istri. Markacističke akcije su otvorene za sve članove koji žele pomoći.",
-    "items": ["8 osposobljenih markacista i 1 markacist voditelj", "Markacističke akcije, ostali članovi se priključuju", "Izvještaji akcija"],
-    "link": { "label": "Planinarski putovi društva", "href": "/planinarski-putovi/" },
+    "items": [
+      "8 osposobljenih markacista i 1 markacist voditelj",
+      "Markacističke akcije, ostali članovi se priključuju",
+      "Izvještaji akcija"
+    ],
+    "link": {
+      "label": "Planinarski putovi društva",
+      "href": "/planinarski-putovi/"
+    },
     "groups": [
-      { "title": "Upravni odbor odsjeka", "people": ["Lea Bertoša, pročelnica", "Estrelita Belušić", "Silvio Gojtanić"] },
-      { "title": "Markacisti", "people": ["Giovanni Sirotti, markacist voditelj", "Lea Bertoša", "Sebastijan Širol", "Silvio Gojtanić", "Marijana Milevoj", "Estrelita Belušić", "Vedran Škof", "Teo Gubić", "Denija Krivičić"] }
+      {
+        "title": "Upravni odbor odsjeka",
+        "people": [
+          "Lea Bertoša, pročelnica",
+          "Estrelita Belušić",
+          "Silvio Gojtanić"
+        ]
+      },
+      {
+        "title": "Markacisti",
+        "people": [
+          "Giovanni Sirotti, markacist voditelj",
+          "Lea Bertoša",
+          "Sebastijan Širol",
+          "Silvio Gojtanić",
+          "Marijana Milevoj",
+          "Estrelita Belušić",
+          "Vedran Škof",
+          "Teo Gubić",
+          "Denija Krivičić"
+        ]
+      }
+    ],
+    "more": [
+      "Markacisti obilježavaju i održavaju staze: obnavljaju markacije, čiste raslinje i postavljaju oznake. Akcije su otvorene i ostalim članovima koji žele pomoći, a dobrodošli su svi koji vole svoje staze.",
+      "Odsjek brine i o putovima u Ćićariji, na Učki i oko Pazina, ukupne duljine 80,10 km."
     ]
   }
 ]

@@ -5,10 +5,29 @@
   "imageAlt": "Kremenjak",
   "text": "Sklonište stoji na travnatom grebenu s pogledom na Kvarner, Istru i Vojak, uz Istarski planinarski put, otprilike na polovici dužeg odsjeka između Poklona i Plomina. Odlukom Izvršnog odbora HPS-a upravljanje skloništem povjereno je PD Pazinki.",
   "facts": [
-    { "k": "Kapacitet", "v": "4 do 6 osoba za noćenje" },
-    { "k": "Obližnji vrh Kremenjak", "v": "827 m" },
-    { "k": "Upravitelj", "v": "Damir Blažević" },
-    { "k": "Pregled stanja", "v": "Mjesečno, prema rasporedu članova" },
-    { "k": "Kontakt", "v": "pd.pazinka@hps.hr" }
+    {
+      "k": "Kapacitet",
+      "v": "4 do 6 osoba za noćenje"
+    },
+    {
+      "k": "Obližnji vrh Kremenjak",
+      "v": "827 m"
+    },
+    {
+      "k": "Upravitelj",
+      "v": "Damir Blažević"
+    },
+    {
+      "k": "Pregled stanja",
+      "v": "Mjesečno, prema rasporedu članova"
+    },
+    {
+      "k": "Kontakt",
+      "v": "pd.pazinka@hps.hr"
+    }
+  ],
+  "more": [
+    "Sklonište je zamislio pazinski arhitekt Ivan Juretić. Članovi društva redovito ga obilaze i održavaju, a posljednja veća akcija bila je 21. prosinca 2025., kada su popravljena vrata i pospremljen prostor.",
+    "Do skloništa se može doći iz smjera Male Učke (oko 7 km u jednom smjeru, preko Balina i drugih uzvisina) ili iz smjera Kožljaka. S grebena su vidici na Kvarner, Istru i Vojak, najviši vrh Učke."
   ]
 }

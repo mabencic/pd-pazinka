@@ -198,6 +198,11 @@ function homePage() {
 function aboutPage() {
   const c = site.contact;
   const body = `${pageHead('O nama', site.founded, site.aboutText)}
+<main class="block"><div class="wrap">
+<div class="two">
+<div><h2 class="h2s">${esc(site.aboutHikingTitle)}</h2>${site.aboutHiking.map((t) => `<p class="gap">${esc(t)}</p>`).join('')}</div>
+<div><h2 class="h2s">${esc(site.historyTitle)}</h2><ol class="timeline">${site.history.map((h) => `<li><b>${esc(h.y)}</b><span>${esc(h.t)}</span></li>`).join('')}</ol></div>
+</div></div></main>
 <main class="block"><div class="wrap two">
 <div><h2 class="h2s">${esc(site.board.title)}</h2><ul class="people one">${site.board.members.map((m) => `<li>${esc(m)}</li>`).join('')}</ul></div>
 <div id="kontakt"><h2 class="h2s">Kontakt</h2>
@@ -212,6 +217,7 @@ ${c.facebook ? `<p class="gap"><a href="${esc(c.facebook)}" rel="noopener">Faceb
 function odsjekPage(o) {
   const body = `${pageHead(o.title, o.label, o.text)}
 <main class="block"><div class="wrap">
+${(o.more || []).map((t) => `<p class="intro">${esc(t)}</p>`).join('')}
 <div class="groups">${o.groups.map(peopleList).join('')}</div>
 <ul class="bullets">${o.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>
 ${o.link ? `<p class="gap"><a class="btn btn-dark" href="${esc(o.link.href)}">${esc(o.link.label)}</a></p>` : ''}
@@ -250,7 +256,7 @@ function shelterPage() {
   const body = `${pageHead('Sklonište ' + skloniste.title, skloniste.label, '')}
 <main class="block"><div class="wrap">
 <div class="shelter">${media}<div class="txt">
-<p>${esc(skloniste.text)}</p>
+<p>${esc(skloniste.text)}</p>${(skloniste.more || []).map((t) => `<p class="gap">${esc(t)}</p>`).join('')}
 <dl>${skloniste.facts.map((f) => `<dt>${esc(f.k)}</dt><dd>${esc(f.v)}</dd>`).join('')}</dl>
 </div></div>
 </div></main>`;

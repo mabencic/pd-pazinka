@@ -226,3 +226,8 @@ footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .note { border-top: 1px solid rgba(255,255,255,.14); }
 .note .wrap { display: block; padding-block: 16px; font-size: .85rem; color: var(--hero-muted); }
 @media (prefers-reduced-motion: no-preference) { .btn, .chip { transition: filter .15s, background .15s; } .btn:hover { filter: brightness(1.1); } }
+
+.timeline{list-style:none;margin:0;padding:0;display:grid;gap:1rem;border-left:2px solid var(--line, currentColor);padding-left:1rem}
+.timeline li{display:grid;gap:.15rem}
+.timeline b{font-family:'Barlow Condensed',sans-serif;font-size:1.25rem;letter-spacing:.02em}
+.timeline span{max-width:62ch}
