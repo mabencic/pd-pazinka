@@ -1,8 +1,8 @@
 {
-  "name": "pd-mao-van-njigydorf",
+  "name": "pd-pazinka",
   "version": "1.0.0",
   "private": true,
-  "description": "Web stranica planinarskog društva Planinarsko društvo Pazinka",
+  "description": "Web stranica Planinarskog društva Pazinka",
   "scripts": {
     "build": "node build.js"
   }
