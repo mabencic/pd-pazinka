@@ -1,0 +1,55 @@
+[
+  {
+    "date": "2026-11-08",
+    "title": "Učka: Vojak (1.401 m)",
+    "category": "vodicki",
+    "level": "srednje",
+    "summary": "Kružna tura, 12 km, uspon 780 m, 5 do 6 h",
+    "departure": "07:00",
+    "length": "12 km",
+    "ascent": "780 m",
+    "duration": "5 do 6 h",
+    "transport": "Osobni automobili"
+  },
+  {
+    "date": "2026-11-15",
+    "title": "Markacistička akcija: obnova oznaka",
+    "category": "marka",
+    "level": "lagano",
+    "hero": false,
+    "summary": "Obnova oznaka na lokalnom putu, dolaze svi zainteresirani, alat osiguran"
+  },
+  {
+    "date": "2026-11-22",
+    "title": "Ćićarija: Planik (1.272 m)",
+    "category": "vodicki",
+    "level": "srednje",
+    "summary": "Planinarski put kroz bukove šume, 14 km, uspon 650 m, 6 h",
+    "departure": "07:30",
+    "length": "14 km",
+    "ascent": "650 m",
+    "duration": "6 h",
+    "transport": "Osobni automobili"
+  },
+  {
+    "date": "2026-12-06",
+    "dateEnd": "2026-12-07",
+    "title": "Velebit: zimski vikend na Zavižanu",
+    "category": "visoko",
+    "level": "zahtjevno",
+    "summary": "Dva dana, zimska oprema obavezna, najviše 14 sudionika",
+    "transport": "Kombiji"
+  },
+  {
+    "date": "2026-12-13",
+    "title": "Božićni pohod uz more",
+    "category": "vodicki",
+    "level": "lagano",
+    "summary": "Laganija šetnja za cijelu obitelj, 8 km, uspon 200 m, 3 h",
+    "departure": "09:00",
+    "length": "8 km",
+    "ascent": "200 m",
+    "duration": "3 h",
+    "transport": "Osobni automobili"
+  }
+]

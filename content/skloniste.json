@@ -1,0 +1,10 @@
+{
+  "label": "Planinarsko sklonište",
+  "title": "Sklonište na grebenu",
+  "text": "Jednostavno sklonište za predah i noćenje članova i drugih planinara, na sredini našeg najpopularnijeg grebena.",
+  "facts": [
+    { "k": "Nadmorska visina", "v": "1.020 m" },
+    { "k": "Kapacitet", "v": "12 ležajeva" },
+    { "k": "Ključ", "v": "Kod domara, uz najavu" }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "pd-mao-van-njigydorf",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web stranica planinarskog društva PD Mao van Njigydorf",
+  "scripts": {
+    "build": "node build.js"
+  }
+}

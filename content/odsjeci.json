@@ -1,0 +1,20 @@
+[
+  {
+    "label": "Svake nedjelje",
+    "title": "Vodički odsjek",
+    "text": "Planira i vodi društvene pohode, od laganih šetnji do dužih tura. Svaki pohod ima raspis s opisom, opremom i cijenom.",
+    "items": ["Kalendar pohoda za cijelu godinu", "Licencirani planinarski vodiči", "Prijave putem obrasca"]
+  },
+  {
+    "label": "Iznad 2.000 m",
+    "title": "Visokogorski odsjek",
+    "text": "Zimske ture, alpinizam i planinarsko skijanje za članove s iskustvom, uz edukacije i škole za one koji tek kreću u visoke planine.",
+    "items": ["Škola planinarskog skijanja", "Opća planinarska škola", "Izvještaji s visokogorskih pohoda"]
+  },
+  {
+    "label": "Crveno-bijeli krug",
+    "title": "Markacistički odsjek",
+    "text": "Održava markaciju i putokaze na stazama za koje je društvo odgovorno, a svaku sezonu organizira akcije u koje se može uključiti svatko.",
+    "items": ["Planinarski putovi društva", "Terenske akcije održavanja", "Izvještaji akcija"]
+  }
+]
