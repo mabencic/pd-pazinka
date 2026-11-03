@@ -172,7 +172,11 @@ section.block { padding-block: 64px 8px; }
 /* podstranice */
 .nav-main > li.current > a { background: var(--chip); }
 .nav-main > li.nav-join.current > a { background: var(--red); }
-.hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .3; z-index: 0; }
+.hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 58%; z-index: 0; }
+.hero-shade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--hero-bg) 92%, transparent) 0%, color-mix(in srgb, var(--hero-bg) 70%, transparent) 55%, color-mix(in srgb, var(--hero-bg) 45%, transparent) 100%); }
+.hero .wrap { z-index: 2; }
+.hero .ridge { z-index: 1; }
+@media (max-width: 800px) { .hero-shade { background: color-mix(in srgb, var(--hero-bg) 82%, transparent); } }
 .page-head { background: var(--hero-bg); color: var(--hero-fg); }
 .page-head .wrap { padding-block: 40px 44px; }
 .page-head .crumb { color: var(--hero-muted); margin-bottom: 14px; }

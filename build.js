@@ -160,7 +160,7 @@ function homePage() {
   const heroHikes = hikes.filter((h) => h.hero !== false);
   const cards = heroHikes.map((h, i) => nextCard(h, i !== 0)).join('\n');
   const noNext = `<div class="next" id="nextEmpty"${heroHikes.length ? ' hidden' : ''}><span class="label">Najbliži pohod</span><h2>Novi pohodi uskoro</h2><p>Kalendar se redovito dopunjuje, pogledajte objave.</p></div>`;
-  const heroImg = site.heroImage ? `<img class="hero-img" src="${esc(site.heroImage)}" alt="">` : '';
+  const heroImg = site.heroImage ? `<img class="hero-img" src="${esc(site.heroImage)}" alt=""><span class="hero-shade" aria-hidden="true"></span>` : '';
 
   const body = `<main>
 <section class="hero"><div class="wrap">
