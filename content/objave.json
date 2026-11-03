@@ -18,6 +18,7 @@
   },
   {
     "slug": "izvjestaj-osorscica",
+    "image": "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2026/10/IMG_7382-1200x1200.jpeg",
     "date": "2026-10-05",
     "type": "izvjestaj",
     "art": 1,
@@ -31,6 +32,8 @@
   },
   {
     "slug": "dan-istarskih-planinara-slum",
+    "image": "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2026/10/23.-dan-IP-zemljovid-v2-final.jpg",
+    "imageAlt": "Zemljovid trase 23. dana istarskih planinara, Slum, Školska planinarska obilaznica Ćićarija",
     "date": "2026-10-05",
     "type": "raspis",
     "art": 2,
@@ -44,6 +47,7 @@
   },
   {
     "slug": "ojstrica-podvezak",
+    "image": "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2026/09/osjstricaz.jpg",
     "date": "2026-09-14",
     "type": "raspis",
     "art": 3,
@@ -56,6 +60,7 @@
   },
   {
     "slug": "osorscica-raspis",
+    "image": "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2026/09/images-1.jpg",
     "date": "2026-09-11",
     "type": "raspis",
     "art": 1,
@@ -69,6 +74,7 @@
   },
   {
     "slug": "biokovo-listopad-2026",
+    "image": "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2026/09/Biokovo-foto-1920x1200.jpg",
     "date": "2026-09-08",
     "type": "raspis",
     "art": 2,

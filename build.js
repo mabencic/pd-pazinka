@@ -111,7 +111,10 @@ ${lead ? `<p class="lead">${esc(lead)}</p>` : ''}
 </div></section>`;
 }
 
-const peopleList = (g) => `<div class="group"><h3>${esc(g.title)}</h3><ul class="people">${g.people.map((p) => `<li>${esc(p)}</li>`).join('')}</ul></div>`;
+// Slike s vanjskih adresa šalju se bez referrera, da ih server ne odbije
+const ext = (src) => (/^https?:\/\//.test(src) ? ' referrerpolicy="no-referrer"' : '');
+
+const peopleList =(g) => `<div class="group"><h3>${esc(g.title)}</h3><ul class="people">${g.people.map((p) => `<li>${esc(p)}</li>`).join('')}</ul></div>`;
 
 // ---------- pohodi ----------
 function hikeRow(h) {
@@ -146,7 +149,7 @@ ${h.registerUrl ? `<p class="reg"><a class="btn btn-red" href="${esc(h.registerU
 
 // ---------- objave ----------
 function postCard(p) {
-  const media = p.image ? `<img src="${esc(p.image)}" alt="${esc(p.imageAlt || p.title)}" loading="lazy">` : art(p.art);
+  const media = p.image ? `<img src="${esc(p.image)}" alt="${esc(p.imageAlt || p.title)}" loading="lazy"${ext(p.image)}>` : art(p.art);
   return `<article class="post">${media}<div class="body">
 <span class="label">${esc(POST_TYPE[p.type] || 'Objava')} · ${fmt(p.date)}</span>
 <h3><a href="/objave/${esc(p.slug)}/">${esc(p.title)}</a></h3>
@@ -243,7 +246,7 @@ function trailsPage() {
 }
 
 function shelterPage() {
-  const media = skloniste.image ? `<img src="${esc(skloniste.image)}" alt="${esc(skloniste.imageAlt || skloniste.title)}">` : SHELTER_ART;
+  const media = skloniste.image ? `<img src="${esc(skloniste.image)}" alt="${esc(skloniste.imageAlt || skloniste.title)}"${ext(skloniste.image)}>` : SHELTER_ART;
   const body = `${pageHead('Sklonište ' + skloniste.title, skloniste.label, '')}
 <main class="block"><div class="wrap">
 <div class="shelter">${media}<div class="txt">
@@ -279,7 +282,7 @@ function postPage(p) {
 <p class="crumb crumb-light"><a href="/">Početna</a> / <a href="/objave/">Objave</a></p>
 <span class="label">${esc(POST_TYPE[p.type] || 'Objava')} · ${fmt(p.date)}</span>
 <h1>${esc(p.title)}</h1>
-<div class="article">${p.image ? `<p><img src="${esc(p.image)}" alt="${esc(p.imageAlt || p.title)}"></p>` : ''}${p.body.map((t) => `<p>${esc(t)}</p>`).join('')}</div>
+<div class="article">${p.image ? `<p><img src="${esc(p.image)}" alt="${esc(p.imageAlt || p.title)}"${ext(p.image)}></p>` : ''}${p.body.map((t) => `<p>${esc(t)}</p>`).join('')}</div>
 <p><a href="/objave/">Sve objave</a></p>
 </div></main>`;
   return layout({ title: p.title, description: p.excerpt, body, path: `/objave/${p.slug}/` });
