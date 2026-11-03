@@ -15,6 +15,7 @@ const posts = readJson('objave.json').sort((a, b) => b.date.localeCompare(a.date
 const odsjeci = readJson('odsjeci.json');
 const skloniste = readJson('skloniste.json');
 const clanstvo = readJson('clanstvo.json');
+const putovi = readJson('putovi.json');
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const dd = (n) => String(n).padStart(2, '0');
@@ -68,8 +69,9 @@ function footer() {
   const c = site.contact;
   return `<footer id="kontakt">
 <div class="wrap">
-<div><h3>Planinarsko društvo</h3><p>${c.address.map(esc).join('<br>')}</p></div>
-<div><h3>Kontakt</h3><ul><li>${esc(c.email)}</li><li>${esc(c.meetings)}</li></ul></div>
+<div><h3>Planinarsko društvo</h3><p>${esc(site.name)}<br>${c.address.map(esc).join('<br>')}${site.founded ? `<br>${esc(site.founded)}` : ''}</p></div>
+<div><h3>Kontakt</h3><ul><li>${esc(c.email)}</li>${c.meetings ? `<li>${esc(c.meetings)}</li>` : ''}${c.facebook ? `<li><a href="${esc(c.facebook)}" rel="noopener">Facebook</a></li>` : ''}</ul></div>
+${site.board ? `<div><h3>${esc(site.board.title)}</h3><ul>${site.board.members.map((m) => `<li>${esc(m)}</li>`).join('')}</ul></div>` : ''}
 <div><h3>Poveznice</h3><ul><li><a href="/#kalendar">Kalendar pohoda</a></li><li><a href="/objave/">Objave</a></li><li><a href="/#clanstvo">Članstvo</a></li></ul></div>
 </div>
 ${site.footerNote ? `<div class="note"><div class="wrap">${esc(site.footerNote)}</div></div>` : ''}
@@ -116,7 +118,7 @@ function hikeRow(h) {
   const [lc, ln] = LEVEL[h.level] || LEVEL.srednje;
   return `<article class="hike" data-c="${esc(h.category)}" data-end="${esc(h.dateEnd || h.date)}">
 <div class="d"><b${cls}>${big}</b><span>${MONTHS[a.m - 1]}</span></div>
-<div><h3>${esc(h.title)}</h3><p class="meta"><span class="tag">${esc(CATEGORY[h.category] || h.category)}</span>${esc(h.summary || '')}</p></div>
+<div><h3>${h.post ? `<a href="/objave/${esc(h.post)}/">${esc(h.title)}</a>` : esc(h.title)}</h3><p class="meta"><span class="tag">${esc(CATEGORY[h.category] || h.category)}</span>${esc(h.summary || '')}</p></div>
 <span class="lvl ${lc}">${ln}</span>
 </article>`;
 }
@@ -124,13 +126,14 @@ function hikeRow(h) {
 function nextCard(h, hidden) {
   const a = parse(h.date);
   const [, ln] = LEVEL[h.level] || LEVEL.srednje;
-  const facts = [['Polazak', h.departure], ['Zahtjevnost', ln], ['Duljina', h.length], ['Uspon', h.ascent], ['Vrijeme hoda', h.duration], ['Prijevoz', h.transport]].filter((f) => f[1]);
+  const facts = [['Polazak', h.departure], ['Zahtjevnost', ln], ['Duljina', h.length], ['Uspon', h.ascent], ['Vrijeme hoda', h.duration], ['Prijevoz', h.transport], ['Vodiči', h.guides]].filter((f) => f[1]);
   const dateBig = h.dateEnd && h.dateEnd !== h.date ? `${dd(a.d)}.–${dd(parse(h.dateEnd).d)}.` : `${dd(a.d)}.`;
   return `<div class="next" data-end="${esc(h.dateEnd || h.date)}"${hidden ? ' hidden' : ''}>
 <span class="label">Najbliži pohod</span>
 <div class="date"><b>${dateBig}</b><span>${MONTHS_NOM[a.m - 1]} · ${DAYS[a.dow]}</span></div>
 <h2>${esc(h.title)}</h2>
 ${facts.length ? '<dl class="facts">' + facts.map((f) => `<div><dt>${f[0]}</dt><dd>${esc(f[1])}</dd></div>`).join('') + '</dl>' : `<p>${esc(h.summary || '')}</p>`}
+${h.registerUrl ? `<p class="reg"><a class="btn btn-red" href="${esc(h.registerUrl)}" rel="noopener">${esc(h.registerText || 'Prijave')}</a>${h.post ? ` <a href="/objave/${esc(h.post)}/">Cijeli raspis</a>` : ''}</p>` : ''}
 </div>`;
 }
 
@@ -186,6 +189,15 @@ ${hikes.map(hikeRow).join('\n')}
 <div class="cols">${odsjeci.map((o) => `<div class="col"><span class="label">${esc(o.label)}</span><h3>${esc(o.title)}</h3><p>${esc(o.text)}</p><ul>${o.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></div>`).join('\n')}</div>
 </div></section>
 
+<section class="block" id="putovi"><div class="wrap">
+<div class="sec-head"><h2>${esc(putovi.title)}</h2></div>
+<p class="intro">${esc(putovi.intro)}</p>
+<div class="table-wrap"><table class="trails">
+<thead><tr><th>Oznaka</th><th>Put</th><th>Planina</th><th>Duljina</th><th>Hod</th></tr></thead>
+<tbody>${putovi.rows.map((r) => `<tr><td>${esc(r.mark)}</td><td>${esc(r.name)}</td><td>${esc(r.mountain)}</td><td>${esc(r.km)} km</td><td>${esc(r.time)} h</td></tr>`).join('')}</tbody>
+</table></div>
+</div></section>
+
 <section class="block" id="skloniste"><div class="wrap">
 <div class="shelter">${SHELTER_ART}<div class="txt">
 <span class="label">${esc(skloniste.label)}</span><h2>${esc(skloniste.title)}</h2><p>${esc(skloniste.text)}</p>
@@ -196,6 +208,10 @@ ${hikes.map(hikeRow).join('\n')}
 <section class="block" id="clanstvo"><div class="wrap">
 <div class="sec-head"><h2>${esc(clanstvo.title)}</h2></div>
 <ol class="steps">${clanstvo.steps.map((s) => `<li><b>${esc(s.title)}</b><span>${esc(s.text)}</span></li>`).join('')}</ol>
+<div class="join-info">
+<div><h3>${esc(clanstvo.categoriesTitle)}</h3>${clanstvo.categoriesNote ? `<p class="intro">${esc(clanstvo.categoriesNote)}</p>` : ''}<dl class="prices">${clanstvo.categories.map((c) => `<div><dt>${esc(c.name)}<small>${esc(c.note)}</small></dt><dd>${esc(c.price)}</dd></div>`).join('')}</dl></div>
+<div><h3>${esc(clanstvo.benefitsTitle)}</h3><ul class="benefits">${clanstvo.benefits.map((b) => `<li>${esc(b)}</li>`).join('')}</ul></div>
+</div>
 </div></section>
 </main>`;
   return layout({ title: '', description: site.description, body, canonicalPath: '/' });

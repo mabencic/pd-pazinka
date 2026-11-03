@@ -1,42 +1,48 @@
 {
   "name": "PD Mao van Njigydorf",
-  "tagline": "Planinarsko društvo",
+  "tagline": "Planinarsko društvo, Pazin",
   "url": "",
   "noindex": true,
-  "description": "Planinarsko društvo PD Mao van Njigydorf: kalendar pohoda, objave, odsjeci, planinarsko sklonište i upute za članstvo.",
-  "heroLabel": "Planinarsko društvo",
-  "heroTitle": "Hodamo zajedno, svake nedjelje",
-  "heroLead": "Društvo za sve koji vole stazu, vrh i zajedničku marendu na grebenu. Od lakih šetnji do visokogorskih tura, uz iskusne vodiče i markirane puteve koje sami održavamo.",
+  "description": "Planinarsko društvo iz Pazina: kalendar pohoda, objave, odsjeci, planinarski putovi, sklonište Kremenjak i upute za članstvo.",
+  "heroLabel": "Planinarsko društvo · Pazin · od 1981.",
+  "heroTitle": "Planinarimo zajedno",
+  "heroLead": "Društvo s vodičkim, visokogorskim i markacističkim odsjekom. Vodimo pohode po Istri i šire, održavamo 17 planinarskih putova i upravljamo skloništem Kremenjak.",
+  "founded": "Osnovano 18. 12. 1981.",
   "contact": {
-    "address": ["PD Mao van Njigydorf", "Ulica planinara 1", "52000 Primjer"],
-    "email": "kontakt@primjer.hr",
-    "meetings": "Sastanci ponedjeljkom u 19:00 u prostorijama društva"
+    "address": ["Matka Brajše Rašana 3, p.p. 139", "52000 Pazin"],
+    "email": "pd.pazinka@hps.hr",
+    "facebook": "https://www.facebook.com/planinarskodrustvopazinka.pazin/"
   },
-  "footerNote": "Primjer stranice: adresa, kontakt i sadržaj su izmišljeni i služe samo kao predložak.",
+  "board": {
+    "title": "Upravni odbor 2024. – 2026.",
+    "members": [
+      "Goran Kliman, predsjednik",
+      "Sonja Levak, dopredsjednica",
+      "Kristina Bartolić, tajnica",
+      "Damir Blažević, član",
+      "Alberto Jedrejčić, član"
+    ]
+  },
+  "footerNote": "",
   "nav": [
     { "label": "O nama", "href": "/#o-nama", "children": [
-      { "label": "Povijest društva", "href": "/#o-nama" },
-      { "label": "O planinarenju", "href": "/#o-nama" },
-      { "label": "Kontakt", "href": "/#kontakt" },
-      { "label": "Osnovni podaci o društvu", "href": "/#kontakt" }
+      { "label": "Osnovni podaci o društvu", "href": "/#kontakt" },
+      { "label": "Kontakt", "href": "/#kontakt" }
     ]},
     { "label": "Vodički odsjek", "href": "/#kalendar", "children": [
       { "label": "Ustrojstvo odsjeka", "href": "/#odsjeci" },
       { "label": "Kalendar pohoda", "href": "/#kalendar" },
-      { "label": "Raspisi pohoda", "href": "/objave/" },
-      { "label": "Izvještaji s pohoda", "href": "/objave/" }
+      { "label": "Raspisi i izvještaji", "href": "/objave/" }
     ]},
     { "label": "Visokogorski odsjek", "href": "/#odsjeci", "children": [
       { "label": "Ustrojstvo odsjeka", "href": "/#odsjeci" },
-      { "label": "Izvještaji s visokogorskih pohoda", "href": "/objave/" },
-      { "label": "Edukacije", "href": "/#odsjeci" }
+      { "label": "Izvještaji s visokogorskih pohoda", "href": "/objave/" }
     ]},
     { "label": "Markacistički odsjek", "href": "/#odsjeci", "children": [
       { "label": "Ustrojstvo odsjeka", "href": "/#odsjeci" },
-      { "label": "Planinarski putovi društva", "href": "/#odsjeci" },
-      { "label": "Izvještaji akcija", "href": "/objave/" }
+      { "label": "Planinarski putovi društva", "href": "/#putovi" }
     ]},
-    { "label": "Sklonište", "href": "/#skloniste" },
+    { "label": "Sklonište Kremenjak", "href": "/#skloniste" },
     { "label": "Postani član", "href": "/#clanstvo", "join": true }
   ]
 }

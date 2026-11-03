@@ -148,6 +148,27 @@ section.block { padding-block: 64px 8px; }
 .steps b { display: block; font: 700 1.3rem var(--font-display); text-transform: uppercase; margin-bottom: 4px; }
 .steps span { color: var(--muted); }
 
+/* trails table, membership details */
+.intro { color: var(--muted); margin-bottom: 18px; max-width: 46rem; }
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+.trails { border-collapse: collapse; width: 100%; min-width: 560px; font-variant-numeric: tabular-nums; }
+.trails th, .trails td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.trails th { font: 600 .78rem var(--font-display); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.trails tr:last-child td { border-bottom: 0; }
+.trails td:first-child { font-weight: 700; color: var(--red); }
+.join-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; margin-top: 36px; }
+.join-info h3 { font-size: 1.6rem; margin-bottom: 10px; }
+.prices { margin: 0; }
+.prices > div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); }
+.prices dt { font-weight: 600; min-width: 0; }
+.prices dt small { display: block; font-weight: 400; color: var(--muted); }
+.prices dd { margin: 0; font: 700 1.5rem var(--font-display); white-space: nowrap; }
+.benefits { margin: 0; padding-left: 18px; }
+.benefits li { margin: 6px 0; }
+.next .reg { margin-top: 18px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.hike h3 a { color: inherit; text-decoration: none; }
+.hike h3 a:hover { text-decoration: underline; }
+
 /* inner pages */
 .page { padding-block: 48px 16px; }
 .crumb { font-size: .9rem; color: var(--muted); margin-bottom: 18px; }

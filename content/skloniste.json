@@ -1,10 +1,12 @@
 {
   "label": "Planinarsko sklonište",
-  "title": "Sklonište na grebenu",
-  "text": "Jednostavno sklonište za predah i noćenje članova i drugih planinara, na sredini našeg najpopularnijeg grebena.",
+  "title": "Kremenjak",
+  "text": "Sklonište stoji na travnatom grebenu s pogledom na Kvarner, Istru i Vojak, uz Istarski planinarski put, otprilike na polovici dužeg odsjeka između Poklona i Plomina. Odlukom Izvršnog odbora HPS-a upravljanje skloništem povjereno je PD Pazinki.",
   "facts": [
-    { "k": "Nadmorska visina", "v": "1.020 m" },
-    { "k": "Kapacitet", "v": "12 ležajeva" },
-    { "k": "Ključ", "v": "Kod domara, uz najavu" }
+    { "k": "Kapacitet", "v": "4 do 6 osoba za noćenje" },
+    { "k": "Obližnji vrh Kremenjak", "v": "827 m" },
+    { "k": "Upravitelj", "v": "Damir Blažević" },
+    { "k": "Pregled stanja", "v": "Mjesečno, prema rasporedu članova" },
+    { "k": "Kontakt", "v": "pd.pazinka@hps.hr" }
   ]
 }

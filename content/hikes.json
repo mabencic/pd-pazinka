@@ -1,55 +1,19 @@
 [
   {
-    "date": "2026-11-08",
-    "title": "Učka: Vojak (1.401 m)",
+    "date": "2026-12-11",
+    "dateEnd": "2026-12-13",
+    "title": "Dolomiti: planinarenje i advent",
     "category": "vodicki",
     "level": "srednje",
-    "summary": "Kružna tura, 12 km, uspon 780 m, 5 do 6 h",
-    "departure": "07:00",
-    "length": "12 km",
-    "ascent": "780 m",
-    "duration": "5 do 6 h",
-    "transport": "Osobni automobili"
-  },
-  {
-    "date": "2026-11-15",
-    "title": "Markacistička akcija: obnova oznaka",
-    "category": "marka",
-    "level": "lagano",
-    "hero": false,
-    "summary": "Obnova oznaka na lokalnom putu, dolaze svi zainteresirani, alat osiguran"
-  },
-  {
-    "date": "2026-11-22",
-    "title": "Ćićarija: Planik (1.272 m)",
-    "category": "vodicki",
-    "level": "srednje",
-    "summary": "Planinarski put kroz bukove šume, 14 km, uspon 650 m, 6 h",
-    "departure": "07:30",
-    "length": "14 km",
-    "ascent": "650 m",
-    "duration": "6 h",
-    "transport": "Osobni automobili"
-  },
-  {
-    "date": "2026-12-06",
-    "dateEnd": "2026-12-07",
-    "title": "Velebit: zimski vikend na Zavižanu",
-    "category": "visoko",
-    "level": "zahtjevno",
-    "summary": "Dva dana, zimska oprema obavezna, najviše 14 sudionika",
-    "transport": "Kombiji"
-  },
-  {
-    "date": "2026-12-13",
-    "title": "Božićni pohod uz more",
-    "category": "vodicki",
-    "level": "lagano",
-    "summary": "Laganija šetnja za cijelu obitelj, 8 km, uspon 200 m, 3 h",
-    "departure": "09:00",
-    "length": "8 km",
-    "ascent": "200 m",
-    "duration": "3 h",
-    "transport": "Osobni automobili"
+    "post": "dolomiti-planinarenje-i-advent",
+    "summary": "Zimska tura na Monte Specie (2.307 m), Lago di Braies i adventski sajmovi. K2 / T1 u povoljnim uvjetima, uz dodatne zahtjeve zimskog planinarenja. Najviše 18 sudionika.",
+    "departure": "Petak 11.12. u 13:00, Pazin",
+    "length": "9 km (subota)",
+    "ascent": "350 m",
+    "duration": "4 do 4,5 h",
+    "transport": "Kombiji",
+    "guides": "Neva Božić, Marino Baćac",
+    "registerUrl": "https://docs.google.com/forms/d/e/1FAIpQLScpOPAlZ4MtfGcqNBZidmdccdx0YpnoZ0t1CBlVBSQylDl_6g/viewform",
+    "registerText": "Prijave do 20.11.2026."
   }
 ]
