@@ -8,12 +8,11 @@
     });
   }
 
-  var cal = document.getElementById('cal');
-  if (!cal) return;
-
   var d = new Date();
   var today = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
-  var rows = [].slice.call(cal.querySelectorAll('.hike'));
+
+  // Kalendar: sakrij prošle pohode i omogući filtar po kategoriji
+  var rows = [].slice.call(document.querySelectorAll('.hike[data-end]'));
   var chips = [].slice.call(document.querySelectorAll('.chip'));
   var empty = document.getElementById('calEmpty');
   var current = 'all';
@@ -36,15 +35,18 @@
       apply();
     });
   });
-  apply();
+  if (rows.length) apply();
 
+  // Kartica "Najbliži pohod": prikaži prvi pohod koji nije prošao
   var cards = [].slice.call(document.querySelectorAll('.next[data-end]'));
-  var shown = false;
-  cards.forEach(function (c) {
-    var ok = !shown && c.getAttribute('data-end') >= today;
-    c.hidden = !ok;
-    if (ok) shown = true;
-  });
-  var none = document.getElementById('nextEmpty');
-  if (none) none.hidden = shown;
+  if (cards.length || document.getElementById('nextEmpty')) {
+    var shown = false;
+    cards.forEach(function (c) {
+      var ok = !shown && c.getAttribute('data-end') >= today;
+      c.hidden = !ok;
+      if (ok) shown = true;
+    });
+    var none = document.getElementById('nextEmpty');
+    if (none) none.hidden = shown;
+  }
 })();

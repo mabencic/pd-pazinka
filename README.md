@@ -66,3 +66,17 @@ Svaki push na `main` automatski objavljuje novu verziju.
 1. U `content/site.json` provjeri naziv društva (`name`) i ostale podatke.
 2. Dopuni kalendar pohoda u `content/hikes.json` (trenutno je unesen samo najbliži pohod).
 3. Upiši pravu adresu u `url` i postavi `"noindex": false`. Dok je `noindex` uključen, tražilice stranicu ne indeksiraju.
+
+## Struktura stranica
+
+`build.js` generira ove stranice: početna, O nama, tri odsjeka (`vodicki-odsjek`, `visokogorski-odsjek`, `markacisti`), kalendar pohoda, planinarski putovi, sklonište Kremenjak, članstvo te popis objava i stranica svake objave. Izbornik je u `content/site.json` (`nav`), a pločice na početnoj u `tiles`. Članovi odsjeka mijenjaju se u `content/odsjeci.json` (`groups`).
+
+## Slike
+
+Fotografije stavi u mapu `images/` (npr. `images/kremenjak.jpg`, po mogućnosti do 1600 px širine) i upiši putanju u sadržaj:
+
+- naslovna slika na početnoj: `"heroImage": "/images/naziv.jpg"` u `content/site.json`
+- slika objave: `"image"` i `"imageAlt"` u `content/objave.json`
+- slika skloništa: `"image"` i `"imageAlt"` u `content/skloniste.json`
+
+Koristi samo slike za koje društvo ima pravo objave.

@@ -3,11 +3,13 @@
   "tagline": "Pazin",
   "url": "",
   "noindex": true,
-  "description": "Planinarsko društvo iz Pazina: kalendar pohoda, objave, odsjeci, planinarski putovi, sklonište Kremenjak i upute za članstvo.",
+  "description": "Planinarsko društvo Pazinka iz Pazina: kalendar pohoda, objave, odsjeci, planinarski putovi, sklonište Kremenjak i upute za članstvo.",
   "heroLabel": "Planinarsko društvo · Pazin · od 1981.",
   "heroTitle": "Planinarimo zajedno",
   "heroLead": "Društvo s vodičkim, visokogorskim i markacističkim odsjekom. Vodimo pohode po Istri i šire, održavamo 17 planinarskih putova i upravljamo skloništem Kremenjak.",
+  "heroImage": "",
   "founded": "Osnovano 18. 12. 1981.",
+  "aboutText": "Planinarsko društvo Pazinka osnovano je 18. 12. 1981. u Pazinu. Djeluje kroz tri odsjeka: vodički, visokogorski i markacistički. Upravlja planinarskim skloništem Kremenjak i održava 17 planinarskih putova ukupne duljine 80,10 km.",
   "contact": {
     "address": ["Matka Brajše Rašana 3, p.p. 139", "52000 Pazin"],
     "email": "pd.pazinka@hps.hr",
@@ -24,25 +26,35 @@
     ]
   },
   "footerNote": "",
+  "tiles": [
+    { "title": "Kalendar pohoda", "text": "Najavljeni pohodi i izleti društva.", "href": "/kalendar-pohoda/" },
+    { "title": "Raspisi i izvještaji", "text": "Pozivi na pohode i izvještaji s terena.", "href": "/objave/" },
+    { "title": "Vodički odsjek", "text": "Vodiči i organizacija društvenih pohoda.", "href": "/vodicki-odsjek/" },
+    { "title": "Visokogorski odsjek", "text": "Visokogorske ture i edukacije.", "href": "/visokogorski-odsjek/" },
+    { "title": "Markacistički odsjek", "text": "Markacisti i održavanje staza.", "href": "/markacisti/" },
+    { "title": "Planinarski putovi", "text": "17 putova u Ćićariji i Istri, 80,10 km.", "href": "/planinarski-putovi/" },
+    { "title": "Sklonište Kremenjak", "text": "Sklonište uz Istarski planinarski put.", "href": "/skloniste-kremenjak/" },
+    { "title": "Postani član", "text": "Članarina, povlastice i upis.", "href": "/clanstvo/" }
+  ],
   "nav": [
-    { "label": "O nama", "href": "/#o-nama", "children": [
-      { "label": "Osnovni podaci o društvu", "href": "/#kontakt" },
-      { "label": "Kontakt", "href": "/#kontakt" }
+    { "label": "O nama", "href": "/o-nama/", "children": [
+      { "label": "Osnovni podaci o društvu", "href": "/o-nama/" },
+      { "label": "Kontakt", "href": "/o-nama/#kontakt" }
     ]},
-    { "label": "Vodički odsjek", "href": "/#kalendar", "children": [
-      { "label": "Ustrojstvo odsjeka", "href": "/#odsjeci" },
-      { "label": "Kalendar pohoda", "href": "/#kalendar" },
+    { "label": "Vodički odsjek", "href": "/vodicki-odsjek/", "match": ["/kalendar-pohoda/"], "children": [
+      { "label": "Ustrojstvo odsjeka", "href": "/vodicki-odsjek/" },
+      { "label": "Kalendar pohoda", "href": "/kalendar-pohoda/" },
       { "label": "Raspisi i izvještaji", "href": "/objave/" }
     ]},
-    { "label": "Visokogorski odsjek", "href": "/#odsjeci", "children": [
-      { "label": "Ustrojstvo odsjeka", "href": "/#odsjeci" },
-      { "label": "Izvještaji s visokogorskih pohoda", "href": "/objave/" }
+    { "label": "Visokogorski odsjek", "href": "/visokogorski-odsjek/", "children": [
+      { "label": "Ustrojstvo odsjeka", "href": "/visokogorski-odsjek/" },
+      { "label": "Izvještaji s pohoda", "href": "/objave/" }
     ]},
-    { "label": "Markacistički odsjek", "href": "/#odsjeci", "children": [
-      { "label": "Ustrojstvo odsjeka", "href": "/#odsjeci" },
-      { "label": "Planinarski putovi društva", "href": "/#putovi" }
+    { "label": "Markacistički odsjek", "href": "/markacisti/", "match": ["/planinarski-putovi/"], "children": [
+      { "label": "Ustrojstvo odsjeka", "href": "/markacisti/" },
+      { "label": "Planinarski putovi društva", "href": "/planinarski-putovi/" }
     ]},
-    { "label": "Sklonište Kremenjak", "href": "/#skloniste" },
-    { "label": "Postani član", "href": "/#clanstvo", "join": true }
+    { "label": "Sklonište Kremenjak", "href": "/skloniste-kremenjak/" },
+    { "label": "Postani član", "href": "/clanstvo/", "join": true }
   ]
 }

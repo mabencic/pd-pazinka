@@ -1,20 +1,38 @@
 [
   {
+    "slug": "vodicki-odsjek",
     "label": "Pročelnica · Patricija Jedrejčić",
     "title": "Vodički odsjek",
-    "text": "Priprema i vodi društvene pohode i izlete. Upravni odbor odsjeka čine Patricija Jedrejčić, Sonja Levak i Igor Gržinić.",
-    "items": ["7 vodiča A standarda", "3 vodiča pripravnika A standarda", "Kalendar pohoda, raspisi i izvještaji"]
+    "text": "Priprema i vodi društvene pohode i izlete. Svaki pohod ima raspis s opisom, opremom, vodičima i uputama za prijavu.",
+    "items": ["7 vodiča A standarda", "3 vodiča pripravnika A standarda", "Kalendar pohoda, raspisi i izvještaji"],
+    "link": { "label": "Kalendar pohoda", "href": "/kalendar-pohoda/" },
+    "groups": [
+      { "title": "Upravni odbor odsjeka", "people": ["Patricija Jedrejčić, pročelnica", "Sonja Levak", "Igor Gržinić"] },
+      { "title": "Vodiči A standarda", "people": ["Patricija Jedrejčić", "Albert Jedrejčić", "Igor Gržinić", "Loredana Šperanda", "Sonja Levak", "Larisa Močibob", "Dalibor Jakovčić"] },
+      { "title": "Vodiči pripravnici A standarda", "people": ["Lea Bertoša", "Estrelita Belušić", "Goran Kliman"] }
+    ]
   },
   {
+    "slug": "visokogorski-odsjek",
     "label": "Pročelnik · Saša Dobrić",
     "title": "Visokogorski odsjek",
-    "text": "Visokogorski pohodi i edukacije, među kojima je i škola planinarskog skijanja. Upravni odbor odsjeka: Saša Dobrić, Mladen Nikšić i Damir Blažević.",
-    "items": ["Izvještaji s visokogorskih pohoda", "Škola planinarskog skijanja", "Pravilnik odsjeka i pristupnica"]
+    "text": "Visokogorski pohodi i edukacije, među kojima je i škola planinarskog skijanja.",
+    "items": ["Izvještaji s visokogorskih pohoda", "Škola planinarskog skijanja", "Pravilnik odsjeka i pristupnica"],
+    "link": { "label": "Raspisi i izvještaji", "href": "/objave/" },
+    "groups": [
+      { "title": "Upravni odbor odsjeka", "people": ["Saša Dobrić, pročelnik", "Mladen Nikšić", "Damir Blažević"] }
+    ]
   },
   {
+    "slug": "markacisti",
     "label": "Pročelnica · Lea Bertoša",
     "title": "Markacistički odsjek",
-    "text": "Održava 17 planinarskih putova ukupne duljine 80,10 km u Ćićariji i Istri. Upravni odbor odsjeka: Lea Bertoša, Estrelita Belušić i Silvio Gojtanić.",
-    "items": ["8 osposobljenih markacista i 1 markacist voditelj", "Markacističke akcije, ostali članovi se priključuju", "Izvještaji akcija"]
+    "text": "Održava 17 planinarskih putova ukupne duljine 80,10 km u Ćićariji i Istri. Markacističke akcije su otvorene za sve članove koji žele pomoći.",
+    "items": ["8 osposobljenih markacista i 1 markacist voditelj", "Markacističke akcije, ostali članovi se priključuju", "Izvještaji akcija"],
+    "link": { "label": "Planinarski putovi društva", "href": "/planinarski-putovi/" },
+    "groups": [
+      { "title": "Upravni odbor odsjeka", "people": ["Lea Bertoša, pročelnica", "Estrelita Belušić", "Silvio Gojtanić"] },
+      { "title": "Markacisti", "people": ["Giovanni Sirotti, markacist voditelj", "Lea Bertoša", "Sebastijan Širol", "Silvio Gojtanić", "Marijana Milevoj", "Estrelita Belušić", "Vedran Škof", "Teo Gubić", "Denija Krivičić"] }
+    ]
   }
 ]
