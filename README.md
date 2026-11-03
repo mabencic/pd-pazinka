@@ -1,4 +1,4 @@
-# PD Mao van Njigydorf, web stranica
+# Planinarsko društvo Pazinka, web stranica
 
 Statička stranica bez okvira i bez dodatnih paketa. Sadržaj je u JSON datotekama u mapi `content/`, a `build.js` iz njih generira gotovu stranicu u mapu `dist/`.
 
