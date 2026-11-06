@@ -115,7 +115,7 @@ function footer() {
   return `<div class="pano-wrap">${PANORAMA}</div><footer>
 <div class="wrap foot-slogan"><span class="blaze" aria-hidden="true"></span><p>Vidimo se na stazi.</p></div>
 <div class="wrap">
-<div><h3>Planinarsko društvo</h3><p>${esc(site.name)}<br>${c.address.map(esc).join('<br>')}${site.founded ? `<br>${esc(site.founded)}` : ''}</p></div>
+<div><h3>Adresa</h3><p>${esc(site.name)}<br>${c.address.map(esc).join('<br>')}${site.founded ? `<br>${esc(site.founded)}` : ''}</p></div>
 <div><h3>Kontakt</h3><ul><li>${esc(c.email)}</li>${c.meetings ? `<li>${esc(c.meetings)}</li>` : ''}${c.facebook ? `<li><a href="${esc(c.facebook)}" rel="noopener">Facebook</a></li>` : ''}</ul></div>
 <div><h3>Poveznice</h3><ul><li><a href="/kalendar-pohoda/">Kalendar pohoda</a></li><li><a href="/objave/">Objave</a></li><li><a href="/planinarski-putovi/">Planinarski putovi</a></li><li><a href="/clanstvo/">Članstvo</a></li></ul></div>
 </div>
@@ -123,8 +123,13 @@ ${site.footerNote ? `<div class="note"><div class="wrap">${esc(site.footerNote)}
 </footer>`;
 }
 
-function layout({ title, description, body, path: pagePath }) {
+function layout({ title, description, body, path: pagePath, image }) {
   const fullTitle = title ? `${title} | ${site.name}` : site.name;
+  // Oznake za lijep prikaz poveznice na Facebooku i drugdje (slika samo s punom adresom)
+  const base = (site.url || '').replace(/\/$/, '');
+  const img = image ? (/^https?:\/\//.test(image) ? image : (base ? base + image : '')) : '';
+  const og = [['og:type', title ? 'article' : 'website'], ['og:site_name', site.name], ['og:title', title || site.name], ['og:description', description || site.description], base && pagePath ? ['og:url', base + pagePath] : null, img ? ['og:image', img] : null]
+    .filter(Boolean).map(([k, v]) => `<meta property="${k}" content="${esc(v)}">`).join('\n');
   const canonical = site.url && pagePath ? `<link rel="canonical" href="${esc(site.url.replace(/\/$/, '') + pagePath)}">` : '';
   return `<!doctype html>
 <html lang="hr">
@@ -135,6 +140,7 @@ function layout({ title, description, body, path: pagePath }) {
 <meta name="description" content="${esc(description || site.description)}">
 ${site.noindex ? '<meta name="robots" content="noindex, nofollow">' : ''}
 ${canonical}
+${og}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
@@ -151,9 +157,10 @@ ${footer()}
 `;
 }
 
-function pageHead(title, label, lead) {
+function pageHead(title, label, lead, crumbs = []) {
+  const trail = [['/', 'Početna'], ...crumbs].map(([h, t]) => `<a href="${esc(h)}">${esc(t)}</a>`).join(' / ');
   return `<section class="page-head"><div class="wrap">
-<p class="crumb"><a href="/">Početna</a> / ${esc(title)}</p>
+<p class="crumb">${trail} / ${esc(title)}</p>
 ${label ? `<span class="label">${esc(label)}</span>` : ''}
 <h1>${esc(title)}</h1>
 ${lead ? `<p class="lead">${esc(lead)}</p>` : ''}
@@ -199,7 +206,7 @@ ${h.registerUrl ? `<p class="reg"><a class="btn btn-red" href="${esc(h.registerU
 // ---------- objave ----------
 function postCard(p) {
   const media = p.image ? `<img src="${esc(p.image)}" alt="${esc(p.imageAlt || p.title)}" loading="lazy"${ext(p.image)}>` : art(p.art);
-  return `<article class="post">${media}<div class="body">
+  return `<article class="post" data-c="${esc(p.type)}">${media}<div class="body">
 <span class="label">${esc(POST_TYPE[p.type] || 'Objava')} · ${fmt(p.date)}</span>
 <h3><a href="/objave/${esc(p.slug)}/">${esc(p.title)}</a></h3>
 <p>${esc(p.excerpt)}</p>
@@ -280,27 +287,40 @@ ${c.facebook ? `<p class="gap"><a href="${esc(c.facebook)}" rel="noopener">Faceb
 }
 
 function odsjekPage(o) {
+  // Stavke koje počinju brojem ("7 vodiča A standarda") prikazuju se s istaknutim brojem
+  const facts = (o.items || []).map((i) => {
+    const m = String(i).match(/^(\d+)\s+(.+)$/);
+    return m ? `<li class="num"><b>${esc(m[1])}</b><span>${esc(m[2])}</span></li>` : `<li><span>${esc(i)}</span></li>`;
+  }).join('');
   const body = `${pageHead(o.title, o.label, o.text)}
 <main class="block"><div class="wrap">
-${(o.more || []).map((t) => `<p class="intro">${esc(t)}</p>`).join('')}
+<div class="odsjek-top">
+<div class="odsjek-intro">${(o.more || []).map((t) => `<p>${esc(t)}</p>`).join('')}</div>
+<aside class="odsjek-card" aria-label="Ukratko">
+<h2 class="label">Ukratko</h2>
+<ul class="odsjek-facts">${facts}</ul>
+${o.link ? `<a class="btn btn-red" href="${esc(o.link.href)}">${esc(o.link.label)}</a>` : ''}
+</aside>
+</div>
 <div class="groups">${o.groups.map(peopleList).join('')}</div>
-<ul class="bullets">${o.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>
-${o.link ? `<p class="gap"><a class="btn btn-dark" href="${esc(o.link.href)}">${esc(o.link.label)}</a></p>` : ''}
 </div></main>`;
   return layout({ title: o.title, description: o.text, body, path: `/${o.slug}/` });
 }
 
 function calendarPage() {
+  const recent = posts.filter((p) => p.type === 'izvjestaj').slice(0, 3);
   const body = `${pageHead('Kalendar pohoda', '', 'Najavljeni pohodi društva. Pohodi kojima je datum prošao sami nestaju s popisa.')}
 <main class="block"><div class="wrap">
-<div class="chips" role="group" aria-label="Filtar pohoda">
+<div class="chips" role="group" aria-label="Filtar pohoda" data-for="cal">
 <button class="chip" data-f="all" aria-pressed="true">Svi</button>
 <button class="chip" data-f="vodicki" aria-pressed="false">Vodički</button>
 <button class="chip" data-f="visoko" aria-pressed="false">Visokogorski</button>
 <button class="chip" data-f="marka" aria-pressed="false">Markacisti</button>
 </div>
-<div class="cal">${hikes.map(hikeRow).join('\n')}</div>
+<div class="cal" id="cal">${hikes.map(hikeRow).join('\n')}</div>
 <p class="empty" id="calEmpty"${hikes.length ? ' hidden' : ''}>Trenutno nema najavljenih pohoda u ovoj kategoriji.</p>
+${recent.length ? `<section class="recent"><div class="sec-head"><h2>Nedavno smo bili</h2><a href="/objave/" class="label">Svi izvještaji</a></div>
+<div class="posts">${recent.map(postCard).join('\n')}</div></section>` : ''}
 </div></main>`;
   return layout({ title: 'Kalendar pohoda', description: 'Kalendar pohoda Planinarskog društva Pazinka.', body, path: '/kalendar-pohoda/' });
 }
@@ -332,6 +352,7 @@ function membershipPage() {
   const body = `${pageHead(clanstvo.title, '', '')}
 <main class="block"><div class="wrap">
 <ol class="steps">${clanstvo.steps.map((s) => `<li><b>${esc(s.title)}</b><span>${esc(s.text)}</span></li>`).join('')}</ol>
+<p class="join-cta"><a class="btn btn-red" href="mailto:${esc(site.contact.email)}?subject=${encodeURIComponent('Pristupnica za članstvo')}">Pošalji pristupnicu e-poštom</a><span>na ${esc(site.contact.email)}</span></p>
 <div class="join-info">
 <div><h3>${esc(clanstvo.categoriesTitle)}</h3>${clanstvo.categoriesNote ? `<p class="intro">${esc(clanstvo.categoriesNote)}</p>` : ''}<dl class="prices">${clanstvo.categories.map((c) => `<div><dt>${esc(c.name)}<small>${esc(c.note)}</small></dt><dd>${esc(c.price)}</dd></div>`).join('')}</dl></div>
 <div><h3>${esc(clanstvo.benefitsTitle)}</h3><ul class="benefits">${clanstvo.benefits.map((b) => `<li>${esc(b)}</li>`).join('')}</ul></div>
@@ -341,26 +362,43 @@ function membershipPage() {
 }
 
 function postsIndexPage() {
+  const types = Object.keys(POST_TYPE).filter((t) => posts.some((p) => p.type === t));
   const body = `${pageHead('Objave', '', 'Raspisi i izvještaji s pohoda i akcija društva.')}
 <main class="block"><div class="wrap">
-<div class="list-posts">${posts.map((p) => `<article><span class="label">${esc(POST_TYPE[p.type] || 'Objava')} · ${fmt(p.date)}</span><h2><a href="/objave/${esc(p.slug)}/">${esc(p.title)}</a></h2><p>${esc(p.excerpt)}</p></article>`).join('\n')}</div>
+${types.length > 1 ? `<div class="chips" role="group" aria-label="Filtar objava" data-for="postlist">
+<button class="chip" data-f="all" aria-pressed="true">Sve</button>
+${types.map((t) => `<button class="chip" data-f="${t}" aria-pressed="false">${{ izvjestaj: 'Izvještaji', raspis: 'Raspisi', novost: 'Novosti' }[t]}</button>`).join('\n')}
+</div>` : ''}
+<div class="posts" id="postlist">${posts.map(postCard).join('\n')}</div>
 </div></main>`;
   return layout({ title: 'Objave', description: 'Raspisi i izvještaji s pohoda i akcija društva.', body, path: '/objave/' });
 }
 
 function postPage(p) {
-  const body = `<main class="page"><div class="wrap">
-<p class="crumb crumb-light"><a href="/">Početna</a> / <a href="/objave/">Objave</a></p>
-<span class="label">${esc(POST_TYPE[p.type] || 'Objava')} · ${fmt(p.date)}</span>
-<h1>${esc(p.title)}</h1>
-<div class="article">${p.image ? `<p><img src="${esc(p.image)}" alt="${esc(p.imageAlt || p.title)}"${ext(p.image)}></p>` : ''}${p.body.map((t) => `<p>${esc(t)}</p>`).join('')}</div>
-<p><a href="/objave/">Sve objave</a></p>
+  const i = posts.indexOf(p);
+  const newer = posts[i - 1], older = posts[i + 1];
+  const navLink = (q, cls, dir) => q ? `<a class="${cls}" href="/objave/${esc(q.slug)}/"><small>${dir}</small><span>${esc(q.title)}</span></a>` : '<span></span>';
+  const body = `${pageHead(p.title, `${POST_TYPE[p.type] || 'Objava'} · ${fmt(p.date)}`, '', [['/objave/', 'Objave']])}
+<main class="block"><div class="wrap">
+<article class="article">
+<p class="article-lead">${esc(p.excerpt)}</p>
+${p.image ? `<figure class="article-img"><img src="${esc(p.image)}" alt="${esc(p.imageAlt || p.title)}"${ext(p.image)}></figure>` : ''}
+${p.body.map((t) => `<p>${esc(t)}</p>`).join('\n')}
+</article>
+<nav class="post-nav" aria-label="Druge objave">${navLink(newer, 'newer', '← Novija objava')}${navLink(older, 'older', 'Starija objava →')}</nav>
+<p class="post-back"><a class="btn btn-line" href="/objave/">Sve objave</a></p>
 </div></main>`;
-  return layout({ title: p.title, description: p.excerpt, body, path: `/objave/${p.slug}/` });
+  return layout({ title: p.title, description: p.excerpt, body, path: `/objave/${p.slug}/`, image: p.image });
 }
 
 function notFoundPage() {
-  const body = '<main class="page"><div class="wrap"><h1>Stranica nije pronađena</h1><p><a href="/">Povratak na početnu</a></p></div></main>';
+  const body = `<main class="lost"><div class="wrap">
+<svg class="lost-art" viewBox="0 0 320 200" aria-hidden="true"><path class="m1" d="M0 170 L70 90 L110 130 L170 50 L240 140 L280 110 L320 150 L320 200 L0 200Z"/><path class="m3" d="M0 190 L90 160 L180 186 L260 164 L320 180 L320 200 L0 200Z"/><path d="M170 50 L184 70 L178 67 L172 75 L165 68 L158 72Z" fill="var(--paint)"/><g transform="translate(222 92)"><rect x="-3" y="0" width="6" height="92" fill="var(--muted)"/><path d="M0 8 h46 l12 11 l-12 11 h-46z" fill="var(--surface)" stroke="var(--line)"/><path d="M0 36 h-46 l-12 11 l12 11 h46z" fill="var(--surface)" stroke="var(--line)"/><text x="22" y="25" text-anchor="middle" font-size="16" font-weight="700" fill="var(--red)">?</text><text x="-24" y="53" text-anchor="middle" font-size="16" font-weight="700" fill="var(--red)">?</text></g></svg>
+<span class="label">Greška 404</span>
+<h1>Izgubili ste markaciju</h1>
+<p class="lead">Ova staza ne postoji ili je premještena. Vratite se na zadnju poznatu točku.</p>
+<p class="lost-cta"><a class="btn btn-red" href="/">Početna stranica</a><a class="btn btn-line" href="/kalendar-pohoda/">Kalendar pohoda</a></p>
+</div></main>`;
   return layout({ title: 'Stranica nije pronađena', body });
 }
 
