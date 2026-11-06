@@ -54,6 +54,10 @@ Verzija je zakucana u `admin/index.html` (`@sveltia/cms@0.249.1`). Za nadogradnj
 | Pristupnica i drugi dokumenti za preuzimanje | mapa `dokumenti/` (u CMS-u: Stranice → Članstvo) |
 | Izgled | `css/style.css` |
 | Postavke CMS-a (polja obrazaca) | `admin/config.yml` |
+| Dokumenti društva (statut, izvještaji, zapisnici, kalendari) | `content/dokumenti.json`, datoteke u `dokumenti/` |
+| Fotogalerija | `content/fotogalerija.json` |
+| Edukacije (popis objava o školama i tečajevima) | `content/edukacije.json` |
+| Stare adrese (WordPress) i kamo se preusmjeravaju | `content/stare-adrese.json` (ne uređuje se ručno) |
 
 ### Novi pohod (ručno, bez CMS-a)
 
@@ -84,6 +88,22 @@ U mapi `content/pohodi/` napravi novu datoteku, npr. `2026-12-20-naziv-pohoda.js
 ### Nova objava (ručno, bez CMS-a)
 
 U mapi `content/objave/` napravi novu datoteku. Naziv datoteke je adresa objave, pa neka bude bez razmaka i dijakritika (npr. `izvjestaj-ucka.json` → `/objave/izvjestaj-ucka/`). Polja: `date`, `type` (`raspis`, `izvjestaj` ili `novost`), `title`, `excerpt` i `body` (popis odlomaka). Za fotografiju dodaj `"image": "/images/naziv.jpg"` i `"imageAlt": "opis slike"`, a bez nje se prikazuje ilustracija (`"art": 1`, `2` ili `3`).
+
+## Prijenos sa starog sitea
+
+Sadržaj starog WordPress sitea (planinarsko-drustvo-pazinka.hr) prenesen je u studenom 2026.:
+
+- svih 627 objava od 2011. (raspisi, izvještaji, novosti) u `content/objave/`, s fotografijama (`images/arhiva/`, smanjene na najviše 1280 px, WebP) i priloženim dokumentima (`dokumenti/arhiva/`);
+- dokumenti društva, godišnji kalendari pohoda, fotogalerija, edukacije (škole planinarskog skijanja 2023. i 2024., Opća planinarska škola 2018.), službeni podaci društva i tijela društva;
+- stare adrese objava, stranica i dokumenata preusmjeravaju se na nove (`dist/_redirects`, gradi se iz `content/stare-adrese.json`), pa poveznice s Facebooka i iz tražilica i dalje rade kad nova stranica preuzme domenu.
+
+### Oblikovanje teksta objava
+
+U odlomcima objava (i napomenama na stranici Članstvo) može se koristiti:
+
+- `[tekst poveznice](https://adresa)` za poveznicu,
+- `**tekst**` za podebljano,
+- odlomak koji počinje s `## ` postaje podnaslov, a s `- ` stavka popisa.
 
 ## Lokalno pokretanje
 

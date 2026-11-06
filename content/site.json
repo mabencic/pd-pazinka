@@ -9,9 +9,9 @@
   "heroLead": "Društvo s vodičkim, visokogorskim i markacističkim odsjekom. Vodimo pohode po Istri i šire, održavamo 17 planinarskih putova i upravljamo skloništem Kremenjak.",
   "heroImages": [
     "/images/naslovna.jpg",
-    "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2024/10/20241006_123425-1920x1200.jpg",
-    "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2026/09/Biokovo-foto-1920x1200.jpg",
-    "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2026/10/IMG_7382-1200x1200.jpeg"
+    "/images/arhiva/2024-10/20241006-123425-01fb1.webp",
+    "/images/arhiva/2026-09/biokovo-foto-34a0a.webp",
+    "/images/arhiva/2026-10/img-7382-274e8.webp"
   ],
   "founded": "Osnovano 18. 12. 1981.",
   "aboutText": "Planinarsko društvo Pazinka osnovano je 18. 12. 1981. u Pazinu. Djeluje kroz tri odsjeka: vodički, visokogorski i markacistički. Upravlja planinarskim skloništem Kremenjak i održava 17 planinarskih putova ukupne duljine 80,10 km.",
@@ -33,6 +33,105 @@
       "Alberto Jedrejčić, član"
     ]
   },
+  "official": [
+    {
+      "k": "Puni naziv",
+      "v": "Planinarsko društvo Pazinka Pazin"
+    },
+    {
+      "k": "Registarski broj (Registar udruga RH)",
+      "v": "18000630"
+    },
+    {
+      "k": "OIB",
+      "v": "48416564331"
+    },
+    {
+      "k": "Broj u Registru neprofitnih organizacija (RNO)",
+      "v": "28509"
+    },
+    {
+      "k": "IBAN",
+      "v": "HR4224020061100137382"
+    },
+    {
+      "k": "Osobe ovlaštene za zastupanje",
+      "v": "Goran Kliman, Marijana Milevoj i Kristina Bartolić"
+    },
+    {
+      "k": "Broj članova",
+      "v": "120"
+    },
+    {
+      "k": "Počasni predsjednik",
+      "v": "pok. Franjo Paulišić, izabran na Skupštini 28. 9. 2011."
+    }
+  ],
+  "bodies": [
+    {
+      "title": "Nadzorni odbor 2022. – 2026.",
+      "people": [
+        "Patricija Jedrejčić, predsjednica",
+        "Mladen Nikšić, član",
+        "Vladimir Fornažar, član"
+      ]
+    },
+    {
+      "title": "Sud časti",
+      "people": [
+        "Janko Madruša, predsjednik",
+        "Kristina Baćac, članica",
+        "Denis Ivančić, član",
+        "Zamjenici: Robi Juričić, Marija Fornažar i Vesna Gubić"
+      ]
+    },
+    {
+      "title": "Upravni odbor 2022. – 2024.",
+      "people": [
+        "Goran Kliman, predsjednik",
+        "Marijana Milevoj, dopredsjednica",
+        "Kristina Bartolić, tajnica",
+        "Damir Blažević, član",
+        "Alberto Jedrejčić, član"
+      ]
+    },
+    {
+      "title": "Upravni odbor 2018. – 2022.",
+      "people": [
+        "Patricija Jedrejčić, predsjednica",
+        "Mladen Nikšić, dopredsjednik",
+        "Marijana Milevoj, tajnica",
+        "Kristina Bartolić, članica",
+        "Igor Gržinić, član"
+      ]
+    },
+    {
+      "title": "Nadzorni odbor 2018. – 2022.",
+      "people": [
+        "Vladimir Fornažar, predsjednik",
+        "Vladimir Finderle, član",
+        "Adelina Sergo Pužar, članica"
+      ]
+    }
+  ],
+  "memberships": [
+    {
+      "label": "Hrvatski planinarski savez",
+      "href": "https://www.hps.hr/"
+    },
+    {
+      "label": "Istarski planinarski savez",
+      "href": "https://ips.hr/"
+    },
+    {
+      "label": "Zajednica sportskih udruga Grada Pazina",
+      "href": "http://www.zsu-pazin.hr/"
+    },
+    {
+      "label": "LAG Središnje Istre",
+      "href": "http://lag-sredisnjaistra.hr/"
+    }
+  ],
   "footerNote": "",
   "tiles": [
     {
@@ -86,9 +185,21 @@
           "href": "/o-nama/"
         },
         {
+          "label": "Dokumenti društva",
+          "href": "/dokumenti/"
+        },
+        {
+          "label": "Fotogalerija",
+          "href": "/fotogalerija/"
+        },
+        {
           "label": "Kontakt",
           "href": "/o-nama/#kontakt"
         }
+      ],
+      "match": [
+        "/dokumenti/",
+        "/fotogalerija/"
       ]
     },
     {
@@ -107,8 +218,12 @@
           "href": "/kalendar-pohoda/"
         },
         {
-          "label": "Raspisi i izvještaji",
-          "href": "/objave/"
+          "label": "Raspisi pohoda",
+          "href": "/objave/raspisi/"
+        },
+        {
+          "label": "Izvještaji s pohoda",
+          "href": "/objave/izvjestaji/"
         }
       ]
     },
@@ -121,9 +236,16 @@
           "href": "/visokogorski-odsjek/"
         },
         {
-          "label": "Izvještaji s pohoda",
-          "href": "/objave/"
+          "label": "Izvještaji s VG pohoda",
+          "href": "/objave/visokogorski-odsjek/"
+        },
+        {
+          "label": "Edukacije",
+          "href": "/edukacije/"
         }
+      ],
+      "match": [
+        "/edukacije/"
       ]
     },
     {
@@ -140,6 +262,10 @@
         {
           "label": "Planinarski putovi društva",
           "href": "/planinarski-putovi/"
+        },
+        {
+          "label": "Izvještaji markacističkih akcija",
+          "href": "/objave/markacisti/"
         }
       ]
     },

@@ -1,23 +1,127 @@
 {
   "title": "Planinarski putovi društva",
   "intro": "Društvo održava 17 putova ukupne duljine 80,10 km. GPS tragovi dostupni su na stranici Hrvatskoga planinarskog saveza (HPS).",
+  "gpsUrl": "http://info.hps.hr/putovi/putovi?pgrid%5Bpage%5D=1&eput=0&pgrid%5Bf%5D=pd+pazinka&pgrid%5BsimpleFilter%5D=Pretra%C5%BEi",
+  "gpsLabel": "GPS tragovi putova na stranici HPS-a",
   "rows": [
-    { "mark": "400", "name": "Veliki Planik od Korita", "mountain": "Ćićarija", "km": "3,10", "time": "1:30" },
-    { "mark": "411", "name": "Planik, direktan prilaz iz pravca Poklona", "mountain": "Ćićarija", "km": "3,30", "time": "1:00" },
-    { "mark": "412", "name": "Planik iz pravca Brgudca", "mountain": "Ćićarija", "km": "3,70", "time": "1:30" },
-    { "mark": "414", "name": "Veliki Planik, sjeverozapadna kratica", "mountain": "Ćićarija", "km": "1,50", "time": "0:30" },
-    { "mark": "440", "name": "Planik iz Lupoglava", "mountain": "Ćićarija", "km": "9,10", "time": "3:30" },
-    { "mark": "441", "name": "Semić – Osoje – Plašenica", "mountain": "Ćićarija", "km": "4,20", "time": "1:15" },
-    { "mark": "442", "name": "Brest pod Učkom – Tenkovsko polje", "mountain": "Ćićarija", "km": "2,10", "time": "0:40" },
-    { "mark": "443", "name": "Brest pod Učkom – Poklon", "mountain": "Ćićarija", "km": "7,60", "time": "2:30" },
-    { "mark": "444", "name": "Tenkovsko polje – Dvori, Franetov put", "mountain": "Ćićarija", "km": "4,00", "time": "1:30" },
-    { "mark": "445", "name": "Dvori – Gospin dol, kratica", "mountain": "Ćićarija", "km": "1,70", "time": "0:40" },
-    { "mark": "446", "name": "Šebrn", "mountain": "Ćićarija", "km": "1,10", "time": "0:20" },
-    { "mark": "910", "name": "Dibovljak iz Pazina", "mountain": "Istra", "km": "3,60", "time": "1:15" },
-    { "mark": "911", "name": "Dibovljak od Butonige", "mountain": "Istra", "km": "4,00", "time": "1:40" },
-    { "mark": "912", "name": "Butoniga – Grimalda", "mountain": "Istra", "km": "3,90", "time": "1:45" },
-    { "mark": "913", "name": "Grimalda – Stari Draguć – Lupoglav", "mountain": "Istra", "km": "15,00", "time": "5:00" },
-    { "mark": "920", "name": "Dibovljak iz Pazina, preko Berma", "mountain": "Istra", "km": "9,60", "time": "3:00" },
-    { "mark": "921", "name": "Zelengrad i Malenica", "mountain": "Istra", "km": "2,60", "time": "1:10" }
+    {
+      "mark": "400",
+      "name": "Veliki Planik od Korita",
+      "mountain": "Ćićarija",
+      "km": "3,10",
+      "time": "1:30"
+    },
+    {
+      "mark": "411",
+      "name": "Planik, direktan prilaz iz pravca Poklona",
+      "mountain": "Ćićarija",
+      "km": "3,30",
+      "time": "1:00"
+    },
+    {
+      "mark": "412",
+      "name": "Planik iz pravca Brgudca",
+      "mountain": "Ćićarija",
+      "km": "3,70",
+      "time": "1:30"
+    },
+    {
+      "mark": "414",
+      "name": "Veliki Planik, sjeverozapadna kratica",
+      "mountain": "Ćićarija",
+      "km": "1,50",
+      "time": "0:30"
+    },
+    {
+      "mark": "440",
+      "name": "Planik iz Lupoglava",
+      "mountain": "Ćićarija",
+      "km": "9,10",
+      "time": "3:30"
+    },
+    {
+      "mark": "441",
+      "name": "Semić – Osoje – Plašenica",
+      "mountain": "Ćićarija",
+      "km": "4,20",
+      "time": "1:15"
+    },
+    {
+      "mark": "442",
+      "name": "Brest pod Učkom – Tenkovsko polje",
+      "mountain": "Ćićarija",
+      "km": "2,10",
+      "time": "0:40"
+    },
+    {
+      "mark": "443",
+      "name": "Brest pod Učkom – Poklon",
+      "mountain": "Ćićarija",
+      "km": "7,60",
+      "time": "2:30"
+    },
+    {
+      "mark": "444",
+      "name": "Tenkovsko polje – Dvori, Franetov put",
+      "mountain": "Ćićarija",
+      "km": "4,00",
+      "time": "1:30"
+    },
+    {
+      "mark": "445",
+      "name": "Dvori – Gospin dol, kratica",
+      "mountain": "Ćićarija",
+      "km": "1,70",
+      "time": "0:40"
+    },
+    {
+      "mark": "446",
+      "name": "Šebrn",
+      "mountain": "Ćićarija",
+      "km": "1,10",
+      "time": "0:20"
+    },
+    {
+      "mark": "910",
+      "name": "Dibovljak iz Pazina",
+      "mountain": "Istra",
+      "km": "3,60",
+      "time": "1:15"
+    },
+    {
+      "mark": "911",
+      "name": "Dibovljak od Butonige",
+      "mountain": "Istra",
+      "km": "4,00",
+      "time": "1:40"
+    },
+    {
+      "mark": "912",
+      "name": "Butoniga – Grimalda",
+      "mountain": "Istra",
+      "km": "3,90",
+      "time": "1:45"
+    },
+    {
+      "mark": "913",
+      "name": "Grimalda – Stari Draguć – Lupoglav",
+      "mountain": "Istra",
+      "km": "15,00",
+      "time": "5:00"
+    },
+    {
+      "mark": "920",
+      "name": "Dibovljak iz Pazina, preko Berma",
+      "mountain": "Istra",
+      "km": "9,60",
+      "time": "3:00"
+    },
+    {
+      "mark": "921",
+      "name": "Zelengrad i Malenica",
+      "mountain": "Istra",
+      "km": "2,60",
+      "time": "1:10"
+    }
   ]
 }

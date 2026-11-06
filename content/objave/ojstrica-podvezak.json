@@ -1,12 +1,13 @@
 {
-  "image": "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2026/09/osjstricaz.jpg",
+  "title": "Ojstrica (2.350 m) iz planine Podvežak, 20. rujna 2026.",
   "date": "2026-09-14",
   "type": "raspis",
-  "art": 3,
-  "title": "Ojstrica (2.350 m) iz planine Podvežak, 20. rujna 2026.",
+  "section": "vodicki",
   "excerpt": "Uspon na vrh Kamniško-Savinjskih Alpa s polazišta Planina Podvežak (1.500 m), povratak istim putem.",
   "body": [
     "Ojstrica je vrh Kamniško-Savinjskih Alpa, a ime je dobila po oštrom obliku. Uzdiže se iznad Korošice, Logarske doline i Robanovog kota.",
     "U mjestu Luče skreće se prema dolini Podvolovjek, pa makadamom do polazišta na Planini Podvežak (1.500 m). Staza vodi uz poglede prema Rogatcu i Lepenatki, kroz šumu i preko Dleskovške planote, do Kocbekovog doma, odakle se strmije penje prema vrhu. Silazak je istim putem."
-  ]
+  ],
+  "image": "/images/arhiva/2026-09/osjstricaz-7ac2a.webp",
+  "art": 3
 }

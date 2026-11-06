@@ -1,10 +1,8 @@
 {
+  "title": "Dolomiti: planinarenje i advent, 11. do 13. prosinca 2026.",
   "date": "2026-11-03",
   "type": "raspis",
-  "art": 3,
-  "image": "/images/dolomiti-advent-2026.jpg",
-  "imageAlt": "Plakat izleta Dolomiti, planinarenje i advent 2026.: 11. do 13. prosinca, Lago di Braies, Prato Piazza i adventski sajmovi, prijave do 20.11.2026., najviše 18 sudionika",
-  "title": "Dolomiti: planinarenje i advent, 11. do 13. prosinca 2026.",
+  "section": "vodicki",
   "excerpt": "Trodnevni izlet u Dolomite: zimska tura na Monte Specie, jezero Braies i adventski sajmovi. Najviše 18 sudionika, prijave do 20. studenoga.",
   "body": [
     "Petak, 11.12.: polazak iz Pazina u 13:00 organiziranim kombijima. Vožnja do područja Dobbiaca (Toblach) traje otprilike 5 do 6 sati, a slijedi smještaj u hotelu ili apartmanima (dvije noći).",
@@ -12,5 +10,11 @@
     "Nedjelja, 13.12.: odjava iz smještaja, šetnja povijesnom jezgrom San Candida (Innichen) i adventski sajam, a u ranim poslijepodnevnim satima povratak u Istru. Dolazak u Pazin predviđen je navečer.",
     "Oprema: visoke vodonepropusne planinarske cipele, topla slojevita odjeća, kapa i rukavice, male dereze, gamaše i štapovi, ruksak, čeona svjetiljka, termosica, osobna iskaznica ili putovnica, planinarska iskaznica i europska kartica zdravstvenog osiguranja. Hrana tijekom planinarenja je iz ruksaka.",
     "Cijena ovisi o broju prijavljenih i objavit će se nakon završetka prijava. Rok za prijave je 20.11.2026. Vodiči: Neva Božić i Marino Baćac."
-  ]
+  ],
+  "image": "/images/dolomiti-advent-2026.jpg",
+  "imageAlt": "Plakat izleta Dolomiti, planinarenje i advent 2026.: 11. do 13. prosinca, Lago di Braies, Prato Piazza i adventski sajmovi, prijave do 20.11.2026., najviše 18 sudionika",
+  "gallery": [
+    "/images/arhiva/2026-11/slika-dolomiti-7c866.webp"
+  ],
+  "art": 3
 }

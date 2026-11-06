@@ -76,4 +76,48 @@
       }
     }, 6500);
   }
+
+  // Tražilica objava: učitava indeks tek kad korisnik počne tipkati
+  var q = document.getElementById('q');
+  var res = document.getElementById('searchResults');
+  var listing = document.getElementById('listing');
+  if (q && res) {
+    var idx = null, loading = false;
+    var norm = function (t) { return String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd'); };
+    var escH = function (t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+    var fmtD = function (d) { var p = d.split('-'); return p[2] + '.' + p[1] + '.' + p[0] + '.'; };
+    var run = function () {
+      var v = norm(q.value.trim());
+      if (v.length < 2) { res.hidden = true; if (listing) listing.hidden = false; return; }
+      if (!idx) { if (!loading) { loading = true; fetch('/objave/indeks.json').then(function (r) { return r.json(); }).then(function (d) { idx = d.map(function (e) { return { e: e, k: norm(e[2] + ' ' + e[3] + ' ' + e[1]) }; }); run(); }).catch(function () { loading = false; }); } return; }
+      var words = v.split(/\s+/);
+      var hits = idx.filter(function (x) { return words.every(function (w) { return x.k.indexOf(w) >= 0; }); });
+      res.innerHTML = '<p class="search-count">' + (hits.length ? 'Pronađeno: ' + hits.length + (hits.length > 60 ? ' (prikazano prvih 60)' : '') : 'Nema objava za „' + escH(q.value) + '“.') + '</p>' +
+        hits.slice(0, 60).map(function (x) { var e = x.e; return '<a class="hit" href="/objave/' + e[0] + '/"><small>' + escH(e[4]) + ' · ' + fmtD(e[1]) + '</small><b>' + escH(e[2]) + '</b><span>' + escH(e[3]) + '</span></a>'; }).join('');
+      res.hidden = false; if (listing) listing.hidden = true;
+    };
+    q.addEventListener('input', run);
+  }
+
+  // Galerije: klik na fotografiju otvara je preko cijelog ekrana; strelice i Esc
+  var galleries = [].slice.call(document.querySelectorAll('[data-gallery]'));
+  if (galleries.length) {
+    var box = document.createElement('div');
+    box.className = 'lightbox'; box.hidden = true;
+    box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', 'Fotografija');
+    box.innerHTML = '<img alt=""><button class="lb-close" aria-label="Zatvori">×</button><button class="lb-prev" aria-label="Prethodna">‹</button><button class="lb-next" aria-label="Sljedeća">›</button><span class="lb-count"></span>';
+    document.body.appendChild(box);
+    var img = box.querySelector('img'), count = box.querySelector('.lb-count'), items = [], at = 0, back = null;
+    var show = function (i) { at = (i + items.length) % items.length; img.src = items[at].getAttribute('href'); img.alt = items[at].querySelector('img').alt; count.textContent = (at + 1) + ' / ' + items.length; };
+    var close = function () { box.hidden = true; document.body.classList.remove('lb-open'); if (back) back.focus(); };
+    galleries.forEach(function (g) {
+      var links = [].slice.call(g.querySelectorAll('a'));
+      links.forEach(function (a, i) { a.addEventListener('click', function (ev) { ev.preventDefault(); items = links; back = a; show(i); box.hidden = false; document.body.classList.add('lb-open'); box.querySelector('.lb-close').focus(); }); });
+    });
+    box.querySelector('.lb-close').addEventListener('click', close);
+    box.querySelector('.lb-prev').addEventListener('click', function () { show(at - 1); });
+    box.querySelector('.lb-next').addEventListener('click', function () { show(at + 1); });
+    box.addEventListener('click', function (ev) { if (ev.target === box) close(); });
+    document.addEventListener('keydown', function (ev) { if (box.hidden) return; if (ev.key === 'Escape') close(); if (ev.key === 'ArrowLeft') show(at - 1); if (ev.key === 'ArrowRight') show(at + 1); });
+  }
 })();

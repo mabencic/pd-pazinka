@@ -25,6 +25,11 @@ const odsjeci = readJson('odsjeci.json');
 const skloniste = readJson('skloniste.json');
 const clanstvo = readJson('clanstvo.json');
 const putovi = readJson('putovi.json');
+const readOpt = (f, def) => (fs.existsSync(path.join(root, 'content', f)) ? readJson(f) : def);
+const dokumenti = readOpt('dokumenti.json', { title: 'Dokumenti društva', groups: [] });
+const galerija = readOpt('fotogalerija.json', { title: 'Fotogalerija', images: [] });
+const edukacije = readOpt('edukacije.json', { title: 'Edukacije', intro: [], items: [] });
+const stareAdrese = readOpt('stare-adrese.json', {});
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const dd = (n) => String(n).padStart(2, '0');
@@ -35,6 +40,17 @@ const DAYS = ['nedjelja', 'ponedjeljak', 'utorak', 'srijeda', 'četvrtak', 'peta
 const CATEGORY = { vodicki: 'Vodički', visoko: 'Visokogorski', marka: 'Markacisti' };
 const LEVEL = { lagano: ['l1', 'Lagano'], srednje: ['l2', 'Srednje'], zahtjevno: ['l3', 'Zahtjevno'] };
 const POST_TYPE = { izvjestaj: 'Izvještaj', raspis: 'Raspis', novost: 'Novost' };
+// Popisi objava: po vrsti i po odsjeku (adresa /objave/<kljuc>/)
+const LISTS = [
+  { key: 'raspisi', label: 'Raspisi', title: 'Raspisi pohoda', test: (p) => p.type === 'raspis' },
+  { key: 'izvjestaji', label: 'Izvještaji', title: 'Izvještaji', test: (p) => p.type === 'izvjestaj' },
+  { key: 'novosti', label: 'Novosti', title: 'Novosti', test: (p) => p.type === 'novost' },
+  { key: 'vodicki-odsjek', label: 'Vodički', title: 'Objave Vodičkog odsjeka', test: (p) => p.section === 'vodicki', section: 'vodicki' },
+  { key: 'visokogorski-odsjek', label: 'Visokogorski', title: 'Objave Visokogorskog odsjeka', test: (p) => p.section === 'visoko', section: 'visoko' },
+  { key: 'markacisti', label: 'Markacisti', title: 'Markacističke akcije', test: (p) => p.section === 'marka', section: 'marka' }
+];
+const SECTION_LIST = Object.fromEntries(LISTS.filter((l) => l.section).map((l) => [l.section, l]));
+const PER_PAGE = 24;
 
 const parse = (iso) => { const [y, m, d] = iso.split('-').map(Number); return { y, m, d, dow: new Date(Date.UTC(y, m - 1, d)).getUTCDay() }; };
 const fmt = (iso) => { const p = parse(iso); return `${dd(p.d)}.${dd(p.m)}.${p.y}.`; };
@@ -117,7 +133,8 @@ function footer() {
 <div class="wrap">
 <div><h3>Adresa</h3><p>${esc(site.name)}<br>${c.address.map(esc).join('<br>')}${site.founded ? `<br>${esc(site.founded)}` : ''}</p></div>
 <div><h3>Kontakt</h3><ul><li>${esc(c.email)}</li>${c.meetings ? `<li>${esc(c.meetings)}</li>` : ''}${c.facebook ? `<li><a href="${esc(c.facebook)}" rel="noopener">Facebook</a></li>` : ''}</ul></div>
-<div><h3>Poveznice</h3><ul><li><a href="/kalendar-pohoda/">Kalendar pohoda</a></li><li><a href="/objave/">Objave</a></li><li><a href="/planinarski-putovi/">Planinarski putovi</a></li><li><a href="/clanstvo/">Članstvo</a></li></ul></div>
+<div><h3>Poveznice</h3><ul><li><a href="/kalendar-pohoda/">Kalendar pohoda</a></li><li><a href="/objave/">Objave</a></li><li><a href="/dokumenti/">Dokumenti društva</a></li><li><a href="/fotogalerija/">Fotogalerija</a></li><li><a href="/clanstvo/">Članstvo</a></li></ul></div>
+${(site.memberships || []).length ? `<div><h3>Savezi</h3><ul>${site.memberships.map((m) => `<li><a href="${esc(m.href)}" rel="noopener">${esc(m.label)}</a></li>`).join('')}</ul></div>` : ''}
 </div>
 ${site.footerNote ? `<div class="note"><div class="wrap">${esc(site.footerNote)}</div></div>` : ''}
 </footer>`;
@@ -165,6 +182,37 @@ ${label ? `<span class="label">${esc(label)}</span>` : ''}
 <h1>${esc(title)}</h1>
 ${lead ? `<p class="lead">${esc(lead)}</p>` : ''}
 </div>${RIDGE.replace('class="ridge"', 'class="ridge small"')}</section>`;
+}
+
+// Oblikovanje teksta u objavama i opisima: [tekst](adresa), **podebljano**; blokovi "## podnaslov" i "- stavka"
+function md(t) {
+  let h = esc(t);
+  h = h.replace(/\[([^\]]+)\]\(((?:https?:\/\/|\/|mailto:)[^\s)]+)\)/g, (m, label, url) => {
+    const extl = /^https?:/.test(url.replace(/&amp;/g, '&'));
+    return `<a href="${url}"${extl ? ' rel="noopener"' : ''}>${label}</a>`;
+  });
+  return h.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+}
+function bodyHtml(blocks) {
+  const out = []; let list = [];
+  const flush = () => { if (list.length) { out.push(`<ul>${list.map((x) => `<li>${md(x)}</li>`).join('')}</ul>`); list = []; } };
+  for (const b of blocks || []) {
+    const t = String(b);
+    if (/^- /.test(t)) { list.push(t.slice(2)); continue; }
+    flush();
+    out.push(/^## /.test(t) ? `<h2>${md(t.slice(3))}</h2>` : `<p>${md(t)}</p>`);
+  }
+  flush();
+  return out.join('\n');
+}
+const fileExt = (f) => (String(f).split('?')[0].match(/\.([a-z0-9]+)$/i) || [])[1] || '';
+function docLink(title, file) {
+  const e = fileExt(file).toUpperCase(), sz = fileSize(file);
+  return `<a class="doc" href="${esc(file)}"${/^https?:/.test(file) ? ' rel="noopener"' : ' download'}>${icon('notice', 'ico-doc')}<span>${esc(title)}</span><small>${[e, sz].filter(Boolean).join(' · ')}</small></a>`;
+}
+function galleryHtml(images, title) {
+  if (!images || !images.length) return '';
+  return `<div class="gallery" data-gallery>${images.map((src, i) => `<a href="${esc(src)}" class="g-item"><img src="${esc(src)}" alt="${esc(title)}, fotografija ${i + 1}" loading="lazy" decoding="async"${ext(src)}></a>`).join('')}</div>`;
 }
 
 // Slike s vanjskih adresa šalju se bez referrera, da ih server ne odbije
@@ -279,14 +327,24 @@ function aboutPage() {
 <div><h2 class="h2s">${esc(site.board.title)}</h2><ul class="people one">${site.board.members.map((m) => `<li>${esc(m)}</li>`).join('')}</ul></div>
 <div id="kontakt"><h2 class="h2s">Kontakt</h2>
 <p>${esc(site.name)}<br>${c.address.map(esc).join('<br>')}</p>
-<p class="gap">E-pošta: ${esc(c.email)}</p>
+<p class="gap">E-pošta: <a href="mailto:${esc(c.email)}">${esc(c.email)}</a></p>
 ${c.facebook ? `<p class="gap"><a href="${esc(c.facebook)}" rel="noopener">Facebook stranica društva</a></p>` : ''}
 </div>
-</div></main>`;
+</div></main>
+${(site.official || []).length ? `<main class="block" id="podaci"><div class="wrap two">
+<div><h2 class="h2s">Osnovni podaci o društvu</h2><dl class="official">${site.official.map((f) => `<div><dt>${esc(f.k)}</dt><dd>${esc(f.v)}</dd></div>`).join('')}</dl>
+<p class="gap"><a class="btn btn-line" href="/dokumenti/">Dokumenti društva</a></p></div>
+<div>${(site.memberships || []).length ? `<h2 class="h2s">Savezi i udruženja</h2><p>Društvo je članica:</p><ul class="bullets links">${site.memberships.map((m) => `<li><a href="${esc(m.href)}" rel="noopener">${esc(m.label)}</a></li>`).join('')}</ul>` : ''}</div>
+</div></main>` : ''}
+${(site.bodies || []).length ? `<main class="block"><div class="wrap"><h2 class="h2s">Tijela društva</h2><div class="groups">${site.bodies.map((g) => peopleList({ title: g.title, people: g.people })).join('')}</div></div></main>` : ''}`;
   return layout({ title: 'O nama', description: site.aboutText, body, path: '/o-nama/' });
 }
 
 function odsjekPage(o) {
+  const secKey = { 'vodicki-odsjek': 'vodicki', 'visokogorski-odsjek': 'visoko', markacisti: 'marka' }[o.slug];
+  const sec = SECTION_LIST[secKey] || { key: '' };
+  const secAll = secKey ? posts.filter((p) => p.section === secKey) : [];
+  const secPosts = secAll.slice(0, 3);
   // Stavke koje počinju brojem ("7 vodiča A standarda") prikazuju se s istaknutim brojem
   const facts = (o.items || []).map((i) => {
     const m = String(i).match(/^(\d+)\s+(.+)$/);
@@ -303,12 +361,16 @@ ${o.link ? `<a class="btn btn-red" href="${esc(o.link.href)}">${esc(o.link.label
 </aside>
 </div>
 <div class="groups">${o.groups.map(peopleList).join('')}</div>
+${(o.documents || []).length ? `<section class="recent"><div class="sec-head"><h2>Dokumenti odsjeka</h2></div><div class="docs">${o.documents.map((d) => docLink(d.title, d.file)).join('')}</div></section>` : ''}
+${secPosts.length ? `<section class="recent"><div class="sec-head"><h2>Iz rada odsjeka</h2><a href="/objave/${sec.key}/" class="label">Sve objave odsjeka (${secAll.length})</a></div>
+<div class="posts">${secPosts.map(postCard).join('\n')}</div></section>` : ''}
 </div></main>`;
   return layout({ title: o.title, description: o.text, body, path: `/${o.slug}/` });
 }
 
 function calendarPage() {
   const recent = posts.filter((p) => p.type === 'izvjestaj').slice(0, 3);
+  const yearPlans = ((dokumenti.groups || []).find((g) => /kalendar/i.test(g.title)) || { items: [] }).items;
   const body = `${pageHead('Kalendar pohoda', '', 'Najavljeni pohodi društva. Pohodi kojima je datum prošao sami nestaju s popisa.')}
 <main class="block"><div class="wrap">
 <div class="chips" role="group" aria-label="Filtar pohoda" data-for="cal">
@@ -319,7 +381,8 @@ function calendarPage() {
 </div>
 <div class="cal" id="cal">${hikes.map(hikeRow).join('\n')}</div>
 <p class="empty" id="calEmpty"${hikes.length ? ' hidden' : ''}>Trenutno nema najavljenih pohoda u ovoj kategoriji.</p>
-${recent.length ? `<section class="recent"><div class="sec-head"><h2>Nedavno smo bili</h2><a href="/objave/" class="label">Svi izvještaji</a></div>
+${yearPlans.length ? `<section class="recent"><div class="sec-head"><h2>Godišnji planovi pohoda</h2><a href="/dokumenti/#kalendari-pohoda" class="label">Svi kalendari</a></div><div class="docs">${yearPlans.slice(0, 3).map((d) => docLink(d.title, d.file)).join('')}</div></section>` : ''}
+${recent.length ? `<section class="recent"><div class="sec-head"><h2>Nedavno smo bili</h2><a href="/objave/izvjestaji/" class="label">Svi izvještaji</a></div>
 <div class="posts">${recent.map(postCard).join('\n')}</div></section>` : ''}
 </div></main>`;
   return layout({ title: 'Kalendar pohoda', description: 'Kalendar pohoda Planinarskog društva Pazinka.', body, path: '/kalendar-pohoda/' });
@@ -332,6 +395,7 @@ function trailsPage() {
 <thead><tr><th>Oznaka</th><th>Put</th><th>Planina</th><th>Duljina</th><th>Hod</th></tr></thead>
 <tbody>${putovi.rows.map((r) => `<tr><td><span class="blaze-num">${esc(r.mark)}</span></td><td>${esc(r.name)}</td><td>${esc(r.mountain)}</td><td>${esc(r.km)} km</td><td>${esc(r.time)} h</td></tr>`).join('')}</tbody>
 </table></div>
+${putovi.gpsUrl ? `<p class="gap"><a class="btn btn-red" href="${esc(putovi.gpsUrl)}" rel="noopener">${icon('route', 'ico-btn')}${esc(putovi.gpsLabel || 'GPS tragovi')}</a></p>` : ''}
 </div></main>`;
   return layout({ title: putovi.title, description: putovi.intro, body, path: '/planinarski-putovi/' });
 }
@@ -365,7 +429,7 @@ function shelterPage() {
   const body = `${pageHead('Sklonište ' + skloniste.title, skloniste.label, '')}
 <main class="block"><div class="wrap">
 <div class="shelter">${media}<div class="txt">
-<p>${esc(skloniste.text)}</p>${(skloniste.more || []).map((t) => `<p class="gap">${esc(t)}</p>`).join('')}
+<p>${md(skloniste.text)}</p>${(skloniste.more || []).map((t) => `<p class="gap">${md(t)}</p>`).join('')}
 <dl>${skloniste.facts.map((f) => `<dt>${esc(f.k)}</dt><dd>${esc(f.v)}</dd>`).join('')}</dl>
 </div></div>
 ${shelterMap()}
@@ -394,40 +458,102 @@ function membershipPage() {
 ${joinCta()}
 <div class="join-info">
 <div><h3>${esc(clanstvo.categoriesTitle)}</h3>${clanstvo.categoriesNote ? `<p class="intro">${esc(clanstvo.categoriesNote)}</p>` : ''}<dl class="prices">${clanstvo.categories.map((c) => `<div><dt>${esc(c.name)}<small>${esc(c.note)}</small></dt><dd>${esc(c.price)}</dd></div>`).join('')}</dl></div>
-<div><h3>${esc(clanstvo.benefitsTitle)}</h3><ul class="benefits">${clanstvo.benefits.map((b) => `<li>${esc(b)}</li>`).join('')}</ul></div>
+<div><h3>${esc(clanstvo.benefitsTitle)}</h3><ul class="benefits">${clanstvo.benefits.map((b) => `<li>${md(b)}</li>`).join('')}</ul>
+${(clanstvo.duties || []).length ? `<h3 class="gap2">${esc(clanstvo.dutiesTitle || 'Dužnosti člana')}</h3><ul class="benefits">${clanstvo.duties.map((b) => `<li>${md(b)}</li>`).join('')}</ul>` : ''}</div>
 </div>
+${(clanstvo.notes || []).length ? `<div class="notes">${clanstvo.notes.map((n) => `<p>${md(n)}</p>`).join('')}</div>` : ''}
 </div></main>`;
   return layout({ title: clanstvo.title, description: 'Članarina, povlastice i upis u Planinarsko društvo Pazinka.', body, path: '/clanstvo/' });
 }
 
-function postsIndexPage() {
-  const types = Object.keys(POST_TYPE).filter((t) => posts.some((p) => p.type === t));
-  const body = `${pageHead('Objave', '', 'Raspisi i izvještaji s pohoda i akcija društva.')}
+// Popis objava s listanjem: /objave/ i /objave/<popis>/, dalje /stranica/2/ ...
+function listNav(active) {
+  return `<nav class="chips list-nav" aria-label="Vrste objava"><a class="chip" href="/objave/"${!active ? ' aria-current="page"' : ''}>Sve</a>${LISTS.map((l) => `<a class="chip${l.section ? ' sec' : ''}" href="/objave/${l.key}/"${active === l.key ? ' aria-current="page"' : ''}>${esc(l.label)}</a>`).join('')}</nav>`;
+}
+function pager(base, n, total) {
+  if (total < 2) return '';
+  const href = (k) => (k === 1 ? base : `${base}stranica/${k}/`);
+  const nums = [...new Set([1, n - 2, n - 1, n, n + 1, n + 2, total])].filter((k) => k >= 1 && k <= total).sort((a, b) => a - b);
+  let prev = 0, links = '';
+  for (const k of nums) { if (k - prev > 1) links += '<span class="gap-dots">…</span>'; links += k === n ? `<span class="cur" aria-current="page">${k}</span>` : `<a href="${href(k)}">${k}</a>`; prev = k; }
+  return `<nav class="pager" aria-label="Stranice">${n > 1 ? `<a class="pg" href="${href(n - 1)}">← Novije</a>` : '<span></span>'}<span class="nums">${links}</span>${n < total ? `<a class="pg" href="${href(n + 1)}">Starije →</a>` : '<span></span>'}</nav>`;
+}
+function listPages(list) {
+  const items = list ? posts.filter(list.test) : posts;
+  const base = list ? `/objave/${list.key}/` : '/objave/';
+  const title = list ? list.title : 'Objave';
+  const lead = list ? `${items.length} objava, od najnovije prema starijima.` : `Raspisi, izvještaji i novosti društva od ${posts.length ? posts[posts.length - 1].date.slice(0, 4) : ''}. do danas: ukupno ${posts.length} objava.`;
+  const total = Math.max(1, Math.ceil(items.length / PER_PAGE));
+  for (let n = 1; n <= total; n++) {
+    const chunk = items.slice((n - 1) * PER_PAGE, n * PER_PAGE);
+    const pth = n === 1 ? base : `${base}stranica/${n}/`;
+    const body = `${pageHead(title, n > 1 ? `Stranica ${n} od ${total}` : '', lead, list ? [['/objave/', 'Objave']] : [])}
 <main class="block"><div class="wrap">
-${types.length > 1 ? `<div class="chips" role="group" aria-label="Filtar objava" data-for="postlist">
-<button class="chip" data-f="all" aria-pressed="true">Sve</button>
-${types.map((t) => `<button class="chip" data-f="${t}" aria-pressed="false">${{ izvjestaj: 'Izvještaji', raspis: 'Raspisi', novost: 'Novosti' }[t]}</button>`).join('\n')}
-</div>` : ''}
-<div class="posts" id="postlist">${posts.map(postCard).join('\n')}</div>
+<form class="search" role="search" action="/objave/" onsubmit="return false"><label for="q" class="sr-only">Pretraži objave</label><input id="q" type="search" placeholder="Pretraži sve objave (npr. Učka, Triglav, 2019)" autocomplete="off"><span class="search-ico">${icon('compass', 'ico')}</span></form>
+<div id="searchResults" class="search-results" hidden aria-live="polite"></div>
+<div id="listing">
+${listNav(list && list.key)}
+<div class="posts">${chunk.map(postCard).join('\n')}</div>
+${pager(base, n, total)}
+</div>
 </div></main>`;
-  return layout({ title: 'Objave', description: 'Raspisi i izvještaji s pohoda i akcija društva.', body, path: '/objave/' });
+    page(pth, layout({ title: n > 1 ? `${title}, stranica ${n}` : title, description: lead, body, path: pth }));
+  }
 }
 
 function postPage(p) {
   const i = posts.indexOf(p);
   const newer = posts[i - 1], older = posts[i + 1];
   const navLink = (q, cls, dir) => q ? `<a class="${cls}" href="/objave/${esc(q.slug)}/"><small>${dir}</small><span>${esc(q.title)}</span></a>` : '<span></span>';
-  const body = `${pageHead(p.title, `${POST_TYPE[p.type] || 'Objava'} · ${fmt(p.date)}`, '', [['/objave/', 'Objave']])}
+  const sec = SECTION_LIST[p.section];
+  const crumbs = [['/objave/', 'Objave']];
+  if (sec) crumbs.push([`/objave/${sec.key}/`, sec.label]);
+  // Sažetak se ne ponavlja ako je to samo početak teksta
+  const plain = (t) => String(t).replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*/g, '').replace(/^(## |- )/, '').replace(/\s+/g, ' ').trim();
+  const lead = plain(p.excerpt || '').replace(/…$/, '').slice(0, 50);
+  const startText = (p.body || []).slice(0, 4).map(plain).join(' ');
+  const showLead = p.excerpt && lead.length > 10 && !startText.includes(lead);
+  const body = `${pageHead(p.title, `${POST_TYPE[p.type] || 'Objava'} · ${fmt(p.date)}${sec ? ` · ${sec.label}` : ''}`, '', crumbs)}
 <main class="block"><div class="wrap">
 <article class="article">
-<p class="article-lead">${esc(p.excerpt)}</p>
+${showLead ? `<p class="article-lead">${esc(p.excerpt)}</p>` : ''}
 ${p.image ? `<figure class="article-img"><img src="${esc(p.image)}" alt="${esc(p.imageAlt || p.title)}"${ext(p.image)}></figure>` : ''}
-${p.body.map((t) => `<p>${esc(t)}</p>`).join('\n')}
+${bodyHtml(p.body)}
+${(p.attachments || []).length ? `<section class="attach"><h2>Prilozi</h2><div class="docs">${p.attachments.map((a) => docLink(a.title, a.file)).join('')}</div></section>` : ''}
 </article>
+${(p.gallery || []).length ? `<section class="post-gallery"><h2 class="h2s">Fotografije</h2>${galleryHtml(p.gallery, p.title)}</section>` : ''}
 <nav class="post-nav" aria-label="Druge objave">${navLink(newer, 'newer', '← Novija objava')}${navLink(older, 'older', 'Starija objava →')}</nav>
 <p class="post-back"><a class="btn btn-line" href="/objave/">Sve objave</a></p>
 </div></main>`;
   return layout({ title: p.title, description: p.excerpt, body, path: `/objave/${p.slug}/`, image: p.image });
+}
+
+const slugify = (t) => String(t).toLowerCase().replace(/[čć]/g, 'c').replace(/š/g, 's').replace(/ž/g, 'z').replace(/đ/g, 'd').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+function documentsPage() {
+  const groups = dokumenti.groups || [];
+  const body = `${pageHead(dokumenti.title, '', dokumenti.intro || '')}
+<main class="block"><div class="wrap">
+<nav class="chips list-nav" aria-label="Skupine dokumenata">${groups.map((g) => `<a class="chip" href="#${slugify(g.title)}">${esc(g.title)}</a>`).join('')}</nav>
+${groups.map((g) => `<section class="doc-group" id="${slugify(g.title)}"><div class="sec-head"><h2>${esc(g.title)}</h2><span class="label">${g.items.length}</span></div><div class="docs">${g.items.map((d) => docLink(d.title, d.file)).join('')}</div></section>`).join('\n')}
+</div></main>`;
+  return layout({ title: dokumenti.title, description: dokumenti.intro, body, path: '/dokumenti/' });
+}
+function galleryPage() {
+  const body = `${pageHead(galerija.title, `${(galerija.images || []).length} fotografija`, galerija.intro || '', [['/o-nama/', 'O nama']])}
+<main class="block"><div class="wrap">
+${galleryHtml(galerija.images, galerija.title)}
+<p class="gap">Još fotografija nalazi se u <a href="/objave/izvjestaji/">izvještajima s pohoda</a> i na <a href="${esc(site.contact.facebook || '/')}" rel="noopener">Facebook stranici društva</a>.</p>
+</div></main>`;
+  return layout({ title: galerija.title, description: galerija.intro, body, path: '/fotogalerija/', image: (galerija.images || [])[0] });
+}
+function educationPage() {
+  const items = (edukacije.items || []).map((sl) => posts.find((p) => p.slug === sl)).filter(Boolean);
+  const body = `${pageHead(edukacije.title, 'Visokogorski odsjek', '', [['/visokogorski-odsjek/', 'Visokogorski odsjek']])}
+<main class="block"><div class="wrap">
+<div class="article">${(edukacije.intro || []).map((t) => `<p>${md(t)}</p>`).join('')}</div>
+<div class="posts">${items.map(postCard).join('\n')}</div>
+</div></main>`;
+  return layout({ title: edukacije.title, description: (edukacije.intro || [])[0], body, path: '/edukacije/' });
 }
 
 function notFoundPage() {
@@ -464,8 +590,24 @@ page('/kalendar-pohoda/', calendarPage());
 page('/planinarski-putovi/', trailsPage());
 page('/skloniste-kremenjak/', shelterPage());
 page('/clanstvo/', membershipPage());
-page('/objave/', postsIndexPage());
+listPages(null);
+LISTS.forEach((l) => listPages(l));
 posts.forEach((p) => page(`/objave/${p.slug}/`, postPage(p)));
+page('/dokumenti/', documentsPage());
+page('/fotogalerija/', galleryPage());
+page('/edukacije/', educationPage());
+// Indeks za tražilicu objava (naslov, datum, adresa, sažetak)
+write('objave/indeks.json', JSON.stringify(posts.map((p) => [p.slug, p.date, p.title, String(p.excerpt || '').slice(0, 160), POST_TYPE[p.type] || ''])));
+// Preusmjeravanja sa starog sitea (WordPress) na nove adrese; Cloudflare Pages čita dist/_redirects
+const redirectLines = Object.entries(stareAdrese)
+  .filter(([from, to]) => from !== to.split('#')[0] && !urls.includes(from) && /^\/[^\s]*$/.test(from))
+  .flatMap(([from, to]) => {
+    // adrese s hrvatskim slovima: i izvorni i kodirani oblik (preglednik šalje kodirano)
+    const enc = encodeURI(decodeURI(from));
+    return enc !== from ? [`${enc} ${to} 301`, `${from} ${to} 301`] : [`${from} ${to} 301`];
+  });
+redirectLines.push('/category/* /objave/ 301', '/page/* /objave/ 301', '/feed/* / 301', '/wp-admin/* /admin/ 302');
+write('_redirects', redirectLines.join('\n') + '\n');
 write('404.html', notFoundPage());
 write('favicon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">${LOGO_INNER}</svg>\n`);
 
@@ -477,4 +619,4 @@ if (site.noindex || !site.url) {
   write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n`);
 }
 
-console.log(`Gotovo: ${urls.length} stranica, ${hikes.length} pohoda, ${posts.length} objava, izlaz u dist/ (datum izgradnje ${todayIso})`);
+console.log(`Gotovo: ${urls.length} stranica, ${hikes.length} pohoda, ${posts.length} objava, ${redirectLines.length} preusmjeravanja, izlaz u dist/ (datum izgradnje ${todayIso})`);

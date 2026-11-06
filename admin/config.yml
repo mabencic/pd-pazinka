@@ -51,6 +51,9 @@ collections:
       - { label: Raspisi, field: type, pattern: raspis }
       - { label: Izvještaji, field: type, pattern: izvjestaj }
       - { label: Novosti, field: type, pattern: novost }
+      - { label: "Odsjek: vodički", field: section, pattern: vodicki }
+      - { label: "Odsjek: visokogorski", field: section, pattern: visoko }
+      - { label: "Odsjek: markacisti", field: section, pattern: marka }
     fields:
       - { name: title, label: Naslov, widget: string }
       - name: date
@@ -68,6 +71,15 @@ collections:
           - { label: Raspis, value: raspis }
           - { label: Izvještaj, value: izvjestaj }
           - { label: Novost, value: novost }
+      - name: section
+        label: Odsjek
+        widget: select
+        required: false
+        hint: Objava se tada prikazuje i na stranici odsjeka.
+        options:
+          - { label: Vodički odsjek, value: vodicki }
+          - { label: Visokogorski odsjek, value: visoko }
+          - { label: Markacistički odsjek, value: marka }
       - name: excerpt
         label: Sažetak
         widget: text
@@ -77,7 +89,7 @@ collections:
         label_singular: odlomak
         widget: list
         field: { name: p, label: Odlomak, widget: text }
-        hint: Svaki odlomak je zasebna stavka.
+        hint: "Svaki odlomak je zasebna stavka. Odlomak koji počinje s ## postaje podnaslov, a s - stavka popisa. Poveznica: [tekst](https://adresa), podebljano: **tekst**." 
       - name: image
         label: Fotografija
         widget: image
@@ -88,6 +100,22 @@ collections:
         widget: string
         required: false
         hint: Kratki opis onoga što je na slici (za slijepe i slabovidne te za tražilice).
+      - name: gallery
+        label: Galerija fotografija
+        label_singular: fotografija
+        widget: list
+        required: false
+        field: { name: src, label: Fotografija, widget: image, media_folder: images/objave, public_folder: /images/objave }
+        hint: Prikazuju se ispod teksta; klikom se otvaraju preko cijelog ekrana.
+      - name: attachments
+        label: Prilozi (dokumenti)
+        label_singular: prilog
+        widget: list
+        required: false
+        summary: "{{title}}"
+        fields:
+          - { name: title, label: Naziv, widget: string }
+          - { name: file, label: Datoteka, widget: file, media_folder: dokumenti/prilozi, public_folder: /dokumenti/prilozi }
       - name: art
         label: Ilustracija (ako nema fotografije)
         widget: select
@@ -207,6 +235,67 @@ collections:
             widget: list
             field: { name: p, label: Odlomak, widget: text }
 
+      # ---------------------------------------------------- Dokumenti društva
+      - name: dokumenti
+        label: Dokumenti društva
+        file: content/dokumenti.json
+        format: json
+        fields:
+          - { name: title, label: Naslov, widget: string }
+          - { name: intro, label: Uvod, widget: text, required: false }
+          - name: groups
+            label: Skupine dokumenata
+            label_singular: skupina
+            widget: list
+            summary: "{{title}}"
+            hint: Skupina čiji naziv sadrži riječ "kalendar" prikazuje se i na stranici Kalendar pohoda.
+            fields:
+              - { name: title, label: Naziv skupine, widget: string }
+              - name: items
+                label: Dokumenti
+                label_singular: dokument
+                widget: list
+                summary: "{{title}}"
+                fields:
+                  - { name: title, label: Naziv, widget: string }
+                  - { name: file, label: Datoteka, widget: file, media_folder: dokumenti/drustvo, public_folder: /dokumenti/drustvo }
+
+      # ---------------------------------------------------- Fotogalerija
+      - name: fotogalerija
+        label: Fotogalerija
+        file: content/fotogalerija.json
+        format: json
+        fields:
+          - { name: title, label: Naslov, widget: string }
+          - { name: intro, label: Uvod, widget: text, required: false }
+          - name: images
+            label: Fotografije
+            label_singular: fotografija
+            widget: list
+            field: { name: src, label: Fotografija, widget: image, media_folder: images/galerija, public_folder: /images/galerija }
+
+      # ---------------------------------------------------- Edukacije
+      - name: edukacije
+        label: Edukacije
+        file: content/edukacije.json
+        format: json
+        fields:
+          - { name: title, label: Naslov, widget: string }
+          - name: intro
+            label: Uvod
+            label_singular: odlomak
+            widget: list
+            field: { name: p, label: Odlomak, widget: text }
+          - name: items
+            label: Objave o edukacijama
+            widget: relation
+            collection: objave
+            value_field: "{{slug}}"
+            search_fields: [title]
+            display_fields: [title]
+            multiple: true
+            hint: Odaberi objave (škole, tečajeve, vježbe) koje se prikazuju na stranici Edukacije.
+
       # ---------------------------------------------------- Članstvo
       - name: clanstvo
         label: Članstvo
@@ -240,6 +329,20 @@ collections:
             label_singular: povlastica
             widget: list
             field: { name: b, label: Povlastica, widget: string }
+          - { name: dutiesTitle, label: Naslov dužnosti, widget: string, required: false }
+          - name: duties
+            label: Dužnosti člana
+            label_singular: dužnost
+            widget: list
+            required: false
+            field: { name: d, label: Dužnost, widget: string }
+          - name: notes
+            label: Napomene (ispod svega)
+            label_singular: napomena
+            widget: list
+            required: false
+            field: { name: n, label: Napomena, widget: text }
+            hint: "Poveznica: [tekst](https://adresa), podebljano: **tekst**." 
 
       # ---------------------------------------------------- Planinarski putovi
       - name: putovi
@@ -249,6 +352,8 @@ collections:
         fields:
           - { name: title, label: Naslov, widget: string }
           - { name: intro, label: Uvod, widget: text }
+          - { name: gpsUrl, label: Poveznica na GPS tragove, widget: string, type: url, required: false }
+          - { name: gpsLabel, label: Tekst gumba za GPS tragove, widget: string, required: false }
           - name: rows
             label: Putovi
             label_singular: put
@@ -311,6 +416,15 @@ collections:
                 widget: list
                 required: false
                 field: { name: p, label: Odlomak, widget: text }
+              - name: documents
+                label: Dokumenti odsjeka
+                label_singular: dokument
+                widget: list
+                required: false
+                summary: "{{title}}"
+                fields:
+                  - { name: title, label: Naziv, widget: string }
+                  - { name: file, label: Datoteka, widget: file, media_folder: dokumenti/odsjeci, public_folder: /dokumenti/odsjeci }
 
       # ---------------------------------------------------- Osnovni podaci
       - name: site
@@ -367,6 +481,34 @@ collections:
                 label_singular: član
                 widget: list
                 field: { name: m, label: "Ime i funkcija", widget: string }
+          - name: official
+            label: "O nama: osnovni podaci o društvu"
+            label_singular: podatak
+            widget: list
+            summary: "{{k}}: {{v}}"
+            fields:
+              - { name: k, label: Naziv, widget: string }
+              - { name: v, label: Vrijednost, widget: string }
+          - name: bodies
+            label: "O nama: tijela društva (nadzorni odbor, sud časti, prijašnji sastavi)"
+            label_singular: tijelo
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: Naziv, widget: string }
+              - name: people
+                label: Članovi
+                label_singular: član
+                widget: list
+                field: { name: o, label: "Ime i funkcija", widget: string }
+          - name: memberships
+            label: "Savezi i udruženja (O nama i podnožje)"
+            label_singular: savez
+            widget: list
+            summary: "{{label}}"
+            fields:
+              - { name: label, label: Naziv, widget: string }
+              - { name: href, label: Adresa, widget: string, type: url }
           - { name: aboutHikingTitle, label: "O nama: naslov o planinarenju", widget: string }
           - name: aboutHiking
             label: "O nama: tekst o planinarenju"
