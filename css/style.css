@@ -355,3 +355,77 @@ footer { margin-top: 0; }
 .hero h1, .hero p.lead, .hero > .wrap > div > .label { text-shadow: 0 2px 14px rgba(0, 0, 0, .55), 0 1px 3px rgba(0, 0, 0, .5); }
 .hero p.lead, .hero > .wrap > div > .label { color: #f1f4ee; }
 .hero .btn-ghost { background: rgba(8, 20, 14, .35); border-color: rgba(241, 244, 238, .8); }
+
+/* ================= Zaglavlje: logo i izbornik ================= */
+.top .wrap { padding-block: 10px; gap: 20px; }
+.brand { gap: 12px; }
+.brand .logo { width: 52px; height: 52px; flex: none; }
+.brand-txt { display: flex; flex-direction: column; line-height: 1; }
+.brand .kicker { font: 600 .74rem/1 var(--font-display); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 0 0 3px; }
+.brand b { font: 700 1.85rem/.95 var(--font-display); letter-spacing: .04em; color: var(--green); }
+.brand-txt > small:last-child { font: 500 .78rem/1 var(--font-body); color: var(--muted); margin-top: 5px; }
+
+.nav-main { gap: 2px; align-items: center; }
+.nav-main > li > a { display: flex; align-items: center; gap: 6px; padding: 12px 12px; border-radius: 0; white-space: nowrap; font: 600 1.06rem/1 var(--font-display); letter-spacing: .06em; text-transform: uppercase; position: relative; }
+.nav-main > li > a:hover, .nav-main > li.current > a { background: none; }
+.nav-main > li:not(.nav-join) > a::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 4px; height: 3px; border-radius: 2px; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
+.nav-main > li:not(.nav-join):hover > a::after, .nav-main > li:not(.nav-join):focus-within > a::after, .nav-main > li.current:not(.nav-join) > a::after { transform: scaleX(1); }
+.nav-main > li.current > a { color: var(--green); }
+.caret { width: 10px; height: 6px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; opacity: .6; transition: transform .2s; }
+.nav-main > li:hover .caret, .nav-main > li:focus-within .caret { transform: rotate(180deg); }
+
+/* podizbornik */
+.sub { top: calc(100% + 2px); min-width: 240px; padding: 8px; border: 1px solid var(--line); border-top: 3px solid var(--red); border-radius: 0 0 6px 6px; box-shadow: 0 14px 30px rgba(0, 0, 0, .14); }
+.sub a { display: flex !important; align-items: center; gap: 10px; padding: 9px 10px !important; font: 500 .98rem/1.2 var(--font-body) !important; text-transform: none !important; letter-spacing: 0 !important; border-radius: 4px; }
+.sub a::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 50%; border: 2.5px solid var(--red); background: var(--paint); box-sizing: border-box; }
+.sub a:hover { background: var(--chip) !important; }
+
+/* gumb Postani član */
+.nav-main .nav-join { margin-left: 10px; }
+.nav-main .nav-join > a { background: var(--red); color: #fff; border-radius: 99px; padding: 11px 18px 11px 14px; box-shadow: 0 3px 0 color-mix(in srgb, var(--red) 60%, #000); transition: transform .15s, box-shadow .15s, filter .15s; }
+.nav-main .nav-join > a:hover { filter: brightness(1.06); transform: translateY(-1px); box-shadow: 0 4px 0 color-mix(in srgb, var(--red) 60%, #000); }
+.nav-main .nav-join > a:active { transform: translateY(2px); box-shadow: 0 1px 0 color-mix(in srgb, var(--red) 60%, #000); }
+.ico-join { width: 20px; height: 20px; }
+
+/* gumb izbornika na manjim ekranima */
+.menu-btn { display: none; align-items: center; gap: 10px; border-radius: 99px; padding: 9px 16px; font: 600 1rem/1 var(--font-display); letter-spacing: .08em; text-transform: uppercase; }
+.menu-btn::before { content: ""; width: 18px; height: 2px; background: currentColor; box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor; }
+
+@media (max-width: 1100px) {
+  .menu-btn { display: inline-flex; }
+  nav { display: none; width: 100%; }
+  nav.open { display: block; }
+  .top .wrap { flex-wrap: wrap; }
+  .nav-main { flex-direction: column; align-items: stretch; padding: 4px 0 12px; border-top: 1px solid var(--line); }
+  .nav-main > li > a { padding: 14px 4px; border-bottom: 1px solid var(--line); }
+  .nav-main > li:not(.nav-join) > a::after { left: 0; right: auto; width: 4px; top: 12px; bottom: 12px; height: auto; transform: scaleY(0); }
+  .nav-main > li.current:not(.nav-join) > a::after { transform: scaleY(1); }
+  .nav-main > li > a { padding-left: 14px; }
+  .caret { display: none; }
+  .sub { position: static; display: block; border: 0; box-shadow: none; padding: 2px 0 8px 14px; min-width: 0; }
+  .sub a { color: var(--muted); }
+  .nav-main .nav-join { margin: 14px 0 0; }
+  .nav-main .nav-join > a { justify-content: center; border-bottom: 0; }
+}
+@media (max-width: 420px) { .brand b { font-size: 1.6rem; } .brand .logo { width: 46px; height: 46px; } }
+.top .wrap { max-width: 1260px; }
+.brand { flex: none; }
+.brand-txt { white-space: nowrap; }
+.nav-main > li > a { padding: 12px 10px; font-size: 1.02rem; letter-spacing: .05em; }
+.nav-main > li:not(.nav-join) > a::after { left: 10px; right: 10px; }
+@media (min-width: 1201px) { .menu-btn { display: none !important; } nav { display: block !important; width: auto !important; } }
+@media (max-width: 1200px) {
+  .menu-btn { display: inline-flex; }
+  nav { display: none; width: 100%; }
+  nav.open { display: block; }
+  .top .wrap { flex-wrap: wrap; }
+  .nav-main { flex-direction: column; align-items: stretch; padding: 4px 0 12px; border-top: 1px solid var(--line); }
+  .nav-main > li > a { padding: 14px 4px 14px 14px; border-bottom: 1px solid var(--line); }
+  .nav-main > li:not(.nav-join) > a::after { left: 0; right: auto; width: 4px; top: 12px; bottom: 12px; height: auto; transform: scaleY(0); }
+  .nav-main > li.current:not(.nav-join) > a::after, .nav-main > li:not(.nav-join):hover > a::after { transform: scaleY(1); }
+  .caret { display: none; }
+  .sub { position: static; display: block; border: 0; box-shadow: none; padding: 2px 0 8px 14px; min-width: 0; }
+  .sub a { color: var(--muted); }
+  .nav-main .nav-join { margin: 14px 0 0; }
+  .nav-main .nav-join > a { justify-content: center; border-bottom: 0; }
+}

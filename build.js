@@ -50,7 +50,9 @@ const ART = {
   3: '<path class="m1" d="M0 90 L80 40 L150 80 L220 20 L300 76 L400 36 L400 150 L0 150Z"/><path class="m2" d="M0 118 L70 88 L160 120 L250 70 L340 112 L400 92 L400 150 L0 150Z"/><path class="m3" d="M0 142 L100 124 L200 140 L310 118 L400 134 L400 150 L0 150Z"/>'
 };
 const art = (n) => `<svg class="art" viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect class="sky" width="400" height="150"/>${ART[n] || ART[1]}</svg>`;
-const LOGO = '<svg width="44" height="44" viewBox="0 0 44 44" role="img" aria-label="Planinarska markacija"><circle cx="22" cy="22" r="19" fill="none" stroke="#c4372c" stroke-width="7"/><circle cx="22" cy="22" r="12" fill="#ffffff"/></svg>';
+// Logo društva: markacija s planinom i stazom prema vrhu (isti crtež je images/logo.svg i favicon.svg)
+const LOGO_INNER = '<defs><clipPath id="pzk-in"><circle cx="32" cy="32" r="21"/></clipPath></defs> <circle cx="32" cy="32" r="28" fill="#c4372c"/> <circle cx="32" cy="32" r="21" fill="#ffffff"/> <g clip-path="url(#pzk-in)"> <path d="M4 44 L17 30 L24 36 L30 31 L60 56 L4 56 Z" fill="#7fa893"/> <path d="M8 58 L22 40 L27 44 L37 22 L60 58 Z" fill="#1f4a38"/> <path d="M37 22 L41.6 32 L39 30.4 L37 33 L34.8 30.2 L32.6 31.6 Z" fill="#ffffff"/> <path d="M31 55 L37 50 L33 45.5 L38 41 L35.5 37" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2.4 2.2"/> </g>';
+const LOGO = `<svg class="logo" width="52" height="52" viewBox="0 0 64 64" aria-hidden="true">${LOGO_INNER}</svg>`;
 const RIDGE = '<svg class="ridge" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true"><path class="far" d="M0 70 L120 40 L210 62 L330 18 L450 58 L560 32 L690 66 L800 24 L930 60 L1050 36 L1200 64 L1200 120 L0 120Z"/><path class="near" d="M0 96 L90 80 L180 92 L300 66 L420 90 L540 72 L660 94 L790 70 L910 92 L1030 76 L1130 90 L1200 82 L1200 120 L0 120Z"/></svg>';
 // Ikone (crtež linijom, boja iz CSS-a)
 const ICON_PATHS = {
@@ -86,15 +88,23 @@ const SHELTER_ART = '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid sl
 function navHtml(current) {
   return '<ul class="nav-main">' + site.nav.map((i) => {
     const isCurrent = i.href === current || (i.match || []).includes(current);
-    const cls = [i.join ? 'nav-join' : '', isCurrent ? 'current' : ''].filter(Boolean).join(' ');
+    const cls = [i.join ? 'nav-join' : '', i.children ? 'has-sub' : '', isCurrent ? 'current' : ''].filter(Boolean).join(' ');
     const sub = i.children ? '<ul class="sub">' + i.children.map((c) => `<li><a href="${esc(c.href)}">${esc(c.label)}</a></li>`).join('') + '</ul>' : '';
-    return `<li${cls ? ` class="${cls}"` : ''}><a href="${esc(i.href)}"${isCurrent ? ' aria-current="page"' : ''}>${esc(i.label)}</a>${sub}</li>`;
+    return `<li${cls ? ` class="${cls}"` : ''}><a href="${esc(i.href)}"${isCurrent ? ' aria-current="page"' : ''}>${i.join ? icon('card', 'ico-join') : ''}<span>${esc(i.label)}</span>${i.children ? '<svg class="caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>' : ''}</a>${sub}</li>`;
   }).join('') + '</ul>';
+}
+
+// Naziv u zaglavlju: "Planinarsko društvo" sitno iznad, ime društva krupno
+function brandText() {
+  const m = String(site.name).match(/^(planinarsko društvo)\s+(.+)$/i);
+  const year = (String(site.founded || '').match(/\b(1[89]|20)\d{2}\b/) || [])[0];
+  const sub = [site.tagline, year && `od ${year}.`].filter(Boolean).join(' · ');
+  return `<span class="brand-txt">${m ? `<small class="kicker">${esc(m[1])}</small><b>${esc(m[2])}</b>` : `<b>${esc(site.name)}</b>`}${sub ? `<small>${esc(sub)}</small>` : ''}</span>`;
 }
 
 function header(current) {
   return `<header class="top"><div class="wrap">
-<a class="brand" href="/">${LOGO}<span><b>${esc(site.name)}</b><small>${esc(site.tagline)}</small></span></a>
+<a class="brand" href="/" aria-label="${esc(site.name)}, početna stranica">${LOGO}${brandText()}</a>
 <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Izbornik</button>
 <nav id="mainNav" aria-label="Glavni izbornik">${navHtml(current)}</nav>
 </div></header>`;
@@ -128,6 +138,7 @@ ${canonical}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -379,6 +390,7 @@ page('/clanstvo/', membershipPage());
 page('/objave/', postsIndexPage());
 posts.forEach((p) => page(`/objave/${p.slug}/`, postPage(p)));
 write('404.html', notFoundPage());
+write('favicon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">${LOGO_INNER}</svg>\n`);
 
 if (site.noindex || !site.url) {
   write('robots.txt', 'User-agent: *\nDisallow: /\n');
