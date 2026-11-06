@@ -52,6 +52,34 @@ const ART = {
 const art = (n) => `<svg class="art" viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect class="sky" width="400" height="150"/>${ART[n] || ART[1]}</svg>`;
 const LOGO = '<svg width="44" height="44" viewBox="0 0 44 44" role="img" aria-label="Planinarska markacija"><circle cx="22" cy="22" r="19" fill="none" stroke="#c4372c" stroke-width="7"/><circle cx="22" cy="22" r="12" fill="#ffffff"/></svg>';
 const RIDGE = '<svg class="ridge" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true"><path class="far" d="M0 70 L120 40 L210 62 L330 18 L450 58 L560 32 L690 66 L800 24 L930 60 L1050 36 L1200 64 L1200 120 L0 120Z"/><path class="near" d="M0 96 L90 80 L180 92 L300 66 L420 90 L540 72 L660 94 L790 70 L910 92 L1030 76 L1130 90 L1200 82 L1200 120 L0 120Z"/></svg>';
+// Ikone (crtež linijom, boja iz CSS-a)
+const ICON_PATHS = {
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  route: '<circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h6a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h6"/>',
+  ascent: '<path d="M3 20l6-9 4 5 3-4 5 8z"/><path d="M16 3v6M13.5 5.5L16 3l2.5 2.5"/>',
+  hourglass: '<path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9s8 4 8 9"/>',
+  van: '<path d="M3 16V8a2 2 0 0 1 2-2h9l4 4h1a2 2 0 0 1 2 2v4h-2"/><path d="M3 16h2m4 0h6"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>',
+  people: '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14c3 0 5 2 5 5"/>',
+  peaks: '<path d="M2 20l7-12 4 6 3-4 6 10z"/><path d="M7.5 10.5l1.5 1.5 1.5-1.5"/>',
+  calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M8 15l2 2 4-4"/>',
+  notice: '<path d="M5 3h10l4 4v14H5z"/><path d="M15 3v4h4M8 11h8M8 15h8M8 19h5"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  axe: '<path d="M14 4l-10 16"/><path d="M9 3c3 0 6 1 8 3l-3 1c-1-1-3-2-5-2z"/><path d="M14 4l3 4"/>',
+  blaze: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>',
+  map: '<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  hut: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
+  card: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.5-1.5 1.7-2.5 3-2.5s2.5 1 3 2.5M14 10h4M14 13h3"/>',
+  sign: '<path d="M12 3v18M12 5h7l2 2.5-2 2.5h-7M12 12H5l-2 2.5L5 17h7"/>'
+};
+const icon = (name, cls = 'ico') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON_PATHS[name] || ICON_PATHS.sign}</svg>`;
+// Ikona pločice prema adresi na koju vodi (pločice se mijenjaju u CMS-u, nepoznata adresa dobiva putokaz)
+const TILE_ICON = { '/kalendar-pohoda/': 'calendar', '/objave/': 'notice', '/vodicki-odsjek/': 'compass', '/visokogorski-odsjek/': 'axe', '/markacisti/': 'blaze', '/planinarski-putovi/': 'map', '/skloniste-kremenjak/': 'hut', '/clanstvo/': 'card' };
+const FACT_ICON = { Polazak: 'clock', Zahtjevnost: 'peaks', Duljina: 'route', Uspon: 'ascent', 'Vrijeme hoda': 'hourglass', Prijevoz: 'van', Vodiči: 'people' };
+// Zahtjevnost kao 1 do 3 vrha
+const peaksHtml = (n) => `<span class="peaks" aria-hidden="true">${[1, 2, 3].map((i) => `<i${i <= n ? ' class="on"' : ''}></i>`).join('')}</span>`;
+// Panorama iznad podnožja
+const PANORAMA = '<svg class="panorama" viewBox="0 0 1200 140" preserveAspectRatio="none" aria-hidden="true"><path class="p1" d="M0 92 L70 70 L130 82 L210 40 L270 66 L340 30 L400 58 L470 50 L540 18 L600 52 L660 44 L740 70 L800 34 L870 58 L940 26 L1010 60 L1080 48 L1140 72 L1200 60 L1200 140 L0 140Z"/><path class="p2" d="M0 112 L90 92 L170 104 L250 78 L330 100 L420 84 L500 102 L590 76 L680 98 L760 86 L850 106 L930 82 L1020 100 L1110 88 L1200 104 L1200 140 L0 140Z"/><path class="p3" d="M0 128 L120 116 L240 126 L380 112 L520 126 L660 114 L800 128 L940 116 L1080 126 L1200 118 L1200 140 L0 140Z"/></svg>';
+
 const SHELTER_ART = '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect class="sky" width="400" height="300"/><path class="m1" d="M0 190 L90 100 L170 170 L260 70 L340 150 L400 120 L400 300 L0 300Z"/><path class="m2" d="M0 230 L120 170 L220 220 L330 160 L400 200 L400 300 L0 300Z"/><path class="m3" d="M0 270 L140 240 L280 268 L400 244 L400 300 L0 300Z"/><path d="M182 242 L214 218 L246 242 L246 262 L182 262Z" fill="var(--surface)"/><path d="M176 244 L214 214 L252 244" fill="none" stroke="var(--red)" stroke-width="5" stroke-linejoin="round"/></svg>';
 
 // ---------- zajednički dijelovi ----------
@@ -74,7 +102,8 @@ function header(current) {
 
 function footer() {
   const c = site.contact;
-  return `<footer>
+  return `<div class="pano-wrap">${PANORAMA}</div><footer>
+<div class="wrap foot-slogan"><span class="blaze" aria-hidden="true"></span><p>Vidimo se na stazi.</p></div>
 <div class="wrap">
 <div><h3>Planinarsko društvo</h3><p>${esc(site.name)}<br>${c.address.map(esc).join('<br>')}${site.founded ? `<br>${esc(site.founded)}` : ''}</p></div>
 <div><h3>Kontakt</h3><ul><li>${esc(c.email)}</li>${c.meetings ? `<li>${esc(c.meetings)}</li>` : ''}${c.facebook ? `<li><a href="${esc(c.facebook)}" rel="noopener">Facebook</a></li>` : ''}</ul></div>
@@ -117,7 +146,7 @@ function pageHead(title, label, lead) {
 ${label ? `<span class="label">${esc(label)}</span>` : ''}
 <h1>${esc(title)}</h1>
 ${lead ? `<p class="lead">${esc(lead)}</p>` : ''}
-</div></section>`;
+</div>${RIDGE.replace('class="ridge"', 'class="ridge small"')}</section>`;
 }
 
 // Slike s vanjskih adresa šalju se bez referrera, da ih server ne odbije
@@ -138,7 +167,7 @@ function hikeRow(h) {
   return `<article class="hike" data-c="${esc(h.category)}" data-end="${esc(h.dateEnd || h.date)}">
 <div class="d"><b${cls}>${big}</b><span>${MONTHS[a.m - 1]}</span></div>
 <div><h3>${h.post ? `<a href="/objave/${esc(h.post)}/">${esc(h.title)}</a>` : esc(h.title)}</h3><p class="meta"><span class="tag">${esc(CATEGORY[h.category] || h.category)}</span>${esc(h.summary || '')}</p></div>
-<span class="lvl ${lc}">${ln}</span>
+<span class="lvl ${lc}">${peaksHtml(Number(lc.slice(1)))}${ln}</span>
 </article>`;
 }
 
@@ -148,10 +177,10 @@ function nextCard(h, hidden) {
   const facts = [['Polazak', h.departure], ['Zahtjevnost', ln], ['Duljina', h.length], ['Uspon', h.ascent], ['Vrijeme hoda', h.duration], ['Prijevoz', h.transport], ['Vodiči', h.guides]].filter((f) => f[1]);
   const dateBig = h.dateEnd && h.dateEnd !== h.date ? `${dd(a.d)}.–${dd(parse(h.dateEnd).d)}.` : `${dd(a.d)}.`;
   return `<div class="next" data-end="${esc(h.dateEnd || h.date)}"${hidden ? ' hidden' : ''}>
-<span class="label">Najbliži pohod</span>
+<span class="label">${icon('sign')}Najbliži pohod</span>
 <div class="date"><b>${dateBig}</b><span>${MONTHS_NOM[a.m - 1]} · ${DAYS[a.dow]}</span></div>
 <h2>${esc(h.title)}</h2>
-${facts.length ? '<dl class="facts">' + facts.map((f) => `<div><dt>${f[0]}</dt><dd>${esc(f[1])}</dd></div>`).join('') + '</dl>' : `<p>${esc(h.summary || '')}</p>`}
+${facts.length ? '<dl class="facts">' + facts.map((f) => `<div>${icon(FACT_ICON[f[0]])}<dt>${f[0]}</dt><dd>${esc(f[1])}</dd></div>`).join('') + '</dl>' : `<p>${esc(h.summary || '')}</p>`}
 ${h.registerUrl ? `<p class="reg"><a class="btn btn-red" href="${esc(h.registerUrl)}" rel="noopener">${esc(h.registerText || 'Prijave')}</a>${h.post ? ` <a href="/objave/${esc(h.post)}/">Cijeli raspis</a>` : ''}</p>` : ''}
 </div>`;
 }
@@ -165,6 +194,19 @@ function postCard(p) {
 <p>${esc(p.excerpt)}</p>
 <a class="more" href="/objave/${esc(p.slug)}/">Nastavi čitati</a>
 </div></article>`;
+}
+
+// Traka s podacima ispod naslovne fotografije, računa se iz sadržaja
+function statsBand() {
+  const km = putovi.rows.reduce((sum, r) => sum + (parseFloat(String(r.km).replace(',', '.')) || 0), 0);
+  const year = (String(site.founded || '').match(/\b(1[89]|20)\d{2}\b/) || [])[0];
+  const items = [
+    year && [year, 'godina osnutka'],
+    [String(putovi.rows.length), 'planinarskih putova'],
+    [km.toFixed(2).replace('.', ','), 'km staza koje održavamo'],
+    [String(odsjeci.length), 'odsjeka']
+  ].filter(Boolean);
+  return `<section class="stats" aria-label="Društvo u brojkama"><div class="wrap"><dl>${items.map(([v, k]) => `<div><dd>${esc(v)}</dd><dt>${esc(k)}</dt></div>`).join('')}</dl></div></section>`;
 }
 
 // ---------- stranice ----------
@@ -184,6 +226,7 @@ function homePage() {
 </div>
 <aside aria-label="Najbliži pohod">${cards}${noNext}</aside>
 </div>${heroImg}${RIDGE}</section>
+${statsBand()}
 
 <section class="block"><div class="wrap">
 <div class="sec-head"><h2>Nadolazeći pohodi</h2><a href="/kalendar-pohoda/" class="label">Cijeli kalendar</a></div>
@@ -197,8 +240,8 @@ function homePage() {
 </div></section>
 
 <section class="block"><div class="wrap">
-<div class="sec-head"><h2>Na stranici</h2></div>
-<div class="tiles">${site.tiles.map((t) => `<a class="tile" href="${esc(t.href)}"><b>${esc(t.title)}</b><span>${esc(t.text)}</span></a>`).join('\n')}</div>
+<div class="sec-head"><h2>Kamo dalje?</h2></div>
+<div class="tiles">${site.tiles.map((t, i) => `<a class="tile${i % 2 ? ' left' : ''}" href="${esc(t.href)}">${icon(TILE_ICON[t.href])}<b>${esc(t.title)}</b><span>${esc(t.text)}</span></a>`).join('\n')}</div>
 </div></section>
 </main>`;
   return layout({ title: '', body, path: '/' });
@@ -254,7 +297,7 @@ function trailsPage() {
 <main class="block"><div class="wrap">
 <div class="table-wrap"><table class="trails">
 <thead><tr><th>Oznaka</th><th>Put</th><th>Planina</th><th>Duljina</th><th>Hod</th></tr></thead>
-<tbody>${putovi.rows.map((r) => `<tr><td>${esc(r.mark)}</td><td>${esc(r.name)}</td><td>${esc(r.mountain)}</td><td>${esc(r.km)} km</td><td>${esc(r.time)} h</td></tr>`).join('')}</tbody>
+<tbody>${putovi.rows.map((r) => `<tr><td><span class="blaze-num">${esc(r.mark)}</span></td><td>${esc(r.name)}</td><td>${esc(r.mountain)}</td><td>${esc(r.km)} km</td><td>${esc(r.time)} h</td></tr>`).join('')}</tbody>
 </table></div>
 </div></main>`;
   return layout({ title: putovi.title, description: putovi.intro, body, path: '/planinarski-putovi/' });
