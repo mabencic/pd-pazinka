@@ -254,7 +254,7 @@ ${statsBand()}
 
 <section class="block"><div class="wrap">
 <div class="sec-head"><h2>Kamo dalje?</h2></div>
-<div class="tiles">${site.tiles.map((t, i) => `<a class="tile${i % 2 ? ' left' : ''}" href="${esc(t.href)}">${icon(TILE_ICON[t.href])}<b>${esc(t.title)}</b><span>${esc(t.text)}</span></a>`).join('\n')}</div>
+<div class="tiles">${site.tiles.map((t, i) => `<a class="tile pk${i % 4}" href="${esc(t.href)}">${icon(TILE_ICON[t.href])}<b>${esc(t.title)}</b><span>${esc(t.text)}</span></a>`).join('\n')}</div>
 </div></section>
 </main>`;
   return layout({ title: '', body, path: '/' });
