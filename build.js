@@ -252,7 +252,7 @@ ${statsBand()}
 <div class="posts">${posts.slice(0, 3).map(postCard).join('\n')}</div>
 </div></section>
 
-<section class="block"><div class="wrap">
+<section class="block range"><div class="wrap">
 <div class="sec-head"><h2>Kamo dalje?</h2></div>
 <div class="tiles">${site.tiles.map((t, i) => `<a class="tile pk${i % 4}" href="${esc(t.href)}">${icon(TILE_ICON[t.href])}<b>${esc(t.title)}</b><span>${esc(t.text)}</span></a>`).join('\n')}</div>
 </div></section>

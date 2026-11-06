@@ -446,3 +446,13 @@ footer { margin-top: 0; }
 .tile.pk2::before { clip-path: polygon(66% 0, 77.6% 13%, 72.5% 10%, 68.3% 15%, 64% 9.5%, 59.8% 14%, 54.2% 13%); }
 .tile.pk3 { clip-path: polygon(0 100%, 0% 40%, 18% 24%, 28% 30%, 56% 0%, 74% 22%, 86% 28%, 100% 34%, 100% 100%); --px: 56%; }
 .tile.pk3::before { clip-path: polygon(56% 0, 66.6% 13%, 61.6% 10%, 57.5% 15%, 53.4% 9.5%, 49.3% 14%, 43.9% 13%); }
+
+/* "Kamo dalje?": tamnije nebo iza planina da se snijeg ističe; planine stoje na donjem rubu */
+section.block.range { margin-top: 64px; padding-block: 48px 0; background: linear-gradient(180deg, #5b7684 0%, #7f97a0 55%, #a9bbbb 100%); }
+.range .sec-head h2 { color: #fff; }
+.range .tiles { row-gap: 26px; }
+.range + .pano-wrap, main:has(> .range:last-child) + .pano-wrap { margin-top: 0; }
+@media (prefers-color-scheme: dark) { section.block.range { background: linear-gradient(180deg, #16232a 0%, #22343a 55%, #2f4443 100%); } }
+main:has(> .range:last-child) + .pano-wrap { background: #a9bbbb; }
+@media (prefers-color-scheme: dark) { main:has(> .range:last-child) + .pano-wrap { background: #2f4443; } }
+@media (prefers-color-scheme: dark) { .panorama .p1 { fill: #3d5d50; opacity: .7; } .panorama .p2 { fill: #24463a; opacity: 1; } }
