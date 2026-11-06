@@ -9,9 +9,18 @@ const root = __dirname;
 const dist = path.join(root, 'dist');
 const readJson = (f) => JSON.parse(fs.readFileSync(path.join(root, 'content', f), 'utf8'));
 
+// Svaka objava i svaki pohod su zasebna datoteka u svojoj mapi (tako ih uređuje CMS na /admin/).
+// Naziv datoteke objave (bez .json) je ujedno njezina adresa: /objave/<naziv>/
+const readDir = (dir) => {
+  const d = path.join(root, 'content', dir);
+  if (!fs.existsSync(d)) return [];
+  return fs.readdirSync(d).filter((f) => f.endsWith('.json')).sort()
+    .map((f) => ({ slug: f.slice(0, -5), ...JSON.parse(fs.readFileSync(path.join(d, f), 'utf8')) }));
+};
+
 const site = readJson('site.json');
-const hikesAll = readJson('hikes.json').sort((a, b) => a.date.localeCompare(b.date));
-const posts = readJson('objave.json').sort((a, b) => b.date.localeCompare(a.date));
+const hikesAll = readDir('pohodi').map(({ slug, ...h }) => h).sort((a, b) => a.date.localeCompare(b.date));
+const posts = readDir('objave').sort((a, b) => b.date.localeCompare(a.date) || b.slug.localeCompare(a.slug));
 const odsjeci = readJson('odsjeci.json');
 const skloniste = readJson('skloniste.json');
 const clanstvo = readJson('clanstvo.json');
@@ -308,7 +317,7 @@ const write = (rel, content) => {
 
 fs.rmSync(dist, { recursive: true, force: true });
 fs.mkdirSync(dist, { recursive: true });
-for (const d of ['css', 'js', 'images']) {
+for (const d of ['css', 'js', 'images', 'admin']) {
   if (fs.existsSync(path.join(root, d))) fs.cpSync(path.join(root, d), path.join(dist, d), { recursive: true });
 }
 
