@@ -49,4 +49,24 @@
     var none = document.getElementById('nextEmpty');
     if (none) none.hidden = shown;
   }
+
+  // Naslovne fotografije: same se izmjenjuju, bez gumba. Slike koje se nisu učitale preskaču se.
+  var slides = [].slice.call(document.querySelectorAll('.hero-slides .hero-img'));
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (slides.length > 1 && !calm) {
+    var cur = 0;
+    var ok = function (img) { return img.complete && img.naturalWidth > 0; };
+    setInterval(function () {
+      if (document.hidden) return;
+      for (var step = 1; step < slides.length; step++) {
+        var next = (cur + step) % slides.length;
+        if (ok(slides[next])) {
+          slides[cur].classList.remove('on');
+          slides[next].classList.add('on');
+          cur = next;
+          return;
+        }
+      }
+    }, 6500);
+  }
 })();

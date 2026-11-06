@@ -335,7 +335,13 @@ collections:
           - { name: heroLabel, label: "Početna: nadnaslov", widget: string }
           - { name: heroTitle, label: "Početna: naslov", widget: string }
           - { name: heroLead, label: "Početna: uvodni tekst", widget: text }
-          - { name: heroImage, label: "Početna: naslovna fotografija", widget: image, required: false }
+          - name: heroImages
+            label: "Početna: naslovne fotografije"
+            label_singular: fotografija
+            widget: list
+            required: false
+            field: { name: src, label: Fotografija, widget: image }
+            hint: Izmjenjuju se same svakih nekoliko sekundi, redom kojim su ovdje. Najbolje vodoravne fotografije, oko 1800 px širine.
           - name: tiles
             label: "Početna: pločice"
             label_singular: pločica

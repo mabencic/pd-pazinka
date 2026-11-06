@@ -7,7 +7,12 @@
   "heroLabel": "Planinarsko društvo · Pazin · od 1981.",
   "heroTitle": "Planinarimo zajedno",
   "heroLead": "Društvo s vodičkim, visokogorskim i markacističkim odsjekom. Vodimo pohode po Istri i šire, održavamo 17 planinarskih putova i upravljamo skloništem Kremenjak.",
-  "heroImage": "/images/naslovna.jpg",
+  "heroImages": [
+    "/images/naslovna.jpg",
+    "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2024/10/20241006_123425-1920x1200.jpg",
+    "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2026/09/Biokovo-foto-1920x1200.jpg",
+    "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2026/10/IMG_7382-1200x1200.jpeg"
+  ],
   "founded": "Osnovano 18. 12. 1981.",
   "aboutText": "Planinarsko društvo Pazinka osnovano je 18. 12. 1981. u Pazinu. Djeluje kroz tri odsjeka: vodički, visokogorski i markacistički. Upravlja planinarskim skloništem Kremenjak i održava 17 planinarskih putova ukupne duljine 80,10 km.",
   "contact": {

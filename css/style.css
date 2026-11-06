@@ -339,3 +339,19 @@ footer { margin-top: 0; }
 .foot-slogan p { font: 700 clamp(1.6rem, 4vw, 2.2rem)/1 var(--font-display); text-transform: uppercase; letter-spacing: .03em; color: var(--hero-fg); }
 .hero .next > .label::before { display: none; }
 @media (max-width: 600px) { .hike .d b.range { font-size: 1.1rem; white-space: nowrap; } }
+
+/* naslovne fotografije: izmjenjuju se same, zeleni sloj gotovo proziran */
+.hero-slides { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.hero-slides .hero-img { opacity: 0; transition: opacity 1.8s ease; }
+.hero-slides .hero-img.on { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-slides .hero-img { transform: scale(1.08); transition: opacity 1.8s ease, transform 9s ease-out; }
+  .hero-slides .hero-img.on { transform: scale(1); }
+}
+.hero-shade, .hero-shade { background:
+  linear-gradient(90deg, rgba(8, 20, 14, .55) 0%, rgba(8, 20, 14, .25) 45%, rgba(8, 20, 14, 0) 75%),
+  color-mix(in srgb, var(--hero-bg) 12%, transparent); }
+@media (max-width: 800px) { .hero-shade { background: linear-gradient(rgba(8, 20, 14, .45), rgba(8, 20, 14, .3)), color-mix(in srgb, var(--hero-bg) 10%, transparent); } }
+.hero h1, .hero p.lead, .hero > .wrap > div > .label { text-shadow: 0 2px 14px rgba(0, 0, 0, .55), 0 1px 3px rgba(0, 0, 0, .5); }
+.hero p.lead, .hero > .wrap > div > .label { color: #f1f4ee; }
+.hero .btn-ghost { background: rgba(8, 20, 14, .35); border-color: rgba(241, 244, 238, .8); }

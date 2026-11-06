@@ -114,7 +114,7 @@ Svaki push na `main` automatski objavljuje novu verziju.
 
 Fotografije stavi u mapu `images/` (npr. `images/kremenjak.jpg`, po mogućnosti do 1600 px širine) i upiši putanju u sadržaj:
 
-- naslovna slika na početnoj: `"heroImage": "/images/naziv.jpg"` u `content/site.json`
+- naslovne slike na početnoj (izmjenjuju se same): popis `"heroImages"` u `content/site.json`, npr. `"/images/naziv.jpg"`
 - slika objave: `"image"` i `"imageAlt"` u datoteci objave u `content/objave/`
 - slika skloništa: `"image"` i `"imageAlt"` u `content/skloniste.json`
 

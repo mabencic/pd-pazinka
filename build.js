@@ -214,7 +214,9 @@ function homePage() {
   const heroHikes = hikes.filter((h) => h.hero !== false);
   const cards = heroHikes.map((h, i) => nextCard(h, i !== 0)).join('\n');
   const noNext = `<div class="next" id="nextEmpty"${heroHikes.length ? ' hidden' : ''}><span class="label">Najbliži pohod</span><h2>Novi pohodi uskoro</h2><p>Kalendar se redovito dopunjuje, pogledajte objave.</p></div>`;
-  const heroImg = site.heroImage ? `<img class="hero-img" src="${esc(site.heroImage)}" alt=""><span class="hero-shade" aria-hidden="true"></span>` : '';
+  // Naslovne fotografije: izmjenjuju se same (js/main.js), bez gumba; prva je vidljiva i bez JavaScripta
+  const slides = (site.heroImages && site.heroImages.length ? site.heroImages : [site.heroImage]).filter(Boolean);
+  const heroImg = slides.length ? `<div class="hero-slides" aria-hidden="true">${slides.map((src, i) => `<img class="hero-img${i === 0 ? ' on' : ''}" src="${esc(src)}" alt=""${i === 0 ? ' fetchpriority="high"' : ' decoding="async"'}${ext(src)}>`).join('')}</div><span class="hero-shade" aria-hidden="true"></span>` : '';
 
   const body = `<main>
 <section class="hero"><div class="wrap">
