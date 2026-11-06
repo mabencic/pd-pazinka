@@ -221,6 +221,8 @@ collections:
             fields:
               - { name: title, label: Naslov, widget: string }
               - { name: text, label: Tekst, widget: text }
+          - { name: formPdf, label: Pristupnica (PDF), widget: file, required: false, media_folder: dokumenti, public_folder: /dokumenti, accept: .pdf, hint: "Gumb za preuzimanje na stranici Članstvo." }
+          - { name: formDoc, label: Pristupnica (Word), widget: file, required: false, media_folder: dokumenti, public_folder: /dokumenti, accept: ".doc,.docx" }
           - { name: categoriesTitle, label: Naslov članarine, widget: string, hint: "Npr. Članarina za 2027." }
           - { name: categoriesNote, label: Napomena uz članarinu, widget: string, required: false }
           - name: categories

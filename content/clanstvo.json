@@ -1,16 +1,39 @@
 {
   "title": "Postani član",
   "steps": [
-    { "title": "Pošalji pristupnicu", "text": "Ispuni pristupnicu i pošalji je na pd.pazinka@hps.hr." },
-    { "title": "Uplati članarinu", "text": "Netbankingom ili općom uplatnicom na žiro račun HR4224020061100137382. U opis upiši ime, prezime i kategoriju (junior, senior ili penzioner)." },
-    { "title": "Podigni markicu", "text": "Markicu za tekuću godinu podižeš nakon uplate, u terminima koje društvo objavljuje na stranici, Facebooku i u Viber grupi." }
+    {
+      "title": "Pošalji pristupnicu",
+      "text": "Ispuni pristupnicu i pošalji je na pd.pazinka@hps.hr."
+    },
+    {
+      "title": "Uplati članarinu",
+      "text": "Netbankingom ili općom uplatnicom na žiro račun HR4224020061100137382. U opis upiši ime, prezime i kategoriju (junior, senior ili penzioner)."
+    },
+    {
+      "title": "Podigni markicu",
+      "text": "Markicu za tekuću godinu podižeš nakon uplate, u terminima koje društvo objavljuje na stranici, Facebooku i u Viber grupi."
+    }
   ],
+  "formPdf": "/dokumenti/pristupnica.pdf",
+  "formDoc": "/dokumenti/pristupnica.doc",
   "categoriesTitle": "Članarina za 2026.",
   "categoriesNote": "Vrijedi od 1.1. do 31.12.2026.",
   "categories": [
-    { "name": "Djeca i mladež", "note": "do završetka školovanja, uključujući fakultet · zelena markica", "price": "6 EUR" },
-    { "name": "Umirovljenici", "note": "crvena markica", "price": "6 EUR" },
-    { "name": "Ostali članovi (seniori)", "note": "plava markica", "price": "20 EUR" }
+    {
+      "name": "Djeca i mladež",
+      "note": "do završetka školovanja, uključujući fakultet · zelena markica",
+      "price": "6 EUR"
+    },
+    {
+      "name": "Umirovljenici",
+      "note": "crvena markica",
+      "price": "6 EUR"
+    },
+    {
+      "name": "Ostali članovi (seniori)",
+      "note": "plava markica",
+      "price": "20 EUR"
+    }
   ],
   "benefitsTitle": "Što članstvo donosi",
   "benefits": [

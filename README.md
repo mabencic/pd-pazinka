@@ -51,6 +51,7 @@ Verzija je zakucana u `admin/index.html` (`@sveltia/cms@0.249.1`). Za nadogradnj
 | Upute za članstvo, članarina, povlastice | `content/clanstvo.json` |
 | Tablica planinarskih putova | `content/putovi.json` |
 | Fotografije | mapa `images/` |
+| Pristupnica i drugi dokumenti za preuzimanje | mapa `dokumenti/` (u CMS-u: Stranice → Članstvo) |
 | Izgled | `css/style.css` |
 | Postavke CMS-a (polja obrazaca) | `admin/config.yml` |
 

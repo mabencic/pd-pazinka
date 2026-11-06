@@ -373,11 +373,25 @@ ${shelterMap()}
   return layout({ title: 'Sklonište ' + skloniste.title, description: skloniste.text, body, path: '/skloniste-kremenjak/' });
 }
 
+// Pristupnica: preuzimanje (PDF, Word) i slanje e-poštom
+function fileSize(href) {
+  const f = path.join(root, String(href || '').replace(/^\//, ''));
+  if (!href || /^https?:/.test(href) || !fs.existsSync(f)) return '';
+  const kb = fs.statSync(f).size / 1024;
+  return kb > 1024 ? `${(kb / 1024).toFixed(1).replace('.', ',')} MB` : `${Math.round(kb)} kB`;
+}
+function joinCta() {
+  const dl = [[clanstvo.formPdf, 'PDF', 'btn-red'], [clanstvo.formDoc, 'Word', 'btn-line']].filter(([h]) => h)
+    .map(([h, t, cls]) => { const sz = fileSize(h); return `<a class="btn ${cls}" href="${esc(h)}" download>${icon('notice', 'ico-btn')}Preuzmi pristupnicu (${t}${sz ? `, ${sz}` : ''})</a>`; }).join('');
+  const mail = `<a class="btn btn-line" href="mailto:${esc(site.contact.email)}?subject=${encodeURIComponent('Pristupnica za članstvo')}">Pošalji ispunjenu e-poštom</a>`;
+  return `<div class="join-cta">${dl ? `<p class="join-dl">${dl}</p>` : ''}<p class="join-mail">${mail}<span>na ${esc(site.contact.email)}</span></p></div>`;
+}
+
 function membershipPage() {
   const body = `${pageHead(clanstvo.title, '', '')}
 <main class="block"><div class="wrap">
 <ol class="steps">${clanstvo.steps.map((s) => `<li><b>${esc(s.title)}</b><span>${esc(s.text)}</span></li>`).join('')}</ol>
-<p class="join-cta"><a class="btn btn-red" href="mailto:${esc(site.contact.email)}?subject=${encodeURIComponent('Pristupnica za članstvo')}">Pošalji pristupnicu e-poštom</a><span>na ${esc(site.contact.email)}</span></p>
+${joinCta()}
 <div class="join-info">
 <div><h3>${esc(clanstvo.categoriesTitle)}</h3>${clanstvo.categoriesNote ? `<p class="intro">${esc(clanstvo.categoriesNote)}</p>` : ''}<dl class="prices">${clanstvo.categories.map((c) => `<div><dt>${esc(c.name)}<small>${esc(c.note)}</small></dt><dd>${esc(c.price)}</dd></div>`).join('')}</dl></div>
 <div><h3>${esc(clanstvo.benefitsTitle)}</h3><ul class="benefits">${clanstvo.benefits.map((b) => `<li>${esc(b)}</li>`).join('')}</ul></div>
@@ -436,7 +450,7 @@ const write = (rel, content) => {
 
 fs.rmSync(dist, { recursive: true, force: true });
 fs.mkdirSync(dist, { recursive: true });
-for (const d of ['css', 'js', 'images', 'admin']) {
+for (const d of ['css', 'js', 'images', 'admin', 'dokumenti']) {
   if (fs.existsSync(path.join(root, d))) fs.cpSync(path.join(root, d), path.join(dist, d), { recursive: true });
 }
 

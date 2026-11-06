@@ -615,3 +615,9 @@ section.block.range::after { background:
 .map-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
 .map-note { color: var(--muted); font-size: .93rem; margin-top: auto; }
 @media (max-width: 760px) { .map-box { grid-template-columns: minmax(0, 1fr); } .map-box iframe { min-height: 300px; } .map-info { border-left: 0; border-top: 6px solid var(--red); } }
+
+/* Članstvo: preuzimanje pristupnice */
+.join-cta { display: grid; gap: 14px; margin-top: 24px; }
+.join-cta p { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.join-cta .join-mail span { color: var(--muted); }
+.ico-btn { width: 18px; height: 18px; }
