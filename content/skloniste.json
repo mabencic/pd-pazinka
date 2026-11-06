@@ -3,8 +3,14 @@
   "title": "Kremenjak",
   "image": "https://www.planinarsko-drustvo-pazinka.hr/wp-content/uploads/2024/10/20241006_123425-1920x1200.jpg",
   "imageAlt": "Kremenjak",
+  "lat": 45.227,
+  "lon": 14.2067,
   "text": "Sklonište stoji na travnatom grebenu s pogledom na Kvarner, Istru i Vojak, uz Istarski planinarski put, otprilike na polovici dužeg odsjeka između Poklona i Plomina. Odlukom Izvršnog odbora HPS-a upravljanje skloništem povjereno je PD Pazinki.",
   "facts": [
+    {
+      "k": "Nadmorska visina skloništa",
+      "v": "847 m"
+    },
     {
       "k": "Kapacitet",
       "v": "4 do 6 osoba za noćenje"

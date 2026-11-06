@@ -336,6 +336,30 @@ function trailsPage() {
   return layout({ title: putovi.title, description: putovi.intro, body, path: '/planinarski-putovi/' });
 }
 
+// Karta skloništa (OpenStreetMap) i poveznice; prikazuje se samo kad su upisane koordinate
+function shelterMap() {
+  const lat = Number(skloniste.lat), lon = Number(skloniste.lon);
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return '';
+  const d = 0.02;
+  const bbox = [lon - d, lat - d * 0.6, lon + d, lat + d * 0.6].map((n) => n.toFixed(4)).join('%2C');
+  const embed = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`;
+  const osm = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=15/${lat}/${lon}`;
+  const nav = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+  const coord = `N ${lat.toFixed(4)} E ${lon.toFixed(4)}`;
+  return `<section class="shelter-map" aria-labelledby="kakoDo">
+<div class="sec-head"><h2 id="kakoDo">Gdje se nalazi</h2></div>
+<div class="map-box">
+<iframe title="Karta: položaj skloništa ${esc(skloniste.title)}" src="${esc(embed)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<div class="map-info">
+<span class="label">Koordinate</span>
+<p class="coord">${coord}</p>
+<p class="map-links"><a class="btn btn-red" href="${esc(nav)}" rel="noopener">Upute za put</a><a class="btn btn-line" href="${esc(osm)}" rel="noopener">Veća karta</a></p>
+<p class="map-note">Upute za put vode do najbliže ceste; ostatak je pješice, planinarskim putem.</p>
+</div>
+</div>
+</section>`;
+}
+
 function shelterPage() {
   const media = skloniste.image ? `<img src="${esc(skloniste.image)}" alt="${esc(skloniste.imageAlt || skloniste.title)}"${ext(skloniste.image)}>` : SHELTER_ART;
   const body = `${pageHead('Sklonište ' + skloniste.title, skloniste.label, '')}
@@ -344,6 +368,7 @@ function shelterPage() {
 <p>${esc(skloniste.text)}</p>${(skloniste.more || []).map((t) => `<p class="gap">${esc(t)}</p>`).join('')}
 <dl>${skloniste.facts.map((f) => `<dt>${esc(f.k)}</dt><dd>${esc(f.v)}</dd>`).join('')}</dl>
 </div></div>
+${shelterMap()}
 </div></main>`;
   return layout({ title: 'Sklonište ' + skloniste.title, description: skloniste.text, body, path: '/skloniste-kremenjak/' });
 }

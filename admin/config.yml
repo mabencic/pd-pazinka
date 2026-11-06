@@ -190,6 +190,8 @@ collections:
           - { name: title, label: Naslov, widget: string }
           - { name: image, label: Fotografija, widget: image, required: false }
           - { name: imageAlt, label: Opis fotografije, widget: string, required: false }
+          - { name: lat, label: "Geografska širina (N)", widget: number, value_type: float, required: false, hint: "Npr. 45.2270. Zajedno s duljinom prikazuje kartu na stranici." }
+          - { name: lon, label: "Geografska dužina (E)", widget: number, value_type: float, required: false, hint: "Npr. 14.2067" }
           - { name: text, label: Uvodni tekst, widget: text }
           - name: facts
             label: Podaci
