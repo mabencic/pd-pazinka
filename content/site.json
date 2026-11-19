@@ -24,13 +24,13 @@
     "facebook": "https://www.facebook.com/planinarskodrustvopazinka.pazin/"
   },
   "board": {
-    "title": "Upravni odbor 2024. – 2026.",
+    "title": "Upravni odbor (izabran 17. 11. 2026.)",
     "members": [
       "Goran Kliman, predsjednik",
-      "Sonja Levak, dopredsjednica",
-      "Kristina Bartolić, tajnica",
-      "Damir Blažević, član",
-      "Alberto Jedrejčić, član"
+      "Kristina Bartolić, dopredsjednica",
+      "Mladenka Mikolić Pilat, tajnica",
+      "Alberto Jedrejčić, član",
+      "Damir Blažević, član"
     ]
   },
   "official": [
@@ -56,7 +56,7 @@
     },
     {
       "k": "Osobe ovlaštene za zastupanje",
-      "v": "Goran Kliman, predsjednik; Sonja Levak, dopredsjednica; Kristina Bartolić, tajnica"
+      "v": "Goran Kliman, predsjednik; Kristina Bartolić, dopredsjednica; Mladenka Mikolić Pilat, tajnica"
     },
     {
       "k": "Broj članova",
@@ -69,6 +69,32 @@
   ],
   "bodies": [
     {
+      "title": "Nadzorni odbor (izabran 17. 11. 2026.)",
+      "people": [
+        "Patricija Jedrejčić, predsjednica",
+        "Mladen Nikšić, član",
+        "Žarko Matijašić, član"
+      ]
+    },
+    {
+      "title": "Sud časti (izabran 17. 11. 2026.)",
+      "people": [
+        "Sonja Levak",
+        "Vesna Gubić",
+        "Estrelita Belušić"
+      ]
+    },
+    {
+      "title": "Upravni odbor 2024. – 2026.",
+      "people": [
+        "Goran Kliman, predsjednik",
+        "Sonja Levak, dopredsjednica",
+        "Kristina Bartolić, tajnica",
+        "Damir Blažević, član",
+        "Alberto Jedrejčić, član"
+      ]
+    },
+    {
       "title": "Nadzorni odbor 2022. – 2026.",
       "people": [
         "Patricija Jedrejčić, predsjednica",
@@ -77,7 +103,7 @@
       ]
     },
     {
-      "title": "Sud časti",
+      "title": "Sud časti do 2026.",
       "people": [
         "Janko Madruša, predsjednik",
         "Kristina Baćac, članica",
