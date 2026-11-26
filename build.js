@@ -323,7 +323,7 @@ function nextCard(h, hidden) {
 <div class="date"><b>${dateBig}</b><span>${MONTHS_NOM[a.m - 1]} · ${DAYS[a.dow]}</span></div>
 <h2>${raspis ? `<a href="${raspis}">${esc(h.title)}</a>` : esc(h.title)}</h2>
 ${facts.length ? '<dl class="facts">' + facts.map((f) => `<div>${icon(FACT_ICON[f[0]])}<dt>${f[0]}</dt><dd>${esc(f[1])}</dd></div>`).join('') + '</dl>' : `<p>${esc(h.summary || '')}</p>`}
-${h.registerUrl ? `<p class="reg"><a class="btn btn-red" href="${esc(h.registerUrl)}" rel="noopener">${esc(h.registerText || 'Prijave')}</a>${raspis ? ` <a href="${raspis}">Cijeli raspis</a>` : ''}</p>` : (raspis ? `<p class="reg"><a class="btn btn-red" href="${raspis}">Pročitaj raspis</a></p>` : '')}
+${h.registerUrl ? `<p class="reg"><a class="btn btn-red" href="${esc(h.registerUrl)}" rel="noopener">${esc(h.registerText || 'Prijave')}</a>${raspis ? ` <a href="${raspis}">Cijela objava</a>` : ''}</p>` : (raspis ? `<p class="reg"><a class="btn btn-red" href="${raspis}">Pročitaj objavu</a></p>` : '')}
 </div>`;
 }
 

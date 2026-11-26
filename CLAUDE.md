@@ -18,7 +18,7 @@ Izgradnja: `node build.js` (sadržaj u `content/`, izlaz u `dist/`). CMS: Svelti
 - Kad se objavi **raspis** pohoda, izleta ili akcije s datumom, uvijek dodaj i zapis u `content/pohodi/GGGG-MM-DD-<naziv>.json`
   (date, dateEnd, title, category, level, summary, departure, length, ascent, duration, transport, guides, registerUrl, registerText).
 - U pohodu **uvijek** postavi `"post": "<slug objave>"`. Tada naslov u okviru "Najbliži pohod" i u kalendaru otvara objavu,
-  a pojavljuje se i gumb "Pročitaj raspis".
+  a pojavljuje se i gumb "Pročitaj objavu".
 - Ako zahtjevnost nije navedena, pitaj korisnika (ili navedi pretpostavku u odgovoru).
 
 ## Kolačići i privatnost
