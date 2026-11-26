@@ -443,6 +443,12 @@ collections:
           - { name: name, label: Naziv društva, widget: string }
           - { name: tagline, label: Mjesto (ispod naziva), widget: string }
           - { name: description, label: Opis stranice za tražilice, widget: text }
+          - name: googleTag
+            label: Google Analytics ID mjerenja
+            widget: string
+            required: false
+            pattern: ['^(G|GT|GTM)-[A-Z0-9]+$', 'Oblik G-XXXXXXXXXX']
+            hint: Npr. G-SSF67S07K4. Ako se polje isprazni, Google Analytics, baner za kolačiće i gumb Postavke kolačića nestaju sa stranice.
           - name: contact
             label: Kontakt
             widget: object

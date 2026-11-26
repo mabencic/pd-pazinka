@@ -133,39 +133,87 @@ function footer() {
 <div class="wrap">
 <div><h3>Adresa</h3><p>${esc(site.name)}<br>${c.address.map(esc).join('<br>')}${site.founded ? `<br>${esc(site.founded)}` : ''}</p></div>
 <div><h3>Kontakt</h3><ul><li>${esc(c.email)}</li>${c.meetings ? `<li>${esc(c.meetings)}</li>` : ''}${c.facebook ? `<li><a href="${esc(c.facebook)}" rel="noopener">Facebook</a></li>` : ''}</ul></div>
-<div><h3>Poveznice</h3><ul><li><a href="/kalendar-pohoda/">Kalendar pohoda</a></li><li><a href="/objave/">Objave</a></li><li><a href="/dokumenti/">Dokumenti društva</a></li><li><a href="/fotogalerija/">Fotogalerija</a></li><li><a href="/clanstvo/">Članstvo</a></li><li><a href="/kolacici/">Kolačići i privatnost</a></li></ul></div>
+<div><h3>Poveznice</h3><ul><li><a href="/kalendar-pohoda/">Kalendar pohoda</a></li><li><a href="/objave/">Objave</a></li><li><a href="/dokumenti/">Dokumenti društva</a></li><li><a href="/fotogalerija/">Fotogalerija</a></li><li><a href="/clanstvo/">Članstvo</a></li><li><a href="/kolacici/">Politika privatnosti i kolačića</a></li>${GTAG ? '<li><button type="button" class="link-btn" data-consent-open>Postavke kolačića</button></li>' : ''}</ul></div>
 ${(site.memberships || []).length ? `<div><h3>Savezi</h3><ul>${site.memberships.map((m) => `<li><a href="${esc(m.href)}" rel="noopener">${esc(m.label)}</a></li>`).join('')}</ul></div>` : ''}
 </div>
 ${site.footerNote ? `<div class="note"><div class="wrap">${esc(site.footerNote)}</div></div>` : ''}
 </footer>`;
 }
 
-// Google Analytics (oznaka iz site.json) učitava se tek nakon privole posjetitelja; vidi js/main.js
+// Google Analytics (oznaka iz site.json) učitava se tek nakon privole posjetitelja; vidi js/main.js.
+// Ako se "googleTag" isprazni, nestaju i baner, i gumb "Postavke kolačića", i dio politike o Analyticsu.
 const GTAG = /^(G|GT|GTM)-[A-Z0-9]+$/.test(site.googleTag || '') ? site.googleTag : '';
+const GA_COOKIES = GTAG ? `_ga i _ga_${GTAG.replace(/^G-/, '')}` : '';
+const PRIVACY_URL = '/kolacici/';
 function cookieBar() {
   if (!GTAG) return '';
-  return `<div class="cookie-bar" id="cookieBar" data-gtag="${esc(GTAG)}" role="dialog" aria-label="Kolačići" hidden>
-<p>Uz vaš pristanak koristimo kolačiće Google Analyticsa kako bismo pratili posjećenost stranice. <a href="/kolacici/">Više o kolačićima</a></p>
-<div class="cookie-actions"><button type="button" class="btn btn-red" data-consent="da">Prihvaćam</button><button type="button" class="btn btn-line" data-consent="ne">Ne prihvaćam</button></div>
+  // AZOP: "Odbijam sve" i "Prihvaćam sve" istog izgleda, uz "Postavke kolačića" na prvoj razini; X zatvara bez privole
+  const actions = (mid) => `<div class="consent-actions"><button type="button" class="btn btn-choice" data-consent="ne">Odbijam sve</button>${mid}<button type="button" class="btn btn-choice" data-consent="da">Prihvaćam sve</button></div>`;
+  return `<div class="consent" id="cookieBar" data-gtag="${esc(GTAG)}" role="dialog" aria-labelledby="consentTitle" hidden>
+<button type="button" class="consent-x" data-consent-close aria-label="Zatvori bez prihvaćanja kolačića">&times;</button>
+<div class="consent-main">
+<h2 id="consentTitle">Kolačići</h2>
+<p>Uz vaš pristanak koristili bismo analitičke kolačiće Google Analyticsa (Google) da bismo znali koliko posjetitelja ima stranica i koje se stranice čitaju. Bez pristanka se ne učitavaju. <a href="${PRIVACY_URL}">Politika privatnosti i kolačića</a></p>
+${actions('<button type="button" class="btn btn-choice" data-consent-settings aria-expanded="false" aria-controls="consentSettings">Postavke kolačića</button>')}
+</div>
+<div class="consent-settings" id="consentSettings" hidden>
+<h2>Postavke kolačića</h2>
+<div class="consent-cat"><input type="checkbox" id="consentNecessary" checked disabled><label for="consentNecessary"><b>Nužni</b> <small>uvijek uključeni</small><span>Pamte samo vaš odabir o kolačićima (u pregledniku, 12 mjeseci). Ne šalju se nikome.</span></label></div>
+<div class="consent-cat"><input type="checkbox" id="consentAnalytics"><label for="consentAnalytics"><b>Analitički: Google Analytics</b><span>Broje posjete i pokazuju koje se stranice čitaju. Primatelj: Google Ireland Ltd. i Google LLC (SAD). Kolačići ${GA_COOKIES}, trajanje do 2 godine.</span></label></div>
+${actions('<button type="button" class="btn btn-choice" data-consent="odabir">Spremi odabir</button>')}
+</div>
 </div>`;
 }
 function cookiesPage() {
-  const blocks = [
-    'Stranica Planinarskog društva Pazinka ne koristi kolačiće za oglašavanje i ne prodaje niti dijeli podatke o posjetiteljima.',
-    '## Google Analytics',
-    'Ako to dopustite, koristimo Google Analytics (Google Ireland Ltd.) kako bismo saznali koliko posjetitelja ima stranica i koje se stranice najviše čitaju. Google Analytics pritom postavlja kolačiće (npr. _ga) i prikuplja podatke o posjetu, poput posjećenih stranica, vrste uređaja i približne lokacije. Bez vašeg pristanka Google Analytics se ne učitava.',
-    'Pristanak možete u svakom trenutku promijeniti ili povući gumbom ispod, a kolačići Google Analyticsa tada se brišu.',
-    '## Ostalo',
-    'Za prikaz slova koriste se Google Fonts, a za uređivanje stranice (samo za urednike) prijava preko GitHuba. U pregledniku se pamti i vaš odabir o kolačićima.',
-    `Za pitanja nam pišite na [${site.contact.email}](mailto:${site.contact.email}).`,
+  const c = site.contact;
+  const oib = ((site.official || []).find((o) => o.k === 'OIB') || {}).v || '';
+  const rows = [
+    ['pd-privola', 'nužno', 'pamti vaš odabir o kolačićima (pohrana u pregledniku, ne šalje se nikome)', '12 mjeseci', 'samo vaš preglednik'],
+    ...(GTAG ? [
+      ['_ga', 'analitički', 'razlikuje posjetitelje (Google Analytics)', 'do 2 godine', 'Google'],
+      [`_ga_${GTAG.replace(/^G-/, '')}`, 'analitički', 'pamti stanje posjeta (Google Analytics)', 'do 2 godine', 'Google'],
+    ] : []),
   ];
-  const body = `${pageHead('Kolačići i privatnost', '', '', [])}
+  const table = `<div class="table-wrap"><table class="cookie-table"><thead><tr><th>Naziv</th><th>Vrsta</th><th>Svrha</th><th>Trajanje</th><th>Primatelj</th></tr></thead><tbody>${rows.map((r) => `<tr>${r.map((x, i) => `<td>${i === 0 ? `<code>${esc(x)}</code>` : esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const before = [
+    '## Voditelj obrade',
+    `${site.name}, ${c.address.join(', ')}${oib ? `, OIB ${oib}` : ''}. Kontakt za pitanja o osobnim podacima: [${c.email}](mailto:${c.email}).`,
+    '## Što stranica prikuplja',
+    'Stranica nema korisničke račune, obrasce ni oglase i ne prodaje niti dijeli podatke o posjetiteljima.' + (GTAG ? ' Jedina obrada za koju tražimo privolu je mjerenje posjećenosti putem Google Analyticsa.' : ' Ne koristimo alate za praćenje posjetitelja.'),
+    ...(GTAG ? [
+      '## Google Analytics',
+      '- **Svrha:** saznati koliko posjetitelja ima stranica, koje se stranice najviše čitaju te s kojih uređaja i iz kojih zemalja posjetitelji dolaze.',
+      '- **Pravna osnova:** vaša privola (članak 6. stavak 1. točka (a) Opće uredbe o zaštiti podataka i članak 43. stavak 4. Zakona o elektroničkim komunikacijama). Bez privole se Google Analytics uopće ne učitava.',
+      '- **Podaci:** posjećene stranice, vrijeme posjeta, vrsta uređaja i preglednika, približna lokacija (država i grad) te nasumični identifikator u kolačiću. Google navodi da IP adrese posjetitelja iz EU-a ne zapisuje i ne pohranjuje.',
+      '- **Primatelji:** Google Ireland Limited (Irska) kao izvršitelj obrade; podatke može obrađivati i Google LLC (SAD).',
+      '- **Prijenos izvan EGP-a:** u SAD, na temelju Okvira za zaštitu privatnosti podataka EU–SAD (odluka Europske komisije o primjerenosti od 10. srpnja 2023.) i standardnih ugovornih klauzula.',
+      '- **Rok čuvanja:** podaci u Google Analyticsu čuvaju se 14 mjeseci, a zatim se automatski brišu.',
+      '- Društvo ne koristi Google Analytics za oglašavanje: Google signali i personalizacija oglasa su isključeni.',
+    ] : []),
+    '## Kolačići i pohrana u pregledniku',
+  ];
+  const after = [
+    ...(GTAG ? ['Privolu možete u svakom trenutku dati, promijeniti ili povući jednako lako kao što ste je dali: gumbom ispod ili „Postavke kolačića” u podnožju svake stranice. Kad privolu povučete, kolačići Google Analyticsa se brišu. Povlačenje ne utječe na zakonitost obrade prije povlačenja.'] : []),
+    '## Ostale usluge trećih strana',
+    '- **Fontovi** se poslužuju s ove stranice, pa se pri otvaranju stranice ništa ne šalje Googleu ili drugima.',
+    '- **Karta skloništa** (OpenStreetMap, OpenStreetMap Foundation, Ujedinjena Kraljevina) učitava se tek kad kliknete „Prikaži kartu”; tada OpenStreetMap vidi vašu IP adresu.',
+    '- **Poveznice** na Facebook, YouTube, Google karte i druge stranice vode na te stranice, gdje vrijede njihova pravila privatnosti.',
+    '- **Uređivanje stranice** (/admin/, samo za urednike društva) koristi prijavu GitHub računom i alat Sveltia CMS; pritom se pristupni podaci urednika spremaju u njegov preglednik.',
+    '## Vaša prava',
+    `Imate pravo na pristup svojim podacima, ispravak, brisanje, ograničenje obrade, prenosivost i prigovor te pravo povući privolu. Zahtjev pošaljite na [${c.email}](mailto:${c.email}).`,
+    'Ako smatrate da obrada nije zakonita, možete podnijeti prigovor nadzornom tijelu: **Agencija za zaštitu osobnih podataka (AZOP)**, Selska cesta 136, 10000 Zagreb, [azop.hr](https://azop.hr).',
+    `Zadnja izmjena: ${fmt(PRIVACY_UPDATED)}`,
+  ];
+  const body = `${pageHead('Politika privatnosti i kolačića', '', '', [])}
 <main class="block"><div class="wrap"><article class="article">
-${bodyHtml(blocks)}
-${GTAG ? '<p><button type="button" class="btn btn-line" data-consent-open>Promijeni postavke kolačića</button></p>' : ''}
+${bodyHtml(before)}
+${table}
+${bodyHtml(after)}
+${GTAG ? '<p><button type="button" class="btn btn-line" data-consent-open>Postavke kolačića</button></p>' : ''}
 </article></div></main>`;
-  return layout({ title: 'Kolačići i privatnost', description: 'Kako stranica PD Pazinka koristi kolačiće i Google Analytics.', body, path: '/kolacici/' });
+  return layout({ title: 'Politika privatnosti i kolačića', description: 'Kako Planinarsko društvo Pazinka obrađuje podatke posjetitelja stranice i koristi kolačiće.', body, path: PRIVACY_URL });
 }
+const PRIVACY_UPDATED = '2026-11-26';
 
 function layout({ title, description, body, path: pagePath, image }) {
   const fullTitle = title ? `${title} | ${site.name}` : site.name;
@@ -185,9 +233,8 @@ function layout({ title, description, body, path: pagePath, image }) {
 ${site.noindex ? '<meta name="robots" content="noindex, nofollow">' : ''}
 ${canonical}
 ${og}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="preload" href="/fonts/source-sans-3-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -441,7 +488,10 @@ function shelterMap() {
   return `<section class="shelter-map" aria-labelledby="kakoDo">
 <div class="sec-head"><h2 id="kakoDo">Gdje se nalazi</h2></div>
 <div class="map-box">
-<iframe title="Karta: položaj skloništa ${esc(skloniste.title)}" src="${esc(embed)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<div class="map-frame" data-map-src="${esc(embed)}" data-map-title="Karta: položaj skloništa ${esc(skloniste.title)}">
+<p>Karta se učitava s OpenStreetMapa tek na vaš zahtjev. Tada OpenStreetMap vidi vašu IP adresu.</p>
+<button type="button" class="btn btn-line" data-map-load>Prikaži kartu</button>
+</div>
 <div class="map-info">
 <span class="label">Koordinate</span>
 <p class="coord">${coord}</p>
@@ -604,7 +654,7 @@ const write = (rel, content) => {
 
 fs.rmSync(dist, { recursive: true, force: true });
 fs.mkdirSync(dist, { recursive: true });
-for (const d of ['css', 'js', 'images', 'admin', 'dokumenti']) {
+for (const d of ['css', 'js', 'images', 'fonts', 'admin', 'dokumenti']) {
   if (fs.existsSync(path.join(root, d))) fs.cpSync(path.join(root, d), path.join(dist, d), { recursive: true });
 }
 

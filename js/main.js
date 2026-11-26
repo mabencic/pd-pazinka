@@ -120,19 +120,36 @@
     box.addEventListener('click', function (ev) { if (ev.target === box) close(); });
     document.addEventListener('keydown', function (ev) { if (box.hidden) return; if (ev.key === 'Escape') close(); if (ev.key === 'ArrowLeft') show(at - 1); if (ev.key === 'ArrowRight') show(at + 1); });
   }
-  // Kolačići: Google Analytics se učitava tek nakon pristanka (odabir se pamti u pregledniku)
+  // Kolačići: Google Analytics se učitava tek nakon pristanka (osnovni način rada, bez ičega prije odabira).
+  // Odabir se pamti 12 mjeseci s datumom i verzijom; nova verzija ili istek znače ponovno pitanje.
   (function () {
     var bar = document.getElementById('cookieBar');
     if (!bar) return;
     var tag = bar.getAttribute('data-gtag');
-    var KEY = 'pd-kolacici';
-    function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
-    function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+    var KEY = 'pd-privola', VERSION = 1, MAX_AGE = 365 * 24 * 3600 * 1000;
+    var main = bar.querySelector('.consent-main');
+    var settings = bar.querySelector('.consent-settings');
+    var box = document.getElementById('consentAnalytics');
+    var settingsBtn = bar.querySelector('[data-consent-settings]');
+    function read() {
+      try {
+        localStorage.removeItem('pd-kolacici'); // stari zapis (prije novog banera) se ne priznaje
+        var c = JSON.parse(localStorage.getItem(KEY) || 'null');
+        if (!c || c.v !== VERSION || !c.datum || Date.now() - Date.parse(c.datum) > MAX_AGE) return null;
+        return c;
+      } catch (e) { return null; }
+    }
+    function save(analitika) {
+      try { localStorage.setItem(KEY, JSON.stringify({ v: VERSION, analitika: !!analitika, datum: new Date().toISOString() })); } catch (e) {}
+    }
     function load() {
       if (window.__pdGtag) return;
       window.__pdGtag = true;
       window.dataLayer = window.dataLayer || [];
       window.gtag = function () { window.dataLayer.push(arguments); };
+      // Consent Mode v2: sve odbijeno, zatim dopuštena samo analitika (oglašavanje ostaje odbijeno)
+      window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+      window.gtag('consent', 'update', { analytics_storage: 'granted' });
       window.gtag('js', new Date());
       var s = document.createElement('script');
       s.async = true;
@@ -153,20 +170,56 @@
         document.cookie = name + '=; Max-Age=0; path=/';
       });
     }
-    var v = get();
-    if (v === 'da') load(); else if (v !== 'ne') bar.hidden = false;
-    [].slice.call(bar.querySelectorAll('[data-consent]')).forEach(function (b) {
-      b.addEventListener('click', function () {
-        var val = b.getAttribute('data-consent');
-        var was = get();
-        set(val);
+    function show(withSettings) {
+      bar.hidden = false;
+      var c = read();
+      box.checked = !!(c && c.analitika);
+      settings.hidden = !withSettings;
+      main.hidden = !!withSettings;
+      if (settingsBtn) settingsBtn.setAttribute('aria-expanded', withSettings ? 'true' : 'false');
+    }
+    function decide(analitika) {
+      var before = read();
+      save(analitika);
+      bar.hidden = true;
+      if (analitika) { load(); return; }
+      if (window.gtag && window.__pdGtag) window.gtag('consent', 'update', { analytics_storage: 'denied' });
+      clearGa();
+      if (before && before.analitika) location.reload(); // Googleova skripta je već bila učitana
+    }
+    var c = read();
+    var closed = false;
+    try { closed = sessionStorage.getItem('pd-privola-zatvoreno') === '1'; } catch (e) {}
+    if (c && c.analitika) load();
+    else if (!c && !closed) show(false);
+    bar.addEventListener('click', function (ev) {
+      var b = ev.target.closest('button');
+      if (!b) return;
+      var v = b.getAttribute('data-consent');
+      if (v === 'da') { box.checked = true; decide(true); }
+      else if (v === 'ne') { box.checked = false; decide(false); }
+      else if (v === 'odabir') decide(box.checked);
+      else if (b.hasAttribute('data-consent-settings')) show(true);
+      else if (b.hasAttribute('data-consent-close')) {
+        // Zatvaranje = bez privole; ništa se ne učitava, a pri sljedećem posjetu baner se ponovno prikaže
         bar.hidden = true;
-        if (val === 'da') load();
-        else { clearGa(); if (was === 'da') location.reload(); }
-      });
+        try { sessionStorage.setItem('pd-privola-zatvoreno', '1'); } catch (e) {}
+      }
     });
     [].slice.call(document.querySelectorAll('[data-consent-open]')).forEach(function (b) {
-      b.addEventListener('click', function () { bar.hidden = false; });
+      b.addEventListener('click', function () { show(true); });
     });
   })();
+
+  // Karta skloništa (OpenStreetMap) učitava se tek na klik
+  [].slice.call(document.querySelectorAll('[data-map-load]')).forEach(function (b) {
+    b.addEventListener('click', function () {
+      var box = b.closest('[data-map-src]');
+      var f = document.createElement('iframe');
+      f.src = box.getAttribute('data-map-src');
+      f.title = box.getAttribute('data-map-title');
+      f.referrerPolicy = 'no-referrer-when-downgrade';
+      box.replaceWith(f);
+    });
+  });
 })();
