@@ -120,4 +120,53 @@
     box.addEventListener('click', function (ev) { if (ev.target === box) close(); });
     document.addEventListener('keydown', function (ev) { if (box.hidden) return; if (ev.key === 'Escape') close(); if (ev.key === 'ArrowLeft') show(at - 1); if (ev.key === 'ArrowRight') show(at + 1); });
   }
+  // Kolačići: Google Analytics se učitava tek nakon pristanka (odabir se pamti u pregledniku)
+  (function () {
+    var bar = document.getElementById('cookieBar');
+    if (!bar) return;
+    var tag = bar.getAttribute('data-gtag');
+    var KEY = 'pd-kolacici';
+    function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+    function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+    function load() {
+      if (window.__pdGtag) return;
+      window.__pdGtag = true;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/' + (/^GTM-/.test(tag) ? 'gtm.js' : 'gtag/js') + '?id=' + encodeURIComponent(tag);
+      document.head.appendChild(s);
+      if (!/^GTM-/.test(tag)) window.gtag('config', tag);
+    }
+    function clearGa() {
+      var host = location.hostname.split('.');
+      document.cookie.split(';').forEach(function (c) {
+        var name = c.split('=')[0].trim();
+        if (!/^_ga|^_gid|^_gat/.test(name)) return;
+        for (var i = 0; i < host.length - 1; i++) {
+          var dom = host.slice(i).join('.');
+          document.cookie = name + '=; Max-Age=0; path=/; domain=' + dom;
+          document.cookie = name + '=; Max-Age=0; path=/; domain=.' + dom;
+        }
+        document.cookie = name + '=; Max-Age=0; path=/';
+      });
+    }
+    var v = get();
+    if (v === 'da') load(); else if (v !== 'ne') bar.hidden = false;
+    [].slice.call(bar.querySelectorAll('[data-consent]')).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var val = b.getAttribute('data-consent');
+        var was = get();
+        set(val);
+        bar.hidden = true;
+        if (val === 'da') load();
+        else { clearGa(); if (was === 'da') location.reload(); }
+      });
+    });
+    [].slice.call(document.querySelectorAll('[data-consent-open]')).forEach(function (b) {
+      b.addEventListener('click', function () { bar.hidden = false; });
+    });
+  })();
 })();

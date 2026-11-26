@@ -133,11 +133,38 @@ function footer() {
 <div class="wrap">
 <div><h3>Adresa</h3><p>${esc(site.name)}<br>${c.address.map(esc).join('<br>')}${site.founded ? `<br>${esc(site.founded)}` : ''}</p></div>
 <div><h3>Kontakt</h3><ul><li>${esc(c.email)}</li>${c.meetings ? `<li>${esc(c.meetings)}</li>` : ''}${c.facebook ? `<li><a href="${esc(c.facebook)}" rel="noopener">Facebook</a></li>` : ''}</ul></div>
-<div><h3>Poveznice</h3><ul><li><a href="/kalendar-pohoda/">Kalendar pohoda</a></li><li><a href="/objave/">Objave</a></li><li><a href="/dokumenti/">Dokumenti društva</a></li><li><a href="/fotogalerija/">Fotogalerija</a></li><li><a href="/clanstvo/">Članstvo</a></li></ul></div>
+<div><h3>Poveznice</h3><ul><li><a href="/kalendar-pohoda/">Kalendar pohoda</a></li><li><a href="/objave/">Objave</a></li><li><a href="/dokumenti/">Dokumenti društva</a></li><li><a href="/fotogalerija/">Fotogalerija</a></li><li><a href="/clanstvo/">Članstvo</a></li><li><a href="/kolacici/">Kolačići i privatnost</a></li></ul></div>
 ${(site.memberships || []).length ? `<div><h3>Savezi</h3><ul>${site.memberships.map((m) => `<li><a href="${esc(m.href)}" rel="noopener">${esc(m.label)}</a></li>`).join('')}</ul></div>` : ''}
 </div>
 ${site.footerNote ? `<div class="note"><div class="wrap">${esc(site.footerNote)}</div></div>` : ''}
 </footer>`;
+}
+
+// Google Analytics (oznaka iz site.json) učitava se tek nakon privole posjetitelja; vidi js/main.js
+const GTAG = /^(G|GT|GTM)-[A-Z0-9]+$/.test(site.googleTag || '') ? site.googleTag : '';
+function cookieBar() {
+  if (!GTAG) return '';
+  return `<div class="cookie-bar" id="cookieBar" data-gtag="${esc(GTAG)}" role="dialog" aria-label="Kolačići" hidden>
+<p>Uz vaš pristanak koristimo kolačiće Google Analyticsa kako bismo pratili posjećenost stranice. <a href="/kolacici/">Više o kolačićima</a></p>
+<div class="cookie-actions"><button type="button" class="btn btn-red" data-consent="da">Prihvaćam</button><button type="button" class="btn btn-line" data-consent="ne">Ne prihvaćam</button></div>
+</div>`;
+}
+function cookiesPage() {
+  const blocks = [
+    'Stranica Planinarskog društva Pazinka ne koristi kolačiće za oglašavanje i ne prodaje niti dijeli podatke o posjetiteljima.',
+    '## Google Analytics',
+    'Ako to dopustite, koristimo Google Analytics (Google Ireland Ltd.) kako bismo saznali koliko posjetitelja ima stranica i koje se stranice najviše čitaju. Google Analytics pritom postavlja kolačiće (npr. _ga) i prikuplja podatke o posjetu, poput posjećenih stranica, vrste uređaja i približne lokacije. Bez vašeg pristanka Google Analytics se ne učitava.',
+    'Pristanak možete u svakom trenutku promijeniti ili povući gumbom ispod, a kolačići Google Analyticsa tada se brišu.',
+    '## Ostalo',
+    'Za prikaz slova koriste se Google Fonts, a za uređivanje stranice (samo za urednike) prijava preko GitHuba. U pregledniku se pamti i vaš odabir o kolačićima.',
+    `Za pitanja nam pišite na [${site.contact.email}](mailto:${site.contact.email}).`,
+  ];
+  const body = `${pageHead('Kolačići i privatnost', '', '', [])}
+<main class="block"><div class="wrap"><article class="article">
+${bodyHtml(blocks)}
+${GTAG ? '<p><button type="button" class="btn btn-line" data-consent-open>Promijeni postavke kolačića</button></p>' : ''}
+</article></div></main>`;
+  return layout({ title: 'Kolačići i privatnost', description: 'Kako stranica PD Pazinka koristi kolačiće i Google Analytics.', body, path: '/kolacici/' });
 }
 
 function layout({ title, description, body, path: pagePath, image }) {
@@ -168,6 +195,7 @@ ${og}
 ${header(pagePath)}
 ${body}
 ${footer()}
+${cookieBar()}
 <script src="/js/main.js" defer></script>
 </body>
 </html>
@@ -596,6 +624,7 @@ posts.forEach((p) => page(`/objave/${p.slug}/`, postPage(p)));
 page('/dokumenti/', documentsPage());
 page('/fotogalerija/', galleryPage());
 page('/edukacije/', educationPage());
+page('/kolacici/', cookiesPage());
 // Indeks za tražilicu objava (naslov, datum, adresa, sažetak)
 write('objave/indeks.json', JSON.stringify(posts.map((p) => [p.slug, p.date, p.title, String(p.excerpt || '').slice(0, 160), POST_TYPE[p.type] || ''])));
 // Preusmjeravanja sa starog sitea (WordPress) na nove adrese; Cloudflare Pages čita dist/_redirects
