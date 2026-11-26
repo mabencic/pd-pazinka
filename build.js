@@ -143,7 +143,6 @@ ${site.footerNote ? `<div class="note"><div class="wrap">${esc(site.footerNote)}
 // Google Analytics (oznaka iz site.json) učitava se tek nakon privole posjetitelja; vidi js/main.js.
 // Ako se "googleTag" isprazni, nestaju i baner, i gumb "Postavke kolačića", i dio politike o Analyticsu.
 const GTAG = /^(G|GT|GTM)-[A-Z0-9]+$/.test(site.googleTag || '') ? site.googleTag : '';
-const GA_COOKIES = GTAG ? `_ga i _ga_${GTAG.replace(/^G-/, '')}` : '';
 const PRIVACY_URL = '/kolacici/';
 function cookieBar() {
   if (!GTAG) return '';
@@ -159,7 +158,7 @@ ${actions('<button type="button" class="btn btn-choice" data-consent-settings ar
 <div class="consent-settings" id="consentSettings" hidden>
 <h2>Postavke kolačića</h2>
 <div class="consent-cat"><input type="checkbox" id="consentNecessary" checked disabled><label for="consentNecessary"><b>Nužni</b> <small>uvijek uključeni</small><span>Pamte samo vaš odabir o kolačićima (u pregledniku, 12 mjeseci). Ne šalju se nikome.</span></label></div>
-<div class="consent-cat"><input type="checkbox" id="consentAnalytics"><label for="consentAnalytics"><b>Analitički: Google Analytics</b><span>Broje posjete i pokazuju koje se stranice čitaju. Primatelj: Google Ireland Ltd. i Google LLC (SAD). Kolačići ${GA_COOKIES}, trajanje do 2 godine.</span></label></div>
+<div class="consent-cat"><input type="checkbox" id="consentAnalytics"><label for="consentAnalytics"><b>Analitički: Google Analytics</b><span>Pomažu nam saznati koliko ljudi posjećuje stranicu i koje se stranice čitaju. Podatke dobiva Google (Irska i SAD). Kolačići traju do 2 godine. <a href="${PRIVACY_URL}">Više u Politici privatnosti</a></span></label></div>
 ${actions('<button type="button" class="btn btn-choice" data-consent="odabir">Spremi odabir</button>')}
 </div>
 </div>`;
@@ -170,8 +169,8 @@ function cookiesPage() {
   const rows = [
     ['pd-privola', 'nužno', 'pamti vaš odabir o kolačićima (pohrana u pregledniku, ne šalje se nikome)', '12 mjeseci', 'samo vaš preglednik'],
     ...(GTAG ? [
-      ['_ga', 'analitički', 'razlikuje posjetitelje (Google Analytics)', 'do 2 godine', 'Google'],
-      [`_ga_${GTAG.replace(/^G-/, '')}`, 'analitički', 'pamti stanje posjeta (Google Analytics)', 'do 2 godine', 'Google'],
+      ['_ga', 'analitički', 'nasumični broj kojim Google Analytics razlikuje posjetitelje i vrijeme prvog posjeta; ne sadrži vaše ime ni kontakt podatke', 'do 2 godine', 'Google'],
+      [`_ga_${GTAG.replace(/^G-/, '')}`, 'analitički', 'pamti tijek trenutnog posjeta, npr. koliko je stranica pregledano (Google Analytics)', 'do 2 godine', 'Google'],
     ] : []),
   ];
   const table = `<div class="table-wrap"><table class="cookie-table"><thead><tr><th>Naziv</th><th>Vrsta</th><th>Svrha</th><th>Trajanje</th><th>Primatelj</th></tr></thead><tbody>${rows.map((r) => `<tr>${r.map((x, i) => `<td>${i === 0 ? `<code>${esc(x)}</code>` : esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
