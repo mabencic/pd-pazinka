@@ -316,12 +316,14 @@ function nextCard(h, hidden) {
   const [, ln] = LEVEL[h.level] || LEVEL.srednje;
   const facts = [['Polazak', h.departure], ['Zahtjevnost', ln], ['Duljina', h.length], ['Uspon', h.ascent], ['Vrijeme hoda', h.duration], ['Prijevoz', h.transport], ['Vodiči', h.guides]].filter((f) => f[1]);
   const dateBig = h.dateEnd && h.dateEnd !== h.date ? `${dd(a.d)}.–${dd(parse(h.dateEnd).d)}.` : `${dd(a.d)}.`;
+  // Naslov i gumb vode na raspis (objavu) ako je pohod s njom povezan u CMS-u (polje "Raspis")
+  const raspis = h.post && posts.some((q) => q.slug === h.post) ? `/objave/${esc(h.post)}/` : '';
   return `<div class="next" data-end="${esc(h.dateEnd || h.date)}"${hidden ? ' hidden' : ''}>
 <span class="label">${icon('sign')}Najbliži pohod</span>
 <div class="date"><b>${dateBig}</b><span>${MONTHS_NOM[a.m - 1]} · ${DAYS[a.dow]}</span></div>
-<h2>${esc(h.title)}</h2>
+<h2>${raspis ? `<a href="${raspis}">${esc(h.title)}</a>` : esc(h.title)}</h2>
 ${facts.length ? '<dl class="facts">' + facts.map((f) => `<div>${icon(FACT_ICON[f[0]])}<dt>${f[0]}</dt><dd>${esc(f[1])}</dd></div>`).join('') + '</dl>' : `<p>${esc(h.summary || '')}</p>`}
-${h.registerUrl ? `<p class="reg"><a class="btn btn-red" href="${esc(h.registerUrl)}" rel="noopener">${esc(h.registerText || 'Prijave')}</a>${h.post ? ` <a href="/objave/${esc(h.post)}/">Cijeli raspis</a>` : ''}</p>` : ''}
+${h.registerUrl ? `<p class="reg"><a class="btn btn-red" href="${esc(h.registerUrl)}" rel="noopener">${esc(h.registerText || 'Prijave')}</a>${raspis ? ` <a href="${raspis}">Cijeli raspis</a>` : ''}</p>` : (raspis ? `<p class="reg"><a class="btn btn-red" href="${raspis}">Pročitaj raspis</a></p>` : '')}
 </div>`;
 }
 
