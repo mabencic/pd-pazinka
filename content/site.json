@@ -1,8 +1,8 @@
 {
   "name": "Planinarsko društvo Pazinka",
   "tagline": "Pazin",
-  "url": "",
-  "noindex": true,
+  "url": "https://www.planinarsko-drustvo-pazinka.hr",
+  "noindex": false,
   "description": "Planinarsko društvo Pazinka iz Pazina: kalendar pohoda, objave, odsjeci, planinarski putovi, sklonište Kremenjak i upute za članstvo.",
   "heroLabel": "Planinarsko društvo · Pazin · od 1981.",
   "heroTitle": "Planinarimo zajedno",
