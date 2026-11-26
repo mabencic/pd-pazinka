@@ -600,14 +600,40 @@ page('/edukacije/', educationPage());
 write('objave/indeks.json', JSON.stringify(posts.map((p) => [p.slug, p.date, p.title, String(p.excerpt || '').slice(0, 160), POST_TYPE[p.type] || ''])));
 // Preusmjeravanja sa starog sitea (WordPress) na nove adrese; Cloudflare Pages čita dist/_redirects
 const redirectLines = Object.entries(stareAdrese)
-  .filter(([from, to]) => from !== to.split('#')[0] && !urls.includes(from) && /^\/[^\s]*$/.test(from))
+  // /wp-content/... (stare slike i dokumenti) rješava Pages funkcija u functions/wp-content/, jer ih ima previše za _redirects
+  .filter(([from, to]) => from !== to.split('#')[0] && !urls.includes(from) && /^\/[^\s]*$/.test(from) && !from.startsWith('/wp-content/'))
   .flatMap(([from, to]) => {
     // adrese s hrvatskim slovima: i izvorni i kodirani oblik (preglednik šalje kodirano)
     const enc = encodeURI(decodeURI(from));
-    return enc !== from ? [`${enc} ${to} 301`, `${from} ${to} 301`] : [`${from} ${to} 301`];
+    const oblici = enc !== from ? [enc, from] : [from];
+    // i bez kose crte na kraju (stare poveznice s Facebooka i drugih stranica)
+    const bez = oblici.filter((f) => f.length > 1 && f.endsWith('/')).map((f) => f.slice(0, -1)).filter((f) => !urls.includes(f + '/'));
+    return [...oblici.map((f) => `${f} ${to} 301`), ...bez.map((f) => `~${f} ${to} 301`)];
   });
-redirectLines.push('/category/* /objave/ 301', '/page/* /objave/ 301', '/feed/* / 301', '/wp-admin/* /admin/ 302');
+// Cloudflare Pages čita najviše 2000 statičkih pravila: oblici bez kose crte (~) su manje važni i otpadaju prvi
+{
+  const glavna = redirectLines.filter((l) => !l.startsWith('~'));
+  const dodatna = redirectLines.filter((l) => l.startsWith('~')).map((l) => l.slice(1));
+  const mjesta = Math.max(0, 2000 - glavna.length);
+  if (dodatna.length > mjesta) console.warn(`Upozorenje: ${dodatna.length - mjesta} preusmjeravanja bez kose crte izostavljeno (ograničenje 2000)`);
+  if (glavna.length > 2000) console.warn(`Upozorenje: ${glavna.length} statičkih preusmjeravanja, Cloudflare čita samo prvih 2000`);
+  redirectLines.splice(0, redirectLines.length, ...glavna, ...dodatna.slice(0, mjesta));
+}
+// Ostale WordPress adrese koje Google može imati u indeksu (arhive, oznake, galerije, autori)
+const godine = Array.from({ length: new Date().getFullYear() - 2010 }, (_, i) => `/${2011 + i}/* /objave/ 301`);
+redirectLines.push(
+  // stare karte stranice (Google Search Console ih zna) -> nova karta stranice
+  ...['/sitemap_index.xml', '/wp-sitemap.xml', '/post-sitemap.xml', '/page-sitemap.xml', '/category-sitemap.xml', '/post_tag-sitemap.xml',
+    '/addl-sitemap.xml', '/bwg_gallery-sitemap.xml', '/media-tags-sitemap.xml', '/post-archive-sitemap.xml', '/sitemap.rss'].map((s) => `${s} /sitemap.xml 301`),
+  '/3d-flip-book /objave/skola-planinarskog-skijanja-2023/ 301', '/feed / 301',
+  '/category/* /objave/ 301', '/page/* /objave/ 301', '/tag/* /objave/ 301', '/author/* /objave/ 301',
+  '/feed/* / 301', '/comments/* / 301', '/wp-admin/* /admin/ 302',
+  '/bwg_gallery/* /fotogalerija/ 301', '/bwg_share/* /fotogalerija/ 301', '/media-tags/* /fotogalerija/ 301',
+  '/3d-flip-book/* /objave/skola-planinarskog-skijanja-2023/ 301', ...godine,
+);
 write('_redirects', redirectLines.join('\n') + '\n');
+// Pages funkcija samo za stare datoteke; sve ostalo ostaje statično (besplatno i neograničeno)
+write('_routes.json', JSON.stringify({ version: 1, include: ['/wp-content/*'], exclude: [] }) + '\n');
 write('404.html', notFoundPage());
 write('favicon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">${LOGO_INNER}</svg>\n`);
 
