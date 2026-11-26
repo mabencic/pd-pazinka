@@ -20,7 +20,7 @@ const readDir = (dir) => {
 
 const site = readJson('site.json');
 const hikesAll = readDir('pohodi').map(({ slug, ...h }) => h).sort((a, b) => a.date.localeCompare(b.date));
-const posts = readDir('objave').sort((a, b) => b.date.localeCompare(a.date) || b.slug.localeCompare(a.slug));
+const posts = readDir('objave').sort((a, b) => b.date.localeCompare(a.date) || String(b.time || '').localeCompare(String(a.time || '')) || b.slug.localeCompare(a.slug));
 const odsjeci = readJson('odsjeci.json');
 const skloniste = readJson('skloniste.json');
 const clanstvo = readJson('clanstvo.json');

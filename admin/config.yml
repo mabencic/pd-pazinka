@@ -63,6 +63,14 @@ collections:
         date_format: DD.MM.YYYY.
         time_format: false
         default: "{{now}}"
+      - name: time
+        label: Vrijeme objave
+        widget: datetime
+        type: time
+        format: HH:mm
+        default: "{{now}}"
+        required: false
+        hint: Određuje redoslijed kad je isti dan više objava (novija ide gore).
       - name: type
         label: Vrsta
         widget: select
