@@ -147,7 +147,7 @@ const PRIVACY_URL = '/kolacici/';
 function cookieBar() {
   if (!GTAG) return '';
   // AZOP: "Odbijam sve" i "Prihvaćam sve" istog izgleda, uz "Postavke kolačića" na prvoj razini; X zatvara bez privole
-  const actions = (mid) => `<div class="consent-actions"><button type="button" class="btn btn-choice" data-consent="ne">Odbijam sve</button>${mid}<button type="button" class="btn btn-choice" data-consent="da">Prihvaćam sve</button></div>`;
+  const actions = (mid) => `<div class="consent-actions"><button type="button" class="btn btn-choice" data-consent="da">Prihvaćam sve</button>${mid}<button type="button" class="btn btn-choice" data-consent="ne">Odbijam sve</button></div>`;
   return `<div class="consent" id="cookieBar" data-gtag="${esc(GTAG)}" role="dialog" aria-labelledby="consentTitle" hidden>
 <button type="button" class="consent-x" data-consent-close aria-label="Zatvori bez prihvaćanja kolačića">&times;</button>
 <div class="consent-main">
