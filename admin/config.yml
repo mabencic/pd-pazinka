@@ -21,6 +21,20 @@ app_title: PD Pazinka, uređivanje stranice
 media_folder: images
 public_folder: /images
 
+# Slike se pri prijenosu same smanje (najviše 1600 px) i spreme kao WebP; nazivi datoteka bez razmaka i kvačica.
+# Najveća datoteka 25 MB (ograničenje Cloudflare Pagesa).
+media_libraries:
+  default:
+    config:
+      max_file_size: 26214400
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 80
+          width: 1600
+          height: 1600
+
 output:
   omit_empty_optional_fields: true
   json:
@@ -102,7 +116,7 @@ collections:
         label: Fotografija
         widget: image
         required: false
-        hint: Po mogućnosti do 1600 px širine. Koristi samo slike za koje društvo ima pravo objave.
+        hint: Slika se pri prijenosu sama smanji na 1600 px i spremi kao WebP. Koristi samo slike za koje društvo ima pravo objave.
       - name: imageAlt
         label: Opis fotografije
         widget: string
